@@ -409,7 +409,7 @@ const ACTIONS = [
     id: 'watch_apple',
     type: 'experiment',
     chapter: 0,
-    label: text('观察苹果落下', 'Observe the Falling Apple'),
+    label: text('观察苹果：它怎么落下来的？', 'Watch the Apple: How Does It Fall?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     once: true,
@@ -417,8 +417,8 @@ const ACTIONS = [
       s.records += 1
       s.facts.apple = true
       return text(
-        '苹果落下，没有转弯，也没有犹豫。你在纸上写：它总是奔向地面。',
-        'The apple falls without turning or hesitating. You write: it always moves toward the ground.'
+        '苹果笔直地落向地面，没有转弯，没有犹豫。你在笔记上写下第一条观察：物体总是朝着地面运动。',
+        'The apple falls straight down without turning or hesitating. You record your first observation: objects always move toward the ground.'
       )
     }
   },
@@ -426,7 +426,7 @@ const ACTIONS = [
     id: 'compare_objects',
     type: 'experiment',
     chapter: 0,
-    label: text('比较石子和木块', 'Compare a Stone and a Wooden Block'),
+    label: text('比较不同物体：石子、木块也这样落吗？', 'Compare: Do a Stone and a Wood Block Fall the Same Way?'),
     hint: text('精力1 -> 记录1 疑问1', 'Focus 1 -> Notes +1, Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.apple,
@@ -436,8 +436,8 @@ const ACTIONS = [
       s.doubt += 1
       s.facts.manyFall = true
       return text(
-        '石子、木块、苹果都往下走。原来不是苹果听话，是整个房间都偏向地面。',
-        'A stone, a wooden block, and an apple all move downward. Apples are not special; the whole room seems tilted toward Earth.'
+        '石子、木块、苹果——全都往下落。不是苹果特别听话，而是所有物体都受到同样的向下牵引。你开始怀疑：下落是一种普遍规律。',
+        'A stone, a wooden block, and an apple all fall downward. It is not that apples are special — all objects are pulled toward the ground in the same way. You begin to suspect a universal rule.'
       )
     }
   },
@@ -445,7 +445,7 @@ const ACTIONS = [
     id: 'build_slope',
     type: 'experiment',
     chapter: 0,
-    label: text('搭斜面放慢运动', 'Build an Inclined Plane'),
+    label: text('搭一个斜面：把下落变慢，仔细看', 'Build an Inclined Plane: Slow Down the Fall'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.manyFall,
@@ -455,8 +455,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.slope = true
       return text(
-        '斜面把下落拖慢了。运动像被摊开的纸条，终于能一格一格数清。',
-        'The inclined plane slows the fall down. Motion becomes a strip of paper you can count square by square.'
+        '斜面把下落拖慢了。小球在斜面上缓缓滚下，你终于能一格一格地观察运动的过程——快慢变化变得可以测量了。',
+        'The inclined plane slows the fall. The ball rolls gently down the slope, and now you can observe motion step by step — the changes in speed become measurable.'
       )
     }
   },
@@ -464,7 +464,7 @@ const ACTIONS = [
     id: 'wrong_weight',
     type: 'misconception',
     chapter: 0,
-    label: text('断言重物更快', 'Claim Heavier Objects Fall Faster'),
+    label: text('草率下结论：重的东西落得更快？', 'Jump to a Conclusion: Heavier Objects Fall Faster?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.apple && !s.facts.manyFall,
@@ -475,8 +475,8 @@ const ACTIONS = [
         'Counterexample: you have only watched the apple. Compare other objects first; otherwise, "heavier objects fall faster" is only a guess.'
       )
       return text(
-        '你写下“重的更快”。纸面很安静，像是在等第二个物体来反驳。',
-        'You write, "heavier means faster." The page stays quiet, as if waiting for another object to answer back.'
+        '你写下“重的落得更快”。但纸面很安静——你只观察了苹果，证据还不够。多比较几种物体再下结论吧。',
+        'You write "heavier objects fall faster." But the page stays quiet — you have only watched the apple. Gather more evidence before drawing conclusions.'
       )
     }
   },
@@ -484,7 +484,7 @@ const ACTIONS = [
     id: 'wrong_direction_only',
     type: 'misconception',
     chapter: 0,
-    label: text('只凭下落方向下结论', 'Judge from Direction Alone'),
+    label: text('仓促推论：都往下落就够了吗？', 'Hasty Conclusion: Is Direction Enough?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.manyFall && !s.facts.slope,
@@ -495,8 +495,8 @@ const ACTIONS = [
         'Counterexample: stone and wood both fall downward, but that only tells you the direction. To judge whether motion changes on its own, you need to slow the motion down.'
       )
       return text(
-        '你差点把“都向下”当成完整解释。可是方向只是线索，还不是定律。',
-        'You almost treat "they all go down" as a full explanation. Direction is a clue, not a law.'
+        '你差点把“都向下落”当成最终答案。但方向相同只说明它们受到同样的影响——要发现运动规律，还得把运动放慢来观察。',
+        'You almost treat "they all go down" as the full answer. But sharing a direction only means they are affected the same way — to find the law of motion, you need to slow things down and observe.'
       )
     }
   },
@@ -504,7 +504,7 @@ const ACTIONS = [
     id: 'law_inertia',
     type: 'theory',
     chapter: 0,
-    label: text('提出牛顿第一定律', 'Discover Newton’s First Law of Motion'),
+    label: text('提出新概念：物体在不受力时，会保持静止或匀速直线运动', 'Propose: Objects at rest stay at rest; objects in motion stay in motion unless acted upon'),
     hint: text('精力1 需：斜面 记录3 思路1', 'Focus 1; requires: inclined plane, Notes 3, Insight 1'),
     cost: 1,
     requires: (s) => s.facts.slope && s.records >= 3 && s.insight >= 1,
@@ -515,8 +515,8 @@ const ACTIONS = [
       s.chapter = 1
       s.feedback = null
       return text(
-        '你写下第一条规则：没人打扰时，物体会坚持原来的样子。静止如此，匀速也如此。',
-        'You discover the first law of motion: unless acted on by a net external force, an object remains at rest or continues moving with constant velocity in a straight line.'
+        '你写下第一条定律：物体在不受外力时，会保持静止或匀速直线运动。这就是惯性——运动不会自己改变，需要力来打破。',
+        'You write the first law: an object at rest stays at rest, and an object in motion stays in motion with constant velocity, unless acted upon by a net external force. This is inertia — motion does not change on its own.'
       )
     }
   },
@@ -524,7 +524,7 @@ const ACTIONS = [
     id: 'push_cart',
     type: 'experiment',
     chapter: 1,
-    label: text('轻推小车', 'Nudge the Cart'),
+    label: text('轻推小车：力是怎样改变运动的？', 'Nudge the Cart: How Does Force Change Motion?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     once: true,
@@ -532,8 +532,8 @@ const ACTIONS = [
       s.records += 1
       s.facts.push = true
       return text(
-        '你轻推小车。它没有“想通”，只是被迫改变。力第一次露出手。',
-        'You nudge the cart. It does not make a choice; it is forced to change. Force shows its hand for the first time.'
+        '你轻轻推了一下小车。它本来静止，被推之后开始运动。力不是维持运动的东西，而是改变运动的原因。',
+        'You nudge the cart. It was at rest, and now it moves. Force is not what keeps things moving — it is what changes their motion.'
       )
     }
   },
@@ -541,7 +541,7 @@ const ACTIONS = [
     id: 'wrong_push_forever',
     type: 'misconception',
     chapter: 1,
-    label: text('认为必须一直推', 'Assume Motion Requires Continuous Pushing'),
+    label: text('错误直觉：物体运动必须一直有力推着？', 'Misconception: Does Motion Require Continuous Force?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.push,
@@ -552,8 +552,8 @@ const ACTIONS = [
         'Counterexample: after your hand leaves, the cart still glides. Force may not be what maintains motion; it may be what changes motion.'
       )
       return text(
-        '你猜小车必须一直被推才会运动。可是它离手后还滑了一段，像是在反驳你。',
-        'You guess the cart must be pushed continuously to move. But after your hand leaves, it still glides on, arguing back.'
+        '你猜小车必须一直被推着才能动。但手松开后，它还滑行了一段才停下。这说明力不是维持运动，而是改变运动。',
+        'You guess the cart needs continuous pushing to move. But after you let go, it keeps gliding. Force does not maintain motion — it changes it.'
       )
     }
   },
@@ -561,7 +561,7 @@ const ACTIONS = [
     id: 'vary_force',
     type: 'experiment',
     chapter: 1,
-    label: text('改变推力大小', 'Vary the Force'),
+    label: text('改变推力：力越大，运动变化越快吗？', 'Vary the Force: Does More Force Mean Faster Change?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.push,
@@ -571,8 +571,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.forceChange = true
       return text(
-        '推得越狠，小车变速越快。你盯着那种“变快的快”，给它留了个位置。',
-        'The harder the push, the faster the cart’s speed changes. You make room in your notes for acceleration.'
+        '推得越用力，小车的速度变化越快。你在笔记里给这种“速度变化的快慢”留了一个位置——后来它叫加速度。',
+        'The harder you push, the faster the speed changes. You make room in your notes for this “rate of change of speed” — later called acceleration.'
       )
     }
   },
@@ -580,7 +580,7 @@ const ACTIONS = [
     id: 'add_mass',
     type: 'experiment',
     chapter: 1,
-    label: text('给小车加重', 'Add Mass to the Cart'),
+    label: text('给小车加重：质量大了，同样的力效果一样吗？', 'Add Mass: Does the Same Force Work the Same Way?'),
     hint: text('精力1 -> 记录1 疑问1', 'Focus 1 -> Notes +1, Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.push,
@@ -590,8 +590,8 @@ const ACTIONS = [
       s.doubt += 1
       s.facts.mass = true
       return text(
-        '小车变重后开始固执。同样一推，它像在说：改变我，没那么容易。',
-        'With more mass, the cart becomes stubborn. The same push now seems to say: changing me will not be so easy.'
+        '给小车加上重物后，同样的推力产生的速度变化变小了。质量越大，越难改变它的运动状态——这就是惯性的大小。',
+        'After adding weight, the same push produces a smaller speed change. Greater mass means harder to change its motion — this is the measure of inertia.'
       )
     }
   },
@@ -599,7 +599,7 @@ const ACTIONS = [
     id: 'invent_calculus',
     type: 'experiment',
     chapter: 1,
-    label: text('把时间切成薄片', 'Slice Time into Smaller Intervals'),
+    label: text('精确测量：把时间切成无限薄的瞬间', 'Slice Time: Measure Change at Each Instant'),
     hint: text('精力2 -> 思路1 预言1', 'Focus 2 -> Insight +1, Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.forceChange && s.facts.mass,
@@ -609,8 +609,8 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.calculus = true
       return text(
-        '你把时间切成越来越薄的片。速度不再只是“前后差多少”，而成了每一瞬间的变化。',
-        'You slice time into thinner and thinner moments. Speed is no longer just a before-and-after difference; it becomes change at an instant.'
+        '你把时间切成越来越薄的瞬间。速度不再只是“前后差多少”，而成了每一瞬间的精确变化率——这就是微积分的核心思想。',
+        'You slice time into thinner and thinner instants. Speed is no longer just a before-and-after difference — it becomes the precise rate of change at each moment. This is the core idea of calculus.'
       )
     }
   },
@@ -618,7 +618,7 @@ const ACTIONS = [
     id: 'wrong_average_only',
     type: 'misconception',
     chapter: 1,
-    label: text('只看平均速度', 'Use Only Average Velocity'),
+    label: text('偷懒：只看平均速度够不够？', 'Shortcut: Is Average Velocity Enough?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.forceChange && s.facts.mass && !s.facts.calculus,
@@ -629,8 +629,8 @@ const ACTIONS = [
         'Counterexample: average speed smooths a whole motion into one number. To describe how force changes motion, you need the change at each instant.'
       )
       return text(
-        '你试着只用平均速度解释小车。纸上的曲线变得模糊，像被手掌抹过。',
-        'You try to explain the cart using only average speed. The curve on the page blurs, as if wiped by a hand.'
+        '你试着只用平均速度来解释小车的运动。但平均速度把整个过程抹平了——要描述力怎样改变运动，你需要每一瞬间的速度变化。',
+        'You try to explain the cart using only average speed. But averaging smooths out the whole process — to describe how force changes motion, you need the speed change at each instant.'
       )
     }
   },
@@ -638,7 +638,7 @@ const ACTIONS = [
     id: 'law_second',
     type: 'theory',
     chapter: 1,
-    label: text('总结牛顿第二定律', 'Discover Newton’s Second Law of Motion'),
+    label: text('提出新概念：力等于质量乘以加速度，F=ma', 'Propose: Force equals mass times acceleration, F=ma'),
     hint: text('精力1 需：推力 质量 微积分 记录4 思路2', 'Focus 1; requires: force, mass, calculus, Notes 4, Insight 2'),
     cost: 1,
     requires: (s) => s.facts.forceChange && s.facts.mass && s.facts.calculus && s.records >= 4 && s.insight >= 2,
@@ -649,8 +649,8 @@ const ACTIONS = [
       s.chapter = 2
       s.feedback = null
       return text(
-        '借着微积分，你抓住了每一瞬间的加速度。力、质量和变化被锁进一行：F = ma。',
-        'With calculus, you describe acceleration at each instant. Net force, mass, and acceleration lock into one line: F = ma.'
+        '你写下第二定律：物体的加速度与所受合力成正比，与质量成反比。F=ma——力、质量和加速度被锁进同一个方程。',
+        'You write the second law: the acceleration of an object is proportional to the net force and inversely proportional to its mass. F=ma — force, mass, and acceleration locked into one equation.'
       )
     }
   },
@@ -658,7 +658,7 @@ const ACTIONS = [
     id: 'collide_carts',
     type: 'experiment',
     chapter: 2,
-    label: text('碰撞两辆小车', 'Collide Two Carts'),
+    label: text('碰撞实验：两辆小车相撞，各自怎么动？', 'Collision: What Happens to Both Carts?'),
     hint: text('精力2 -> 记录2', 'Focus 2 -> Notes +2'),
     cost: 2,
     once: true,
@@ -666,8 +666,8 @@ const ACTIONS = [
       s.records += 2
       s.facts.collision = true
       return text(
-        '两辆小车撞在一起。一个被推出去，另一个也狼狈地退回。力没有独角戏。',
-        'Two carts collide. One is pushed away; the other rolls back. Force is never a solo act.'
+        '两辆小车撞在一起。不仅被撞的车动了，撞它的那辆也被弹了回来。力不是单向的——两个物体互相施加力。',
+        'Two carts collide. Not only does the struck cart move — the striking cart also bounces back. Force is not one-way; both objects exert forces on each other.'
       )
     }
   },
@@ -675,7 +675,7 @@ const ACTIONS = [
     id: 'wrong_one_way_force',
     type: 'misconception',
     chapter: 2,
-    label: text('认定力是单向的', 'Treat Force as One-Sided'),
+    label: text('错误直觉：力是单向的，只有一方受力？', 'Misconception: Is Force One-Sided?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.collision && !s.facts.rope,
@@ -686,8 +686,8 @@ const ACTIONS = [
         'Counterexample: the struck cart moves, and the striking cart rolls back. Half the force arrows are missing.'
       )
       return text(
-        '你把箭头只画向一边。小车退回来的痕迹提醒你：另一个箭头被你漏掉了。',
-        'You draw the arrow only one way. The cart rolling back reminds you: you missed the other arrow.'
+        '你只画了一个方向的力箭头。但撞人的小车自己也退了回来——你漏掉了反方向的箭头。力总是成对出现的。',
+        'You drew the force arrow in only one direction. But the striking cart also rolled back — you missed the opposite arrow. Forces always come in pairs.'
       )
     }
   },
@@ -695,7 +695,7 @@ const ACTIONS = [
     id: 'pull_rope',
     type: 'experiment',
     chapter: 2,
-    label: text('拉紧两端的绳', 'Pull Both Ends of a Rope'),
+    label: text('拉绳实验：你拉绳，绳也拉你吗？', 'Pull a Rope: Does It Pull You Back?'),
     hint: text('精力1 -> 记录1 思路1', 'Focus 1 -> Notes +1, Insight +1'),
     cost: 1,
     once: true,
@@ -704,8 +704,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.rope = true
       return text(
-        '你拉绳，绳也拉你。你忽然觉得，世界从来不允许单方面动手。',
-        'You pull the rope, and the rope pulls you back. The world does not allow one-sided action.'
+        '你用力拉绳子，同时感觉到绳子也在拉你的手。你忽然意识到：世界从来不允许单方面动手——作用力必然伴随反作用力。',
+        'You pull the rope, and feel it pulling your hand back. You realize: the world never allows one-sided action — every force comes with an equal and opposite reaction.'
       )
     }
   },
@@ -713,7 +713,7 @@ const ACTIONS = [
     id: 'measure_pair_force',
     type: 'experiment',
     chapter: 2,
-    label: text('比较两端读数', 'Compare the Two Readings'),
+    label: text('精确测量：绳子两端的力一样大吗？', 'Measure: Are the Forces at Both Ends Equal?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.rope,
@@ -723,8 +723,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.equalPair = true
       return text(
-        '你在绳子两端各接一个弹簧秤。两边读数一起抖动，最后停在同一个数上。',
-        'You attach a spring scale to each end of the rope. Both readings tremble, then settle on the same number.'
+        '你在绳子两端各接一个弹簧秤。两边读数同时抖动，最后停在完全相同的数值上——作用力和反作用力大小相等。',
+        'You attach spring scales to both ends. Both readings tremble, then settle on exactly the same number — action and reaction are equal in magnitude.'
       )
     }
   },
@@ -732,7 +732,7 @@ const ACTIONS = [
     id: 'wrong_pair_not_equal',
     type: 'misconception',
     chapter: 2,
-    label: text('认为反作用力较小', 'Assume the Reaction Is Weaker'),
+    label: text('错误直觉：反作用力应该小一些？', 'Misconception: Is the Reaction Weaker?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.rope && !s.facts.equalPair,
@@ -743,8 +743,8 @@ const ACTIONS = [
         'Counterexample: knowing forces come in pairs is not enough. Compare both ends, or "the reaction is weaker" is only intuition.'
       )
       return text(
-        '你写下“反作用力也许小一些”。绳子绷得笔直，像在要求你量一量再说。',
-        'You write, "maybe the reaction is weaker." The taut rope seems to demand a measurement.'
+        '你猜测反作用力也许小一些。但绳子绷得笔直——直觉不可靠，用弹簧秤量一量才知道：两端的力完全相等。',
+        'You guess the reaction might be weaker. But the taut rope demands a measurement — and the scales show the forces are exactly equal.'
       )
     }
   },
@@ -752,7 +752,7 @@ const ACTIONS = [
     id: 'law_third',
     type: 'theory',
     chapter: 2,
-    label: text('总结牛顿第三定律', 'Discover Newton’s Third Law of Motion'),
+    label: text('提出新概念：两个物体之间的作用力与反作用力大小相等、方向相反', 'Propose: For every action there is an equal and opposite reaction'),
     hint: text('精力1 需：碰撞 拉绳 两端相等 记录5 思路1', 'Focus 1; requires: collision, rope, equal readings, Notes 5, Insight 1'),
     cost: 1,
     visible: (s) => s.facts.equalPair,
@@ -764,8 +764,8 @@ const ACTIONS = [
       s.chapter = 3
       s.feedback = null
       return text(
-        '你写下第三条规则：两个物体相互作用时，力大小相等、方向相反，分别作用在彼此身上。',
-        'You discover the third law of motion: when two objects interact, they exert equal and opposite forces on each other.'
+        '你写下第三定律：两个物体之间的作用力与反作用力总是大小相等、方向相反，作用在同一条直线上。力永远是成对的。',
+        'You write the third law: for every action there is an equal and opposite reaction. Forces always come in pairs, acting on two different objects.'
       )
     }
   },
@@ -773,7 +773,7 @@ const ACTIONS = [
     id: 'read_moon',
     type: 'experiment',
     chapter: 3,
-    label: text('查看月亮记录', 'Study the Moon’s Motion'),
+    label: text('观察月亮：它每晚位置都在变，为什么不掉下来？', 'Study the Moon: Why Does It Not Fall to Earth?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     once: true,
@@ -781,8 +781,8 @@ const ACTIONS = [
       s.doubt += 1
       s.facts.moon = true
       return text(
-        '月亮每晚都换一点方向，却始终不肯离开。它像一辆永远错过地面的车。',
-        'Each night the Moon changes direction, yet it never escapes. It is like a cart that keeps missing the ground.'
+        '月亮每晚的位置都在变化，却始终绕着地球转，从不掉下来。它像一颗永远在“下落”却永远错过地面的炮弹。',
+        'The Moon changes position every night, yet never falls to Earth. It is like a cannonball that keeps falling but always misses the ground.'
       )
     }
   },
@@ -790,7 +790,7 @@ const ACTIONS = [
     id: 'wrong_moon_free',
     type: 'misconception',
     chapter: 3,
-    label: text('认为月亮没有下落', 'Assume the Moon Does Not Fall'),
+    label: text('错误直觉：月亮在天上，所以它没有在下落？', 'Misconception: The Moon Is Not Falling?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.moon,
@@ -801,8 +801,8 @@ const ACTIONS = [
         'Counterexample: the Moon changes direction every night. It is not refusing to fall; it keeps missing Earth.'
       )
       return text(
-        '你写下“月亮没有下落”。星图上的弯曲轨迹却轻轻敲了敲桌面。',
-        'You write, "the Moon is not falling." The curved path on the star chart quietly taps the table.'
+        '你写下“月亮没有下落”。但它的轨迹是弯的——如果不受力，它应该沿直线飞走。弯曲说明有力在拉它，就像苹果被拉向地面一样。',
+        'You write "the Moon is not falling." But its path is curved — without a force, it would fly off in a straight line. The curve means something is pulling it, just like the apple is pulled to the ground.'
       )
     }
   },
@@ -810,7 +810,7 @@ const ACTIONS = [
     id: 'estimate_curve',
     type: 'experiment',
     chapter: 3,
-    label: text('估算月亮偏离', 'Estimate the Moon’s Curve'),
+    label: text('计算月亮的弯曲：它每秒“掉”多少？', 'Calculate: How Much Does the Moon "Fall" Each Second?'),
     hint: text('精力2 -> 预言1 思路1', 'Focus 2 -> Prediction +1, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.moon,
@@ -820,8 +820,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.curve = true
       return text(
-        '你画出月亮的弯路：它确实在下落，只是速度太横，总把地面错过去。',
-        'You draw the Moon’s path: it is falling, but its sideways speed keeps making it miss Earth.'
+        '你画出了月亮的弯曲轨迹，算出了它每秒向地球“掉落”的距离。它确实在下落，只是水平速度太快，总把地面错过去。',
+        'You draw the Moon’s curved path and calculate how far it "falls" toward Earth each second. It is indeed falling — but its sideways speed is so great it keeps missing.'
       )
     }
   },
@@ -829,7 +829,7 @@ const ACTIONS = [
     id: 'compare_earth_sky',
     type: 'experiment',
     chapter: 3,
-    label: text('比较地面与天空', 'Compare Falling on Earth and in the Sky'),
+    label: text('关键比较：苹果的下落和月亮的“下落”是同一回事吗？', 'Key Comparison: Is the Apple’s Fall the Same as the Moon’s?'),
     hint: text('精力2 -> 预言1 记录1', 'Focus 2 -> Prediction +1, Notes +1'),
     cost: 2,
     requires: (s) => s.facts.curve && s.laws.second,
@@ -839,8 +839,8 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.sameGravity = true
       return text(
-        '苹果和月亮被放在同一张纸上。一个落到脚边，一个落成轨道。',
-        'The apple and the Moon share one page. One falls to your feet; the other falls into orbit.'
+        '你把苹果和月亮放在同一张纸上比较。苹果直直落到脚边，月亮沿着弯曲的轨道“落”。它们受的是同一种力——引力，只是速度不同导致了不同的轨迹。',
+        'You compare the apple and the Moon on the same page. The apple falls straight to your feet; the Moon "falls" along a curved orbit. They are pulled by the same force — gravity — only their speeds differ, leading to different paths.'
       )
     }
   },
@@ -848,7 +848,7 @@ const ACTIONS = [
     id: 'law_gravity',
     type: 'theory',
     chapter: 3,
-    label: text('提出万有引力', 'Propose Universal Gravitation'),
+    label: text('提出新概念：任何两个有质量的物体之间都存在引力，引力与距离的平方成反比', 'Propose: Every mass attracts every other mass; the force weakens with the square of distance'),
     hint: text('精力1 需：地月比较 预言2 思路1', 'Focus 1; requires: Earth–Moon comparison, Predictions 2, Insight 1'),
     cost: 1,
     requires: (s) => s.facts.sameGravity && s.predictions >= 2 && s.insight >= 1,
@@ -859,8 +859,8 @@ const ACTIONS = [
       s.chapter = 4
       s.feedback = null
       return text(
-        '你提出万有引力：同一种看不见的拉扯，拽住苹果，也拽住月亮。',
-        'You propose universal gravitation: every mass attracts every other mass, including both the apple and the Moon.'
+        '你提出万有引力定律：任何两个物体之间都存在引力，大小与质量的乘积成正比，与距离的平方成反比。同一种力，拽住苹果，也拽住月亮。',
+        'You propose universal gravitation: every mass attracts every other mass, with a force proportional to the product of their masses and inversely proportional to the square of the distance. One force pulls both the apple and the Moon.'
       )
     }
   },
@@ -868,7 +868,7 @@ const ACTIONS = [
     id: 'write_principia',
     type: 'theory',
     chapter: 4,
-    label: text('写成《自然哲学的数学原理》', 'Write the Principia'),
+    label: text('集大成：把三条定律和万有引力写成完整的理论体系', 'Synthesize: Write the Three Laws and Gravity into One System'),
     hint: text('精力1 需：三定律 万有引力 记录2', 'Focus 1; requires: three laws, gravity, Notes 2'),
     cost: 1,
     requires: (s) => s.laws.inertia && s.laws.second && s.laws.third && s.laws.gravity && s.records >= 2,
@@ -878,8 +878,8 @@ const ACTIONS = [
       s.chapter = 5
       s.feedback = null
       return text(
-        '你合上《原理》。地上的碰撞、桌上的小车、天上的月亮，终于说起同一种语言。墙后，磁针轻轻偏了一下。',
-        'You close the Principia. Collisions on the floor, carts on the table, and the Moon in the sky finally speak the same language. Behind the wall, a compass needle twitches.'
+        '你合上《自然哲学的数学原理》。地上的碰撞、桌上的小车、天上的月亮——终于用同一套定律统一了。经典力学的大厦落成。墙后，一枚磁针悄悄偏了一下，新的问题在等待。',
+        'You close the Principia. Collisions on the floor, carts on the table, and the Moon in the sky — all now described by the same laws. Classical mechanics stands complete. Behind the wall, a compass needle twitches; new questions await.'
       )
     }
   },
@@ -887,7 +887,7 @@ const ACTIONS = [
     id: 'rub_amber',
     type: 'experiment',
     chapter: 5,
-    label: text('摩擦琥珀', 'Rub the Amber'),
+    label: text('摩擦琥珀：为什么纸屑会被吸起来？', 'Rub Amber: Why Are Paper Scraps Attracted?'),
     hint: text('精力1 -> 记录1 疑问1', 'Focus 1 -> Notes +1, Doubt +1'),
     cost: 1,
     once: true,
@@ -896,8 +896,8 @@ const ACTIONS = [
       s.doubt += 1
       s.facts.amber = true
       return text(
-        '琥珀擦过毛皮后，纸屑忽然竖起来，像听见了无声的召唤。',
-        'After amber is rubbed with fur, paper scraps stand up as if hearing a silent call.'
+        '琥珀擦过毛皮后，周围的纸屑忽然竖了起来，像被一只看不见的手提起。不接触也能产生力——这是一种全新的现象。',
+        'After rubbing amber with fur, nearby paper scraps stand up as if lifted by an invisible hand. A force without contact — this is something entirely new.'
       )
     }
   },
@@ -905,7 +905,7 @@ const ACTIONS = [
     id: 'wrong_contact_only',
     type: 'misconception',
     chapter: 5,
-    label: text('坚持必须接触才有力', 'Insist Forces Require Contact'),
+    label: text('错误直觉：力必须通过接触才能传递？', 'Misconception: Must Forces Act Through Contact?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.amber && !s.facts.chargePair,
@@ -916,8 +916,8 @@ const ACTIONS = [
         'Counterexample: the paper moves before touching the amber. Some influence is reaching across space.'
       )
       return text(
-        '你写下“必须接触”。纸屑在空中抖了一下，像在嘲笑这句话。',
-        'You write, "contact is required." A paper scrap trembles in the air, as if laughing at the sentence.'
+        '你写下“力必须接触”。但纸屑还没碰到琥珀就动了——这里有一种隔空传递的影响，经典力学的接触模型解释不了。',
+        'You write "force requires contact." But the paper moves before touching the amber — there is an influence that reaches across space, beyond the contact model of classical mechanics.'
       )
     }
   },
@@ -925,7 +925,7 @@ const ACTIONS = [
     id: 'compare_charges',
     type: 'experiment',
     chapter: 5,
-    label: text('比较吸引和排斥', 'Compare Attraction and Repulsion'),
+    label: text('比较两种效果：有的吸、有的斥，为什么？', 'Compare: Some Attract, Some Repel — Why?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.amber,
@@ -935,8 +935,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.chargePair = true
       return text(
-        '有些东西靠近，有些东西躲开。电不只是“吸引”，它像有两种性格。',
-        'Some things draw closer; others move away. Electricity is not just attraction; it seems to have two temperaments.'
+        '有些带电物体互相吸引，有些互相排斥。电不只是“吸引”，它有两种相反的效应——这说明电有两种类型，后来叫正电荷和负电荷。',
+        'Some charged objects attract, others repel. Electricity is not just attraction — it has two opposite effects. This suggests two types of charge, later called positive and negative.'
       )
     }
   },
@@ -944,7 +944,7 @@ const ACTIONS = [
     id: 'law_charge',
     type: 'theory',
     chapter: 5,
-    label: text('定义电荷概念', 'Define Electric Charge'),
+    label: text('提出新概念：电荷有两种，同种相斥、异种相吸', 'Propose: There are two kinds of electric charge; like repels, unlike attracts'),
     hint: text('精力1 需：吸引排斥 记录3 思路1', 'Focus 1; requires: attraction and repulsion, Notes 3, Insight 1'),
     cost: 1,
     visible: (s) => s.facts.chargePair,
@@ -956,8 +956,8 @@ const ACTIONS = [
       s.chapter = 6
       s.feedback = null
       return text(
-        '你给这种隔空的电性起了名字：电荷。同类相斥，异类相吸，暗室里多了一种看不见的秩序。',
-        'You give this electric property a name: charge. Like repels like; unlike attracts unlike. Another invisible order enters the room.'
+        '你给这种隔空作用的电性起了名字：电荷。同种电荷互相排斥，异种电荷互相吸引。暗室里多了一种看不见但可以精确描述的秩序。',
+        'You name this electric property: charge. Like charges repel, unlike charges attract. Another invisible but precisely describable order enters the room.'
       )
     }
   },
@@ -965,7 +965,7 @@ const ACTIONS = [
     id: 'close_circuit',
     type: 'experiment',
     chapter: 6,
-    label: text('接通电池和导线', 'Connect the Battery and Wire'),
+    label: text('接通电路：导线里有什么在流动？', 'Connect the Circuit: What Flows Inside the Wire?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     once: true,
@@ -973,8 +973,8 @@ const ACTIONS = [
       s.records += 1
       s.facts.current = true
       return text(
-        '导线接上电池，金属没有发光，却像有东西在里面流动。',
-        'The wire is connected to the battery. The metal does not glow, yet something seems to flow inside it.'
+        '导线接上电池，金属没有发光发热，但你感觉到有东西在里面持续流动——这就是电流，电荷在导线中的定向移动。',
+        'The wire is connected to the battery. The metal does not glow, but you sense something flowing continuously inside — this is electric current, the directed movement of charge through the wire.'
       )
     }
   },
@@ -982,7 +982,7 @@ const ACTIONS = [
     id: 'compass_near_wire',
     type: 'experiment',
     chapter: 6,
-    label: text('把磁针靠近导线', 'Place a Compass beside the Wire'),
+    label: text('关键实验：通电导线旁边的磁针会动吗？', 'Key Experiment: Does Current Affect a Compass?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.current,
@@ -992,8 +992,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.oersted = true
       return text(
-        '电流经过时，磁针偏了一下。电和磁第一次在你面前互相点头。',
-        'When current passes, the compass needle turns. Electricity and magnetism acknowledge each other for the first time.'
+        '电流通过导线时，旁边的磁针偏转了！电和磁不是互不相干——电流能产生磁效应。这是奥斯特的伟大发现：电和磁是联系在一起的。',
+        'When current flows, the compass needle turns! Electricity and magnetism are not separate — electric current produces magnetic effects. This is Ørsted’s great discovery: electricity and magnetism are connected.'
       )
     }
   },
@@ -1001,7 +1001,7 @@ const ACTIONS = [
     id: 'wrong_electric_magnetic_separate',
     type: 'misconception',
     chapter: 6,
-    label: text('认为电和磁无关', 'Treat Electricity and Magnetism as Separate'),
+    label: text('错误直觉：电和磁是两回事，互不相干？', 'Misconception: Are Electricity and Magnetism Unrelated?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.current && !s.facts.oersted,
@@ -1012,8 +1012,8 @@ const ACTIONS = [
         'Counterexample: do not separate them too soon. Put a compass by the current-carrying wire and see if it stays silent.'
       )
       return text(
-        '你把电和磁画在两页纸上。磁针还没上场，结论显得太整齐。',
-        'You draw electricity and magnetism on two separate pages. The compass has not yet given its evidence.'
+        '你把电和磁画在两页纸上，认为它们互不相干。但磁针还没上场——先把它放到通电导线旁边，看看它会不会保持沉默。',
+        'You draw electricity and magnetism on separate pages, assuming they are unrelated. But the compass has not yet spoken — put it beside a current-carrying wire and see if it stays silent.'
       )
     }
   },
@@ -1021,7 +1021,7 @@ const ACTIONS = [
     id: 'law_current_magnetism',
     type: 'theory',
     chapter: 6,
-    label: text('发现电流的磁效应', 'Discover the Magnetic Effect of Electric Current'),
+    label: text('提出新概念：电流周围会产生磁场，使磁针偏转', 'Propose: An electric current produces a magnetic field around it'),
     hint: text('精力1 需：磁针偏转 记录3 思路1', 'Focus 1; requires: compass deflection, Notes 3, Insight 1'),
     cost: 1,
     visible: (s) => s.facts.oersted,
@@ -1033,8 +1033,8 @@ const ACTIONS = [
       s.chapter = 7
       s.feedback = null
       return text(
-        '你写下：电流会产生磁效应。导线周围不再是空的，而像有看不见的旋涡。',
-        'You discover that an electric current produces a magnetic field. The space around the wire is no longer empty; it carries a circular magnetic pattern.'
+        '你写下：电流周围存在磁场，能使磁针偏转。导线周围不再是空的，而环绕着看不见的磁力线。电和磁统一的第一步完成了。',
+        'You write: an electric current produces a magnetic field around it, which can deflect a compass needle. The space around the wire is no longer empty — it carries circular magnetic field lines. The first step in unifying electricity and magnetism is complete.'
       )
     }
   },
@@ -1042,7 +1042,7 @@ const ACTIONS = [
     id: 'move_magnet_coil',
     type: 'experiment',
     chapter: 7,
-    label: text('移动磁铁穿过线圈', 'Move a Magnet Through the Coil'),
+    label: text('移动磁铁：磁铁穿过线圈会产生电吗？', 'Move a Magnet: Does It Generate Current in a Coil?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     once: true,
@@ -1051,8 +1051,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.induction = true
       return text(
-        '磁铁一动，线圈里的指针也动。磁似乎能把电从静默里叫醒。',
-        'When the magnet moves, the needle connected to the coil moves too. Magnetism seems able to wake electricity from silence.'
+        '磁铁穿过线圈时，电流表的指针动了！磁能生电——但这和奥斯特发现的电生磁不同，这里的关键似乎是“运动”。',
+        'When the magnet moves through the coil, the meter needle moves! Magnetism can generate electricity — but unlike Ørsted’s discovery, the key here seems to be motion.'
       )
     }
   },
@@ -1060,7 +1060,7 @@ const ACTIONS = [
     id: 'wrong_static_magnet_current',
     type: 'misconception',
     chapter: 7,
-    label: text('认为静止磁铁也能生电', 'Assume a Stationary Magnet Makes Current'),
+    label: text('错误直觉：磁铁放在线圈旁边就能一直发电？', 'Misconception: A Stationary Magnet Produces Continuous Current?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.induction && !s.facts.changeMatters,
@@ -1071,8 +1071,8 @@ const ACTIONS = [
         'Counterexample: when the magnet stops, the needle rests too. The key is not the magnet by itself, but change.'
       )
       return text(
-        '你把磁铁停在线圈旁边，等电流自己出现。桌面安静得有点尴尬。',
-        'You hold the magnet still beside the coil and wait for current. The table becomes awkwardly quiet.'
+        '你把磁铁停在线圈旁边，等着电流自己出现。但指针纹丝不动——静止的磁铁不会产生电流。关键不是磁铁本身，而是磁场的变化。',
+        'You hold the magnet still beside the coil and wait for current. But the needle does not move — a stationary magnet produces no current. The key is not the magnet itself, but the change in the magnetic field.'
       )
     }
   },
@@ -1080,7 +1080,7 @@ const ACTIONS = [
     id: 'reverse_motion',
     type: 'experiment',
     chapter: 7,
-    label: text('反向移动磁铁', 'Reverse the Motion'),
+    label: text('反向移动：磁铁反方向动，电流也反向吗？', 'Reverse: Does Moving the Other Way Reverse the Current?'),
     hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.induction,
@@ -1090,8 +1090,8 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.changeMatters = true
       return text(
-        '磁铁反向移动，指针也反向偏转。线圈听见的不是“磁铁”，而是“变化”。',
-        'Move the magnet the other way, and the needle turns the other way. The coil does not hear "magnet"; it hears "change."'
+        '磁铁反向移动时，指针也反向偏转。线圈“听”见的不是磁铁本身，而是磁场的变化。变化的磁场产生电流——这就是电磁感应。',
+        'When you move the magnet the other way, the needle deflects in the opposite direction. The coil does not respond to the magnet itself, but to the changing magnetic field. A changing magnetic field induces current — this is electromagnetic induction.'
       )
     }
   },
@@ -1099,7 +1099,7 @@ const ACTIONS = [
     id: 'law_induction',
     type: 'theory',
     chapter: 7,
-    label: text('发现电磁感应', 'Discover Electromagnetic Induction'),
+    label: text('提出新概念：变化的磁场会在闭合线圈中产生感应电流', 'Propose: A changing magnetic field induces an electric current in a closed circuit'),
     hint: text('精力1 需：变化 记录3 思路1 预言1', 'Focus 1; requires: change, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.changeMatters,
@@ -1112,8 +1112,8 @@ const ACTIONS = [
       s.chapter = 8
       s.feedback = null
       return text(
-        '你写下：变化的磁场会生出电流。暗室里第一次出现了“变化产生变化”的味道。',
-        'You discover electromagnetic induction: a changing magnetic flux can induce an emf and, in a closed circuit, a current.'
+        '你写下电磁感应定律：变化的磁场会在闭合回路中产生感应电动势，从而驱动电流。这是法拉第的伟大发现——“变化”本身成了一种驱动力。',
+        'You write the law of electromagnetic induction: a changing magnetic flux induces an electromotive force in a closed circuit, driving a current. This is Faraday’s great discovery — "change" itself becomes a driving force.'
       )
     }
   },
@@ -1121,7 +1121,7 @@ const ACTIONS = [
     id: 'draw_fields',
     type: 'experiment',
     chapter: 8,
-    label: text('画出电场和磁场', 'Draw Electric and Magnetic Fields'),
+    label: text('画场线：空间本身有结构吗？', 'Draw Field Lines: Does Space Itself Have Structure?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.laws.currentMagnetism && s.laws.induction,
@@ -1131,8 +1131,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.fields = true
       return text(
-        '你不再只画物体，而开始画空间本身。线条穿过空处，像给看不见的东西铺路。',
-        'You stop drawing only objects and begin drawing space itself. Lines cross empty regions like roads for the invisible.'
+        '你不再只画物体，而开始画空间中的力线。电场线和磁场线穿过虚空，像给看不见的力铺了路——“场”的概念诞生了：空间本身有物理结构。',
+        'You stop drawing only objects and begin drawing lines of force through space. Electric and magnetic field lines cross empty regions like roads for the invisible — the concept of "field" is born: space itself has physical structure.'
       )
     }
   },
@@ -1140,7 +1140,7 @@ const ACTIONS = [
     id: 'wrong_light_separate',
     type: 'misconception',
     chapter: 8,
-    label: text('认为光与电磁无关', 'Treat Light as Separate'),
+    label: text('错误直觉：光和电磁是两回事？', 'Misconception: Is Light Separate from Electromagnetism?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.fields && !s.facts.lightSpeed,
@@ -1151,8 +1151,8 @@ const ACTIONS = [
         'Counterexample: calculate the speed of electromagnetic propagation. It looks far too much like the speed of light to stay quiet.'
       )
       return text(
-        '你把光单独放到一边。纸上的速度数字却悄悄把它拉回电和磁旁边。',
-        'You set light aside. The speed written on the page quietly pulls it back beside electricity and magnetism.'
+        '你把光单独放到一边，认为它和电磁无关。但等一下——算一算电磁波的速度，那个数字太眼熟了，和光速一模一样。这不是巧合。',
+        'You set light aside, thinking it is separate from electromagnetism. But wait — calculate the speed of electromagnetic waves. That number looks too familiar: it matches the speed of light exactly. This is no coincidence.'
       )
     }
   },
@@ -1160,7 +1160,7 @@ const ACTIONS = [
     id: 'measure_wave_speed',
     type: 'experiment',
     chapter: 8,
-    label: text('估算电磁波速度', 'Estimate the Electromagnetic Wave Speed'),
+    label: text('计算电磁波速度：它和光速一样吗？', 'Calculate: Does the EM Wave Speed Match the Speed of Light?'),
     hint: text('精力2 -> 预言2 思路1', 'Focus 2 -> Predictions +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.fields,
@@ -1170,8 +1170,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.lightSpeed = true
       return text(
-        '你算出场的波动速度。那个数字太熟悉了，像一道光从纸背后照出来。',
-        'You calculate the speed of waves in the fields. The number is too familiar, like light shining from behind the page.'
+        '你用电学和磁学的常数算出了电磁波的传播速度——约每秒30万公里。这个数字和测量到的光速完全一致。光，就是电磁波。',
+        'You calculate the speed of electromagnetic waves using electric and magnetic constants — about 300,000 km/s. This matches the measured speed of light exactly. Light is an electromagnetic wave.'
       )
     }
   },
@@ -1179,7 +1179,7 @@ const ACTIONS = [
     id: 'law_maxwell',
     type: 'theory',
     chapter: 8,
-    label: text('写下麦克斯韦方程', 'Write Maxwell’s Equations'),
+    label: text('提出新概念：变化的电场和磁场互相激发，以光速向外传播，光就是电磁波', 'Propose: Changing electric and magnetic fields generate each other, propagating at light speed; light is an EM wave'),
     hint: text('精力1 需：场 光速 记录2 思路2 预言2', 'Focus 1; requires: fields, speed of light, Notes 2, Insight 2, Predictions 2'),
     cost: 1,
     visible: (s) => s.facts.lightSpeed,
@@ -1192,8 +1192,8 @@ const ACTIONS = [
       s.chapter = 9
       s.feedback = null
       return text(
-        '你写下麦克斯韦方程。电和磁互相追逐，自己向外传播；光，原来就是这种追逐的波。桌角的线圈忽然像一台机器。',
-        'You write Maxwell’s equations. Changing electric and magnetic fields sustain one another and propagate outward; light is an electromagnetic wave. The coil on the table suddenly looks like a machine.'
+        '你写下麦克斯韦方程组。变化的电场产生磁场，变化的磁场产生电场——它们互相激发，以光速向外传播。光，原来就是电磁波。电磁学统一了。',
+        'You write Maxwell’s equations. A changing electric field generates a magnetic field, and a changing magnetic field generates an electric field — they sustain each other and propagate at the speed of light. Light is an electromagnetic wave. Electromagnetism is unified.'
       )
     }
   },
@@ -1201,7 +1201,7 @@ const ACTIONS = [
     id: 'spin_motor',
     type: 'experiment',
     chapter: 9,
-    label: text('让线圈转起来', 'Make the Coil Turn'),
+    label: text('造电动机：通电线圈在磁场中会转吗？', 'Build a Motor: Will a Current-Carrying Coil Spin in a Magnetic Field?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.laws.currentMagnetism,
@@ -1211,8 +1211,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.motor = true
       return text(
-        '通电线圈在磁场里转了半圈，又被换向器推着继续转。法拉第的小玩具露出电动机的骨架。',
-        'A powered coil turns in a magnetic field, and a commutator pushes it onward. Faraday’s little toy reveals the skeleton of a motor.'
+        '通电线圈在磁场中转动起来，换向器让它持续旋转。电能变成了机械运动——这就是电动机的原理。法拉第的“小玩具”将改变整个世界。',
+        'A current-carrying coil spins in a magnetic field, and a commutator keeps it turning. Electrical energy becomes mechanical motion — this is the principle of the electric motor. Faraday’s "little toy" will change the world.'
       )
     }
   },
@@ -1220,7 +1220,7 @@ const ACTIONS = [
     id: 'wrong_power_free',
     type: 'misconception',
     chapter: 9,
-    label: text('以为机器凭空出力', 'Assume Machines Create Energy'),
+    label: text('错误直觉：电动机凭空产生能量？', 'Misconception: Does a Motor Create Energy from Nothing?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.motor && !s.facts.generator,
@@ -1231,8 +1231,8 @@ const ACTIONS = [
         'Counterexample: the harder the motor works, the faster the battery tires. A machine does not make power from nothing; it trades energy.'
       )
       return text(
-        '你差点把转动当成白来的礼物。电池发热的身体提醒你：账总要有人付。',
-        'You almost treat rotation as a free gift. The warming battery reminds you that the bill is always paid somewhere.'
+        '你差点把电动机的转动当成凭空产生的能量。但电池在发热——能量不是白来的，电动机只是把电能转换成机械能，总能量守恒。',
+        'You almost treat the motor’s rotation as free energy. But the battery is warming up — energy is not created from nothing. The motor converts electrical energy into mechanical energy; total energy is conserved.'
       )
     }
   },
@@ -1240,7 +1240,7 @@ const ACTIONS = [
     id: 'turn_generator',
     type: 'experiment',
     chapter: 9,
-    label: text('反过来转发电机', 'Turn a Generator'),
+    label: text('造发电机：反过来转线圈能发电吗？', 'Build a Generator: Can Spinning a Coil Generate Electricity?'),
     hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
     cost: 2,
     requires: (s) => s.laws.induction,
@@ -1250,8 +1250,8 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.generator = true
       return text(
-        '你用手转动线圈，电流表醒了。电动机倒过来，竟像发电机；运动和电开始互相兑换。',
-        'You turn the coil by hand, and the galvanometer wakes. Run backward, a motor becomes a generator; motion and electricity begin to trade places.'
+        '你用手转动线圈，电流表醒了。电动机反过来用就是发电机——机械运动变成了电。电动机和发电机是同一原理的两个方向：电和运动可以互相转换。',
+        'You spin the coil by hand, and the meter wakes. Run backward, a motor becomes a generator — mechanical motion becomes electricity. Motor and generator are two directions of the same principle: electricity and motion are interchangeable.'
       )
     }
   },
@@ -1259,7 +1259,7 @@ const ACTIONS = [
     id: 'light_filament',
     type: 'experiment',
     chapter: 9,
-    label: text('点亮灯丝', 'Light a Filament'),
+    label: text('点亮灯泡：电能可以变成光和热', 'Light a Bulb: Electricity Becomes Light and Heat'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     requires: (s) => s.facts.generator,
@@ -1268,8 +1268,8 @@ const ACTIONS = [
       s.records += 1
       s.facts.bulb = true
       return text(
-        '细灯丝被电流烧得发白。斯旺和爱迪生都知道：要让城市亮起来，物理还得学会耐用。',
-        'The thin filament glows white. Swan and Edison both know: to light a city, physics also has to learn durability.'
+        '电流通过细灯丝，把它烧得白亮。电能变成了光和热——电不仅可以驱动机器，还能照亮黑夜。电力时代的曙光出现了。',
+        'Current passes through a thin filament, heating it until it glows white. Electricity becomes light and heat — it can not only drive machines but also illuminate the night. The dawn of the electric age appears.'
       )
     }
   },
@@ -1277,7 +1277,7 @@ const ACTIONS = [
     id: 'law_electric_power',
     type: 'theory',
     chapter: 9,
-    label: text('搭建电力系统', 'Build an Electric Power System'),
+    label: text('提出新概念：发电、输电、用电可以组成完整的电力系统', 'Propose: Generation, transmission, and consumption form a complete electric power system'),
     hint: text('精力1 需：电机 发电机 灯 记录4 思路1 预言1', 'Focus 1; requires: motor, generator, lamp, Notes 4, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.bulb,
@@ -1290,8 +1290,8 @@ const ACTIONS = [
       s.chapter = 10
       s.feedback = null
       return text(
-        '你把电动机、发电机和灯连成一条链：能量可以远距离分配，黑夜第一次显得可以被工程管理。',
-        'You link motor, generator, and lamp into one chain: energy can be distributed across distance, and night begins to look like something engineering can manage.'
+        '你把发电机、输电线和用电设备连成一条链：能量可以在远处产生，通过电线输送到需要的地方。电力系统的蓝图已经画好——黑夜第一次显得可以被工程管理。',
+        'You link generator, transmission lines, and electrical devices into one chain: energy can be generated far away and delivered through wires to where it is needed. The blueprint of the electric power system is drawn — night begins to look like something engineering can manage.'
       )
     }
   },
@@ -1299,7 +1299,7 @@ const ACTIONS = [
     id: 'spark_gap',
     type: 'experiment',
     chapter: 10,
-    label: text('打出火花', 'Make a Spark'),
+    label: text('火花放电：电磁波能被制造出来吗？', 'Make a Spark: Can EM Waves Be Generated?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     requires: (s) => s.laws.maxwell,
@@ -1308,8 +1308,8 @@ const ACTIONS = [
       s.records += 1
       s.facts.spark = true
       return text(
-        '火花在间隙里啪地跳过。赫兹的装置很小，野心却很大：让麦克斯韦的波真的出现在桌上。',
-        'A spark snaps across the gap. Hertz’s apparatus is small, but its ambition is large: make Maxwell’s waves appear on the table.'
+        '火花在间隙里啪地跳过。根据麦克斯韦的理论，这种快速变化的电流应该产生电磁波。赫兹的装置虽小，却要证明电磁波真的存在。',
+        'A spark snaps across the gap. According to Maxwell’s theory, this rapidly changing current should produce electromagnetic waves. Hertz’s apparatus is small, but it aims to prove EM waves really exist.'
       )
     }
   },
@@ -1317,7 +1317,7 @@ const ACTIONS = [
     id: 'wrong_wire_needed',
     type: 'misconception',
     chapter: 10,
-    label: text('认为信号必须走导线', 'Assume Signals Need Wires'),
+    label: text('错误直觉：信息必须通过导线才能传递？', 'Misconception: Must Signals Travel Through Wires?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.spark && !s.facts.antenna,
@@ -1328,8 +1328,8 @@ const ACTIONS = [
         'Counterexample: Maxwell’s equations allow waves to leave conductors. Let the spark and the antenna speak before deciding how far messages can go.'
       )
       return text(
-        '你把消息困在铜线上。火花却像在敲墙，想把声音送到房间外。',
-        'You trap the message in copper. The spark taps the wall, trying to send a voice outside the room.'
+        '你把信息困在铜线上，认为没有导线就无法传递。但麦克斯韦的方程说电磁波可以离开导线自由传播——火花已经在敲墙了，试试用天线接收它。',
+        'You trap messages in copper, thinking they cannot travel without wires. But Maxwell’s equations say EM waves can leave conductors and propagate freely — the spark is already tapping the wall. Try receiving it with an antenna.'
       )
     }
   },
@@ -1337,7 +1337,7 @@ const ACTIONS = [
     id: 'build_antenna',
     type: 'experiment',
     chapter: 10,
-    label: text('竖起天线', 'Raise an Antenna'),
+    label: text('架设天线：能接收到远处传来的电磁波吗？', 'Raise an Antenna: Can It Receive Distant EM Waves?'),
     hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.spark,
@@ -1347,8 +1347,8 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.antenna = true
       return text(
-        '天线把火花的急促变化抛进空间。看不见的波从导线边缘松手，向外跑去。',
-        'The antenna throws the spark’s rapid changes into space. Invisible waves let go of the wire edge and run outward.'
+        '天线把火花的快速振荡变成电磁波抛向空间。看不见的波从导线边缘挣脱，以光速向外跑去——信息第一次可以不用导线传递了。',
+        'The antenna converts the spark’s rapid oscillations into electromagnetic waves and launches them into space. Invisible waves break free from the wire and race outward at light speed — for the first time, information can travel without wires.'
       )
     }
   },
@@ -1356,7 +1356,7 @@ const ACTIONS = [
     id: 'tune_receiver',
     type: 'experiment',
     chapter: 10,
-    label: text('调谐接收器', 'Tune a Receiver'),
+    label: text('调谐接收：怎样从众多信号中选出想要的那一个？', 'Tune a Receiver: How to Pick One Signal from Many?'),
     hint: text('精力1 -> 记录1 思路1', 'Focus 1 -> Notes +1, Insight +1'),
     cost: 1,
     requires: (s) => s.facts.antenna,
@@ -1366,8 +1366,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.radio = true
       return text(
-        '接收器只在某个频率上醒来。马可尼的无线电不是魔法，而是让远方的节奏被这里认出。',
-        'The receiver wakes only at one frequency. Marconi’s radio is not magic; it lets a far rhythm be recognized here.'
+        '接收器只在特定频率上响应。通过调谐，你可以从空中众多电磁波中选出想要的那一个——这就是无线电通信的原理：用频率区分不同的信号。',
+        'The receiver responds only at a specific frequency. By tuning, you can pick one signal from the many EM waves in the air — this is the principle of radio communication: different frequencies carry different messages.'
       )
     }
   },
@@ -1375,7 +1375,7 @@ const ACTIONS = [
     id: 'law_radio',
     type: 'theory',
     chapter: 10,
-    label: text('实现无线通信', 'Establish Wireless Communication'),
+    label: text('提出新概念：信息可以通过调制电磁波，跨越空间无线传输', 'Propose: Information can be encoded onto EM waves and transmitted wirelessly across space'),
     hint: text('精力1 需：天线 调谐 记录3 思路1 预言1', 'Focus 1; requires: antenna, tuning, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.radio,
@@ -1388,8 +1388,8 @@ const ACTIONS = [
       s.chapter = 11
       s.feedback = null
       return text(
-        '你写下无线通信：把信息压进电磁波，再用调谐把它从空气里捞出来。暗室终于能听见远方。',
-        'You establish wireless communication: encode information in electromagnetic waves, then recover it by tuning the receiver. The room can finally hear distant voices.'
+        '你实现了无线通信：把信息编码到电磁波上发射出去，再用调谐接收器从空气中把它提取出来。暗室终于能听见远方的声音——无线电时代开始了。',
+        'You establish wireless communication: encode information onto EM waves, transmit them, and recover the signal with a tuned receiver. The dark room can finally hear distant voices — the age of radio begins.'
       )
     }
   },
@@ -1397,7 +1397,7 @@ const ACTIONS = [
     id: 'heat_water',
     type: 'experiment',
     chapter: 11,
-    label: text('加热水壶', 'Heat the Kettle'),
+    label: text('加热水壶：蒸汽能推动东西，热变成了运动？', 'Heat the Kettle: Can Steam Turn Heat into Motion?'),
     hint: text('精力1 -> 记录1 疑问1', 'Focus 1 -> Notes +1, Doubt +1'),
     cost: 1,
     once: true,
@@ -1406,16 +1406,15 @@ const ACTIONS = [
       s.doubt += 1
       s.facts.steam = true
       return text(
-        '水汽顶起壶盖。热没有画箭头，却实实在在把东西推开了。',
-        'Steam lifts the lid. Heat draws no arrow on the page, yet it pushes something open.'
-      )
-    }
+        '水汽顶起壶盖，热变成了机械运动。热不是一种“东西”，而是一种能推动物体做功的能量形式。你开始怀疑“热质说”——如果热是流体，摩擦为什么能无限产生它？',
+        'Steam lifts the lid: heat becomes mechanical motion. Heat is not a substance but a form of energy that can do work. You begin to doubt the caloric theory — if heat is a fluid, why can friction produce it endlessly?'
+      )    }
   },
   {
     id: 'wrong_caloric',
     type: 'misconception',
     chapter: 11,
-    label: text('把热当成流体', 'Treat Heat as a Substance'),
+    label: text('错误直觉：热是一种叫“热质”的流体？', 'Misconception: Is Heat a Fluid Called "Caloric"?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.steam && !s.facts.joule,
@@ -1426,16 +1425,15 @@ const ACTIONS = [
         'Counterexample: friction and stirring can keep making heat. Heat is less like a fluid that empties and more like a ledger of scattered motion.'
       )
       return text(
-        '你把热想成一种会流动的东西。水壶没有反对，但桨叶实验还没开始。',
-        'You imagine heat as something that flows. The kettle does not object, but the paddle-wheel experiment has not begun.'
-      )
-    }
+        '你把热想象成一种会流动的“热质”。但等一下——摩擦和搅拌也能不断产生热，如果是流体早就用光了。热更像是一种能量，而不是一种物质。',
+        'You picture heat as a flowing "caloric fluid." But wait — friction and stirring also produce heat endlessly; a fluid would have run out. Heat behaves more like energy than a substance.'
+      )    }
   },
   {
     id: 'turn_paddle',
     type: 'experiment',
     chapter: 11,
-    label: text('转动焦耳桨叶', 'Turn Joule’s Paddle Wheel'),
+    label: text('焦耳实验：用机械搅拌加热水，功和热有固定兑换率吗？', 'Joule’s Experiment: Does Mechanical Work Produce a Fixed Amount of Heat?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.steam,
@@ -1445,16 +1443,15 @@ const ACTIONS = [
       s.insight += 1
       s.facts.joule = true
       return text(
-        '桨叶搅动水，温度慢慢升高。焦耳让机械功变成热，像把两本账合成一本。',
-        'Paddles churn the water, and the temperature rises. Joule turns mechanical work into heat, merging two accounts into one.'
-      )
-    }
+        '桨叶搅动水，温度慢慢升高。焦耳精确测量了机械功和产生的热量之间的比例——功和热有固定的兑换率。热不是物质，而是能量的一种形式。',
+        'Paddles stir the water, and the temperature rises. Joule precisely measures the ratio between mechanical work and heat produced — work and heat have a fixed exchange rate. Heat is not a substance but a form of energy.'
+      )    }
   },
   {
     id: 'build_heat_engine',
     type: 'experiment',
     chapter: 11,
-    label: text('推动热机活塞', 'Drive a Heat Engine'),
+    label: text('分析热机：热怎样转化为功？效率有上限吗？', 'Analyze: How Does Heat Become Work? Is There an Efficiency Limit?'),
     hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.joule,
@@ -1464,16 +1461,15 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.engine = true
       return text(
-        '热的蒸汽推动活塞，活塞带动飞轮。瓦特的机器把矿井、工厂和城市接进同一个节拍。',
-        'Hot steam drives a piston, and the piston turns a flywheel. Watt’s engine pulls mines, factories, and cities into one rhythm.'
-      )
-    }
+        '高温蒸汽推动活塞，活塞带动飞轮。瓦特的蒸汽机把矿井、工厂和城市接进同一个节拍——但仔细分析会发现，热不可能全部变成功，总有一部分排给冷端。',
+        'Hot steam pushes the piston, which drives the flywheel. Watt’s engine connects mines, factories, and cities to the same rhythm — but analyze it carefully: heat can never be fully converted to work; some always escapes to the cold side.'
+      )    }
   },
   {
     id: 'law_energy',
     type: 'theory',
     chapter: 11,
-    label: text('总结能量守恒定律', 'Discover Conservation of Energy'),
+    label: text('提出新概念：能量不会凭空产生或消失，只能从一种形式转化为另一种', 'Propose: Energy cannot be created or destroyed, only converted from one form to another'),
     hint: text('精力1 需：功热转换 热机 记录3 思路1 预言1', 'Focus 1; requires: work–heat conversion, engine, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.engine,
@@ -1486,16 +1482,15 @@ const ACTIONS = [
       s.chapter = 12
       s.feedback = null
       return text(
-        '你写下能量守恒：功、热、电和运动可以换装，但总账不会凭空增减。',
-        'You discover conservation of energy: work, heat, electricity, and motion can transform into one another, but the total energy neither appears from nowhere nor vanishes.'
-      )
-    }
+        '你写下能量守恒定律：功、热、电和运动可以互相转换，但总能量不会凭空增减。这是物理学最牢固的基石之一——能量既不会创生，也不会消失。',
+        'You write the law of conservation of energy: work, heat, electricity, and motion can change form, but the total energy never increases or decreases. This is one of the firmest foundations of physics — energy is neither created nor destroyed.'
+      )    }
   },
   {
     id: 'watch_waste_heat',
     type: 'experiment',
     chapter: 12,
-    label: text('比较废热', 'Compare Waste Heat'),
+    label: text('观察废热：热机为什么总有一部分热浪费掉？', 'Observe Waste Heat: Why Do Engines Always Waste Some Heat?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.laws.energy,
@@ -1505,16 +1500,15 @@ const ACTIONS = [
       s.insight += 1
       s.facts.wasteHeat = true
       return text(
-        '热机做了功，也把大量热丢给冷端。能量没丢，可有些能量变得不再好用。',
-        'The heat engine does work, yet dumps much heat to the cold side. Energy is not lost, but some of it becomes less useful.'
-      )
-    }
+        '热机做了功，但也把大量热量排给了低温端。能量没有消失，但一部分能量从“可用来做功”变成了“散乱无法利用”——这就是熵增的直觉。',
+        'The engine does work but also dumps much heat into the cold side. Energy is not lost, but some of it goes from "usable for work" to "dispersed and unusable" — this is the intuition behind entropy increase.'
+      )    }
   },
   {
     id: 'wrong_perpetual_engine',
     type: 'misconception',
     chapter: 12,
-    label: text('设计永动热机', 'Design a Perpetual Engine'),
+    label: text('错误直觉：能不能造一台不浪费热量的完美热机？', 'Misconception: Can We Build a Perfect Engine with No Waste Heat?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.wasteHeat && !s.facts.carnotCycle,
@@ -1525,16 +1519,15 @@ const ACTIONS = [
         'Counterexample: conservation alone is not enough. Heat flows from hot to cold, and a cycle leaves a cost.'
       )
       return text(
-        '你画出一台不浪费的热机。纸上很完美，现实里的冷端却不肯消失。',
-        'You draw an engine with no waste. It is perfect on paper, but the cold side refuses to disappear.'
-      )
-    }
+        '你画出一台不浪费任何热量的完美热机。纸上很完美，但现实中必须有温差才能做功——冷端不肯消失，第二类永动机是不可能的。',
+        'You draw a perfect engine that wastes no heat. Perfect on paper, but in reality a temperature difference is needed to do work — the cold side refuses to disappear. A perpetual motion machine of the second kind is impossible.'
+      )    }
   },
   {
     id: 'trace_carnot_cycle',
     type: 'experiment',
     chapter: 12,
-    label: text('描出卡诺循环', 'Trace the Carnot Cycle'),
+    label: text('卡诺循环：热机的理论最高效率是多少？', 'Carnot Cycle: What Is the Theoretical Maximum Efficiency?'),
     hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.wasteHeat,
@@ -1544,16 +1537,15 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.carnotCycle = true
       return text(
-        '卡诺循环把热机拆成四段。效率不再只是工匠手艺，而成了温度之间的命运。',
-        'Carnot cycle splits the engine into four stages. Efficiency is no longer just craftsmanship; it is a fate written between temperatures.'
-      )
-    }
+        '卡诺把热机的工作过程拆成四个理想步骤：等温膨胀、绝热膨胀、等温压缩、绝热压缩。热机的最高效率只取决于高温和低温的温差——这是自然规律，不是工程问题。',
+        'Carnot breaks the engine cycle into four ideal steps: isothermal expansion, adiabatic expansion, isothermal compression, adiabatic compression. The maximum efficiency depends only on the temperature difference — this is a law of nature, not an engineering problem.'
+      )    }
   },
   {
     id: 'count_microstates',
     type: 'experiment',
     chapter: 12,
-    label: text('数分子的排法', 'Count Molecular Arrangements'),
+    label: text('玻尔兹曼的洞察：无序度能用分子排列方式来衡量吗？', 'Boltzmann’s Insight: Can Disorder Be Measured by Counting Molecular Arrangements?'),
     hint: text('精力1 -> 思路1', 'Focus 1 -> Insight +1'),
     cost: 1,
     requires: (s) => s.facts.carnotCycle,
@@ -1562,19 +1554,17 @@ const ACTIONS = [
       s.insight += 1
       s.facts.entropyClue = true
       return text(
-        '玻尔兹曼把分子当成一大群可能的排法。混乱不是没规律，而是可能性太多。',
-        'Boltzmann treats molecules as a crowd of possible arrangements. Disorder is not lawlessness; it is too many possibilities.'
-      )
-    }
+        '玻尔兹曼把熵和分子的微观排列联系起来：一个系统的宏观状态对应着无数种分子排列方式。“无序”不是没有规律，而是可能性太多——熵是微观状态数的度量。',
+        'Boltzmann connects entropy to microscopic arrangements: a macrostate corresponds to countless molecular configurations. "Disorder" is not lawlessness but an overwhelming number of possibilities — entropy measures the number of microstates.'
+      )    }
   },
   {
     id: 'law_entropy',
     type: 'theory',
-    chapter: 12,
-    label: text('认识熵增方向', 'Discover the Entropy Principle'),
-    hint: text('精力1 需：循环 分子排法 记录3 思路2 预言1', 'Focus 1; requires: cycle, microstates, Notes 3, Insight 2, Prediction 1'),
-    cost: 1,
-    visible: (s) => s.facts.entropyClue,
+    chapter: 12,return text(
+        '音叉在手里快速振动，声音传到了耳朵。你开始怀疑：音叉的振动是不是通过空气传过来的？声音不是“东西”，而是振动在介质中的传播。',
+        'The tuning fork vibrates rapidly in your hand, and sound reaches your ear. You begin to suspect: is the vibration traveling through the air? Sound is not a "thing" but the propagation of vibration through a medium.'
+      )ropyClue,
     requires: (s) => s.facts.carnotCycle && s.facts.entropyClue && s.records >= 3 && s.insight >= 2 && s.predictions >= 1,
     run(s) {
       s.records -= 3
@@ -1584,16 +1574,11 @@ const ACTIONS = [
       s.chapter = 13
       s.feedback = null
       return text(
-        '你写下熵：能量仍守恒，但可用性会散开。时间的箭头第一次在暗室里有了刻度。',
-        'You discover entropy: energy is conserved, but usable energy tends to spread out. The arrow of time gains its first markings in the dark room.'
-      )
-    }
-  },
-  {
-    id: 'strike_tuning_fork',
-    type: 'experiment',
-    chapter: 13,
-    label: text('敲响音叉', 'Strike a Tuning Fork'),
+        '你写下热力学第二定律：孤立系统的熵永不减少。能量仍然守恒，但“可用来做功”的那部分会不断散失。熵的增加给了时间一个方向——过去和未来不再对称。',
+        'You write the second law of thermodynamics: the entropy of an isolated system never decreases. Energy is still conserved, but the portion "usable for work" keeps dispersing. Entreturn text(
+        '你把声音想象成细小的微粒从发声体飞出去。但音叉还在振动——如果声音是物质，音叉早就该变轻了。声音传递的是振动，不是物质本身。',
+        'You imagine sound as tiny particles flying out from the source. But the tuning fork keeps vibrating — if sound were matter, the fork would get lighter. Sound transmits vibration, not matter itself.'
+      )a Tuning Fork: How Is Sound Produced?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     once: true,
@@ -1601,16 +1586,11 @@ const ACTIONS = [
       s.records += 1
       s.facts.vibration = true
       return text(
-        '音叉在手里发颤，声音却钻进耳朵。你开始怀疑：空气也许在跟着颤。',
-        'The tuning fork trembles in your hand, yet the sound reaches your ear. You begin to suspect that air trembles too.'
-      )
-    }
-  },
-  {
-    id: 'wrong_sound_material',
-    type: 'misconception',
-    chapter: 13,
-    label: text('把声音当成物质飞出', 'Treat Sound as Stuff Flying Out'),
+        '音叉在手里快速振动，声音传到了耳朵。你开始怀疑：音叉的振动是不是通过空气传过来的？声音不是“东西”，而是振动在介质中的传播。',
+        'The tuning fork vibrates rapidly in your hand, and the sound reaches your ear. You begin to suspect: does thereturn text(
+        '玻璃罩里的铃还在动，但抽掉空气后声音越来越薄，最后消失了。空气不是旁观者——它是声音传播的介质。声音需要物质来传递振动。',
+        'The bell still moves inside the jar, but as air is pumped out, the sound grows thinner and vanishes. Air is not a bystander — it is the medium that carries sound. Sound needs matter to transmit vibration.'
+      )label: text('错误直觉：声音是某种物质从发声体飞出来？', 'Misconception: Is Sound a Substance Flying Out of the Source?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.vibration && !s.facts.airWave,
@@ -1618,11 +1598,10 @@ const ACTIONS = [
       s.doubt += 1
       s.feedback = text(
         '反例：声音穿过空气，却不是把一团物质丢到耳朵里。抽走空气后，它会消失。',
-        'Counterexample: sound crosses air, but it does not throw a lump of matter into the ear. Remove the air, and it disappears.'
-      )
-      return text(
-        '你把声音想成细小的东西飞出去。音叉还在抖，像是在提示“传递”的不是物质本身。',
-        'You imagine sound as tiny bits of stuff flying away. The fork keeps trembling, hinting that what travels is not matter itself.'
+        'Counterexample: sound crosses air, but it does not throw a lump of matter inreturn text(
+        '在某个频率上，金属板上的细沙跳出了清晰的花纹。声音不是乱颤，而是有特定频率和波长的机械波——不同的频率对应不同的图案。',
+        'At a certain frequency, sand on the metal plate jumps into clear patterns. Sound is not random trembling but a mechanical wave with specific frequency and wavelength — different frequencies produce different patterns.'
+      )ing away. The fork keeps trembling, hinting that what travels is not matter itself.'
       )
     }
   },
@@ -1630,7 +1609,7 @@ const ACTIONS = [
     id: 'bell_jar',
     type: 'experiment',
     chapter: 13,
-    label: text('抽空玻璃罩', 'Pump Air Out of the Bell Jar'),
+    label: text('真空实验：没有空气，声音还能传播吗？', 'Vacuum Experiment: Can Sound Travel Without Air?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.vibration,
@@ -1640,17 +1619,11 @@ const ACTIONS = [
       s.insight += 1
       s.facts.airWave = true
       return text(
-        '玻璃罩里的铃还在动，声音却越来越薄。空气不是旁观者，它是声音的路。',
-        'The bell still moves inside the jar, but the sound thins away. Air is not a bystander; it is the road sound travels on.'
-      )
-    }
-  },
-  {
-    id: 'map_resonance',
-    type: 'experiment',
-    chapter: 13,
-    label: text('寻找共振', 'Search for Resonance'),
-    hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
+        '玻璃罩里的铃还在动，但抽掉空气后声音越来越薄，最后消失了。空气不是旁观者——它是声音传播的介质。声音需要物质来传递振动。',
+        'The bell still moves inside the jar, but the sound thins away. Air is not a bystander; it is the road soreturn text(
+        '你写下声学的基本原理：声音是介质中的机械波，有频率、波长和振幅。听见世界，原来是在解读空气的振动——从音叉到人耳，都是波的故事。',
+        'You write the principles of acoustics: sound is a mechanical wave in a medium, with frequency, wavelength, and amplitude. Hearing the world means reading the vibrations of air — from tuning fork to eardrum, it is all a story of waves.'
+      )Focus 1 -> Notes +1, Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.airWave,
     once: true,
@@ -1659,17 +1632,11 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.resonance = true
       return text(
-        '某个频率上，细沙跳出清楚的花纹。声音不是乱颤，而是有形状的波。',
-        'At one frequency, sand jumps into a clear pattern. Sound is not random trembling; it is a shaped wave.'
-      )
-    }
-  },
-  {
-    id: 'law_sound_wave',
-    type: 'theory',
-    chapter: 13,
-    label: text('理解声波本质', 'Understand Sound as a Wave'),
-    hint: text('精力1 需：空气 共振 记录3 思路1 预言1', 'Focus 1; requires: air, resonance, Notes 3, Insight 1, Prediction 1'),
+        '在某个频率上，金属板上的细沙跳出了清晰的花纹。声音不是乱颤，而是有特定频率和波长的机械波——不同的频率对应不同的图案。',
+        'At one frequency, sand jumps into a clear patterreturn text(
+        '白光被棱镜拆成了一条彩色长带——从红到紫。牛顿断定：白光不是单纯的，而是由许多不同颜色的光混合而成。颜色本来就藏在白光里，棱镜只是把它们分开了。这是人类第一次看清光的组成。',
+        'White light is split by the prism into a colored band — from red to violet. Newton concludes: white light is not pure but a mixture of many colors. The colors were always there; the prism merely separates them.'
+      )预言1', 'Focus 1; requires: air, resonance, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.resonance,
     requires: (s) => s.facts.airWave && s.facts.resonance && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -1681,16 +1648,11 @@ const ACTIONS = [
       s.chapter = 14
       s.feedback = null
       return text(
-        '你写下声波：介质来回振动，扰动向前传播。听见世界，原来是在读空气的波纹。',
-        'You understand sound as a wave: particles of the medium vibrate back and forth while the disturbance travels onward. To hear the world is to read ripples in air.'
-      )
-    }
-  },
-  {
-    id: 'pass_prism',
-    type: 'experiment',
-    chapter: 14,
-    label: text('让白光穿过棱镜', 'Pass White Light through a Prism'),
+        '你写下声学的基本原理：声音是介质中的机械波，有频率、波长和振幅。听见世界，原来是在解读空气的振动——从音叉到人耳，都是波的故事。',
+        'You understand sound as a wave: particles of the medium vibrate back and forth while threturn text(
+        '你把彩色归功于棱镜，认为是玻璃“制造”了颜色。但光谱整齐得像一份被拆开的名单——颜色本来就存在，棱镜只是把它们分开。',
+        'You credit the prism for the colors, thinking the glass "created" them. But the spectrum is orderly, like an unfolded list — the colors were already there; the prism only separates them.'
+      )ext('棱镜实验：白光真的是纯的吗？', 'Prism Experiment: Is White Light Really Pure?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     once: true,
@@ -1698,16 +1660,13 @@ const ACTIONS = [
       s.records += 1
       s.facts.spectrum = true
       return text(
-        '白光被棱镜拆成彩色长带。牛顿把颜色从玻璃的魔术里救出来：颜色本来就在光里。',
-        'White light splits into a colored band. Newton rescues color from the magic of glass: color was already in the light.'
-      )
-    }
-  },
-  {
-    id: 'wrong_color_glass',
-    type: 'misconception',
+        '白光被棱镜拆成了一条彩色长带——从红到紫。牛顿断定：白光不是单纯的，而是由许多不同颜色的光混合而成。颜色本来就藏在白光里，棱镜只是把它们分开了。这是人类第一次看清光的组成。',
+        'White light splits into a colored band from red to violet. Newton conreturn text(
+        '透镜把远处的烛火聚焦到纸上。望远镜和显微镜从同一种折射原理中诞生——光在不同介质中会弯曲，遵循斯涅尔定律。',
+        'A lens focuses a distant candle flame onto paper. Telescopes and microscopes are born from the same principle of refraction — light bends when passing between media, following Snell’s law.'
+      )type: 'misconception',
     chapter: 14,
-    label: text('认为颜色由玻璃制造', 'Assume the Glass Creates Color'),
+    label: text('错误直觉：颜色是棱镜“制造”出来的？', 'Misconception: Does the Prism "Create" Colors?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.spectrum && !s.facts.interference,
@@ -1715,11 +1674,10 @@ const ACTIONS = [
       s.doubt += 1
       s.feedback = text(
         '反例：再用第二个棱镜可以把颜色合回白光。玻璃改变路径，却不是凭空制造颜色。',
-        'Counterexample: a second prism can recombine colors into white. Glass changes paths; it does not create color from nothing.'
-      )
-      return text(
-        '你把彩色归功于棱镜。光谱却整齐得像一份被拆开的名单。',
-        'You credit the prism for the colors. The spectrum looks too orderly, like a list that has been unfolded.'
+        'Counterexample: a second prism can recreturn text(
+        '两条狭缝在墙上织出了明暗相间的条纹。杨氏实验证明光能像水波一样干涉——波峰遇波峰则亮，波峰遇波谷则暗。光是一种波。',
+        'Two slits weave bright and dark bands on the wall. Young’s experiment proves light can interfere like water waves — crest meets crest for brightness, crest meets trough for darkness. Light is a wave.'
+      )he colors. The spectrum looks too orderly, like a list that has been unfolded.'
       )
     }
   },
@@ -1727,7 +1685,7 @@ const ACTIONS = [
     id: 'focus_lens',
     type: 'experiment',
     chapter: 14,
-    label: text('用透镜成像', 'Form an Image with a Lens'),
+    label: text('透镜成像：光可以弯曲和聚焦，遵循什么规律？', 'Lens Imaging: How Does Light Bend and Focus?'),
     hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.spectrum,
@@ -1737,26 +1695,24 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.lens = true
       return text(
-        '透镜把远处的烛火压到纸上。望远镜和显微镜从同一种折射里长出来。',
+        '透镜把远处的烛火聚焦到纸上。望远镜和显微镜从同一种折射原理中诞生——光在不同介质中会弯曲，遵循斯涅尔定律。',
         'A lens forms an image of a distant candle on paper. The telescope and the microscope grow out of the same refraction.'
       )
     }
   },
   {
     id: 'make_interference',
-    type: 'experiment',
-    chapter: 14,
-    label: text('做双缝干涉', 'Perform Double-Slit Interference'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
-    cost: 2,
-    requires: (s) => s.facts.lens,
+return text(
+        '你写下波动光学：光会折射、成像、分色，也会干涉和衍射。它的传播不是一条直线，而是一整片波前。但光电效应的异常还在暗处等待——光的故事还没讲完。',
+        'You establish wave optics: light refracts, forms images, disperses into colors, and also interferes and diffracts. Its propagation is not a single ray but an entire wavefront. But the photoelectric anomaly still waits in the dark — the story of light is not finished.'
+      )=> s.facts.lens,
     once: true,
     run(s) {
       s.records += 2
       s.insight += 1
       s.facts.interference = true
       return text(
-        '两条缝在墙上织出明暗条纹。杨氏实验让光像波一样相加、相减。',
+        '两条狭缝在墙上织出了明暗相间的条纹。杨氏实验证明光能像水波一样干涉——波峰遇波峰则亮，波峰遇波谷则暗。光是一种波。',
         'Two slits weave bright and dark bands on the wall. Young’s experiment shows light adding and canceling like waves.'
       )
     }
@@ -1765,7 +1721,7 @@ const ACTIONS = [
     id: 'law_optics',
     type: 'theory',
     chapter: 14,
-    label: text('解释光的波动性', 'Establish Wave Optics'),
+    label: text('提出新概念：光是一种波，可以干涉、衍射，但光电效应又显示它有粒子性', 'Propose: Light is a wave that can interfere and diffract, yet the photoelectric effect shows particle behavior'),
     hint: text('精力1 需：光谱 透镜 干涉 记录3 思路1 预言1', 'Focus 1; requires: spectrum, lens, interference, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.interference,
@@ -1778,7 +1734,7 @@ const ACTIONS = [
       s.chapter = 15
       s.feedback = null
       return text(
-        '你写下波动光学：光会折射、成像、分色，也会干涉。它的路不是一条线，而是一整片波前。',
+        '你写下波动光学：光会折射、成像、分色，也会干涉和衍射。它的传播不是一条直线，而是一整片波前。但光电效应的异常还在暗处等待——光的故事还没讲完。',
         'You establish wave optics: light refracts, forms images, disperses into colors, and interferes. Its behavior is not just a ray path, but a whole wavefront.'
       )
     }
@@ -1787,7 +1743,7 @@ const ACTIONS = [
     id: 'chase_light',
     type: 'experiment',
     chapter: 15,
-    label: text('想象追逐光束', 'Imagine Chasing a Beam of Light'),
+    label: text('思想实验：如果你追着一束光跑，会看到什么？', 'Thought Experiment: What Would You See If You Chased a Beam of Light?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     once: true,
@@ -1795,7 +1751,7 @@ const ACTIONS = [
       s.doubt += 1
       s.facts.lightPuzzle = true
       return text(
-        '你想象自己追上一束光。若真追上了，麦克斯韦的波会冻住吗？这个念头像一根刺。',
+        '你想象自己追着一束光跑。如果能追上，你会看到一束静止的光吗？但麦克斯韦的方程说电磁波永远以光速前进——追上了，波就冻住了。这个矛盾像一根刺。',
         'You imagine catching a beam of light. If you could, would Maxwell’s wave freeze? The thought is a splinter.'
       )
     }
@@ -1804,7 +1760,7 @@ const ACTIONS = [
     id: 'wrong_ether',
     type: 'misconception',
     chapter: 15,
-    label: text('坚持存在以太风', 'Insist on an Ether Wind'),
+    label: text('错误直觉：光必须有一个传播介质——以太？', 'Misconception: Must Light Have a Medium — the Ether?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.lightPuzzle && !s.facts.michelsonMorley,
@@ -1815,7 +1771,7 @@ const ACTIONS = [
         'Counterexample: if Earth moves through ether, light speed should shift with direction. The interferometer will tell whether it does.'
       )
       return text(
-        '你给光安排了一种介质。以太听上去体面，但它还需要留下可测的风。',
+        '你给光安排了一种传播介质——“以太”。这个想法听起来合理，但如果以太真的充满空间，地球在以太中运动时应该能测到“以太风”。去测一测。',
         'You assign a medium to light. Ether sounds respectable, but it must leave a measurable wind.'
       )
     }
@@ -1824,7 +1780,7 @@ const ACTIONS = [
     id: 'michelson_morley',
     type: 'experiment',
     chapter: 15,
-    label: text('转动干涉仪', 'Rotate the Interferometer'),
+    label: text('迈克耳孙-莫雷实验：光速在不同方向上一样吗？', 'Michelson-Morley: Is Light Speed the Same in All Directions?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.lightPuzzle,
@@ -1834,7 +1790,7 @@ const ACTIONS = [
       s.insight += 1
       s.facts.michelsonMorley = true
       return text(
-        '迈克耳孙和莫雷转动仪器，条纹几乎不动。以太风没有吹来，反而吹倒了旧直觉。',
+        '迈克耳孙和莫雷转动干涉仪，条纹几乎不动。无论朝向哪个方向，光速都一样。以太风没有吹来——光速不变，以太不存在。旧直觉被实验结果推翻了。',
         'Michelson and Morley rotate the apparatus, and the fringes barely move. No ether wind arrives; instead, an old intuition is blown over.'
       )
     }
@@ -1843,7 +1799,7 @@ const ACTIONS = [
     id: 'sync_clocks',
     type: 'experiment',
     chapter: 15,
-    label: text('重新校准时钟', 'Synchronize the Clocks Again'),
+    label: text('关键洞察：“同时发生”是绝对的吗？', 'Key Insight: Is "Happening at the Same Time" Absolute?'),
     hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.michelsonMorley,
@@ -1853,7 +1809,7 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.clocks = true
       return text(
-        '你用光信号校准远处时钟，发现“同时”不是宇宙免费赠送的标签，而是一种约定。',
+        '你用光信号校准远处的时钟，发现“同时发生”不是宇宙免费赠送的绝对标签。两个事件是否同时，取决于观察者的运动状态——“现在”是一种约定。',
         'You synchronize distant clocks with light signals and find that simultaneity is not a free label from the universe, but a convention.'
       )
     }
@@ -1862,7 +1818,7 @@ const ACTIONS = [
     id: 'law_special_relativity',
     type: 'theory',
     chapter: 15,
-    label: text('建立狭义相对论', 'Establish Special Relativity'),
+    label: text('提出新概念：光速不变，时间和空间是相对的，E=mc²', 'Propose: Light speed is constant; time and space are relative; E=mc²'),
     hint: text('精力1 需：无以太 同时性 记录3 思路1 预言1', 'Focus 1; requires: no ether wind, simultaneity, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.clocks,
@@ -1875,7 +1831,7 @@ const ACTIONS = [
       s.chapter = 16
       s.feedback = null
       return text(
-        '你写下狭义相对论：光速不让步，空间和时间只好一起调整。爱因斯坦把“现在”变成一道需要测量的问题。',
+        '你写下狭义相对论：光速在所有惯性系中不变，空间和时间不再是绝对的——运动的钟变慢，运动的尺缩短。E=mc²：质量和能量是同一枚硬币的两面。',
         'You establish special relativity: the speed of light is invariant, so space and time must adjust together. Einstein turns "now" into something that depends on how it is measured.'
       )
     }
@@ -1884,7 +1840,7 @@ const ACTIONS = [
     id: 'falling_elevator',
     type: 'experiment',
     chapter: 16,
-    label: text('想象下落电梯', 'Imagine a Falling Elevator'),
+    label: text('思想实验：在自由下落的电梯里，引力还在吗？', 'Thought Experiment: In a Freely Falling Elevator, Does Gravity Still Exist?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.laws.specialRelativity,
@@ -1894,7 +1850,7 @@ const ACTIONS = [
       s.insight += 1
       s.facts.elevator = true
       return text(
-        '自由下落的电梯里，重力像暂时消失。爱因斯坦把这个想象实验攥得很紧。',
+        '你想象自己在一个自由下落的电梯里。脚离开地板，感觉不到重量。爱因斯坦抓住这个念头：引力在局部和加速是无法区分的——这就是等效原理。',
         'Inside a freely falling elevator, gravity seems to vanish for a moment. Einstein holds tightly to this thought experiment.'
       )
     }
@@ -1903,7 +1859,7 @@ const ACTIONS = [
     id: 'wrong_gravity_force_only',
     type: 'misconception',
     chapter: 16,
-    label: text('只把引力当作普通力', 'Treat Gravity as Ordinary Force'),
+    label: text('错误直觉：引力就是普通的力，和时空无关？', 'Misconception: Is Gravity Just an Ordinary Force?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.elevator && !s.facts.curvedSpacetime,
@@ -1914,7 +1870,7 @@ const ACTIONS = [
         'Counterexample: free fall can locally erase the feeling of gravity. Perhaps gravity is not merely a force; perhaps the paths themselves have changed.'
       )
       return text(
-        '你把引力画成一只手。电梯里的失重感却悄悄把那只手擦淡了。',
+        '你把引力画成一只看不见的手。但电梯里的失重感暗示：引力也许不是一种“力”，而是时空本身的弯曲效应。那只手开始变淡。',
         'You draw gravity as a hand. The weightlessness in the elevator quietly fades that hand.'
       )
     }
@@ -1923,7 +1879,7 @@ const ACTIONS = [
     id: 'predict_light_bending',
     type: 'experiment',
     chapter: 16,
-    label: text('预言星光偏折', 'Predict Starlight Bending'),
+    label: text('理论预言：太阳的质量会让经过的星光弯曲吗？', 'Predict: Does the Sun’s Mass Bend Starlight?'),
     hint: text('精力2 -> 记录1 预言2', 'Focus 2 -> Notes +1, Predictions +2'),
     cost: 2,
     requires: (s) => s.facts.elevator,
@@ -1933,7 +1889,7 @@ const ACTIONS = [
       s.predictions += 2
       s.facts.curvedSpacetime = true
       return text(
-        '如果时空会弯，光也该沿着弯路走。太阳边缘的星光成了给宇宙出的考题。',
+        '如果时空会弯曲，光也该沿着弯曲的路径走。太阳的质量会让经过它边缘的星光偏折——这是给宇宙出的一道考题，日食时就能验证。',
         'If spacetime curves, light should follow the curve. Starlight beside the Sun becomes an exam question for the universe.'
       )
     }
@@ -1942,7 +1898,7 @@ const ACTIONS = [
     id: 'observe_eclipse',
     type: 'experiment',
     chapter: 16,
-    label: text('观测日食星位', 'Observe Stars during an Eclipse'),
+    label: text('实验验证：日食时观测星光是否真的偏折了', 'Verify: Observe Starlight During an Eclipse'),
     hint: text('精力1 -> 记录1 思路1', 'Focus 1 -> Notes +1, Insight +1'),
     cost: 1,
     requires: (s) => s.facts.curvedSpacetime,
@@ -1952,7 +1908,7 @@ const ACTIONS = [
       s.insight += 1
       s.facts.eclipse = true
       return text(
-        '日食时，星光位置偏了一点。爱丁顿的照片让时空弯曲第一次有了公众证词。',
+        '日食时拍下太阳边缘的星光，位置果然偏了——和爱因斯坦的预言一致。爱丁顿的照片让时空弯曲第一次有了实验证据。引力不是力，是几何。',
         'During the eclipse, starlight shifts slightly. Eddington’s photographs give curved spacetime its first public witness.'
       )
     }
@@ -1961,7 +1917,7 @@ const ACTIONS = [
     id: 'law_general_relativity',
     type: 'theory',
     chapter: 16,
-    label: text('建立广义相对论', 'Establish General Relativity'),
+    label: text('提出新概念：物质弯曲时空，弯曲的时空决定物质的运动——引力就是几何', 'Propose: Mass curves spacetime, and curved spacetime tells matter how to move — gravity is geometry'),
     hint: text('精力1 需：电梯 偏折观测 记录3 思路2 预言2', 'Focus 1; requires: falling elevator, light bending, Notes 3, Insight 2, Predictions 2'),
     cost: 1,
     visible: (s) => s.facts.eclipse,
@@ -1974,7 +1930,7 @@ const ACTIONS = [
       s.chapter = 17
       s.feedback = null
       return text(
-        '你写下广义相对论：物质告诉时空怎样弯曲，时空告诉物质怎样运动。引力变成了几何。',
+        '你写下广义相对论：物质和能量告诉时空怎样弯曲，弯曲的时空告诉物质怎样运动。引力不是力，而是时空几何的体现。万有引力定律被更深的理论取代了。',
         'You establish general relativity: matter tells spacetime how to curve, and spacetime tells matter how to move. Gravity becomes geometry.'
       )
     }
@@ -1983,7 +1939,7 @@ const ACTIONS = [
     id: 'cathode_ray',
     type: 'experiment',
     chapter: 17,
-    label: text('偏转阴极射线', 'Deflect Cathode Rays'),
+    label: text('偏转阴极射线：原子内部有什么？', 'Deflect Cathode Rays: What Is Inside the Atom?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     once: true,
@@ -1991,7 +1947,7 @@ const ACTIONS = [
       s.records += 1
       s.facts.electron = true
       return text(
-        '阴极射线被电场和磁场偏转。汤姆孙看见了电子：原子不再是最小的硬球。',
+        '阴极射线被电场和磁场偏转。汤姆孙测出了这种粒子的荷质比——它比最小的原子还轻一千多倍。电子被发现了：原子不是最小的，它内部还有结构。',
         'Cathode rays bend in electric and magnetic fields. Thomson sees the electron: the atom is no longer the smallest hard sphere.'
       )
     }
@@ -2000,7 +1956,7 @@ const ACTIONS = [
     id: 'wrong_solid_atom',
     type: 'misconception',
     chapter: 17,
-    label: text('坚持原子是实心球', 'Insist Atoms Are Solid Balls'),
+    label: text('错误直觉：原子是不可分割的实心小球？', 'Misconception: Are Atoms Indivisible Solid Spheres?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.electron && !s.facts.nucleus,
@@ -2011,7 +1967,7 @@ const ACTIONS = [
         'Counterexample: if atoms are uniform solid balls, a few particles should not bounce back from gold foil at large angles.'
       )
       return text(
-        '你把原子画成硬球。电子已经从里面跑出来，图却还假装完整。',
+        '你把原子画成不可分割的硬球。但电子已经从里面跑出来了——如果原子里有带负电的电子，那正电荷在哪里？旧的原子图景已经撑不住了。',
         'You draw the atom as a hard sphere. An electron has already escaped from inside, while the picture pretends to be whole.'
       )
     }
@@ -2020,7 +1976,7 @@ const ACTIONS = [
     id: 'gold_foil',
     type: 'experiment',
     chapter: 17,
-    label: text('轰击金箔', 'Fire Alpha Particles at Gold Foil'),
+    label: text('轰击金箔：用α粒子探测原子内部结构', 'Bombard Gold Foil: Probe Atomic Structure with Alpha Particles'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.electron,
@@ -2030,7 +1986,7 @@ const ACTIONS = [
       s.insight += 1
       s.facts.nucleus = true
       return text(
-        '大多数粒子穿过去，少数却猛地弹回。卢瑟福像发现炮弹被薄纸反弹：原子中心有个很小很重的核。',
+        '大多数α粒子直接穿过了金箔，但极少数被猛地弹了回来。卢瑟福震惊了：就像炮弹被薄纸反弹。这说明原子内部几乎是空的，中心有一个极小极重的原子核。',
         'Most particles pass through, but a few rebound sharply. Rutherford sees cannonballs bounce from tissue paper: a tiny heavy nucleus sits at the center of the atom.'
       )
     }
@@ -2039,7 +1995,7 @@ const ACTIONS = [
     id: 'oil_drop',
     type: 'experiment',
     chapter: 17,
-    label: text('测量油滴电荷', 'Measure the Charge on Oil Drops'),
+    label: text('测量油滴电荷：电荷是连续的还是分立的？', 'Measure Oil Drops: Is Charge Continuous or Discrete?'),
     hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.nucleus,
@@ -2049,7 +2005,7 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.chargeQuantized = true
       return text(
-        '密立根让油滴悬停，电荷总是一份一份出现。电不只是连续的雾，也有颗粒感。',
+        '密立根让带电油滴悬停在电场中，精确测出了每个油滴带的电荷。电荷总是一个最小单位的整数倍——电不是连续的，而是颗粒状的。基本电荷被确定了。',
         'Millikan holds oil drops suspended, and charge appears in repeated units. Electricity is not merely a continuous mist; it has a grain to it.'
       )
     }
@@ -2058,7 +2014,7 @@ const ACTIONS = [
     id: 'law_atomic_structure',
     type: 'theory',
     chapter: 17,
-    label: text('发现原子结构', 'Discover Atomic Structure'),
+    label: text('提出新概念：原子有核，电子在外，电荷有最小单位', 'Propose: Atoms have a nucleus, electrons orbit outside, and charge comes in discrete units'),
     hint: text('精力1 需：电子 原子核 电荷量子 记录3 思路1 预言1', 'Focus 1; requires: electron, nucleus, quantized charge, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.chargeQuantized,
@@ -2071,7 +2027,7 @@ const ACTIONS = [
       s.chapter = 18
       s.feedback = null
       return text(
-        '你写下原子结构：电子在外，原子核在内，电荷有最小单位。物质第一次被拆出内部地形。',
+        '你写下原子的行星模型：电子在核外运动，原子核集中了几乎全部质量，电荷有最小单位。物质第一次被拆出了内部结构——但电子为什么不会掉进核里？新的问题出现了。',
         'You discover atomic structure: electrons occupy the outside, a tiny massive nucleus sits within, and electric charge comes in discrete units. Matter gains internal geography.'
       )
     }
@@ -2080,7 +2036,7 @@ const ACTIONS = [
     id: 'blackbody',
     type: 'experiment',
     chapter: 18,
-    label: text('记录黑体辐射', 'Record Blackbody Radiation'),
+    label: text('记录黑体辐射：热辐射的能量分布有什么规律？', 'Record Blackbody Radiation: What Pattern Does Thermal Radiation Follow?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     once: true,
@@ -2089,7 +2045,7 @@ const ACTIONS = [
       s.insight += 1
       s.facts.blackbody = true
       return text(
-        '黑体炉口的颜色随温度改变，经典公式却在高频处崩坏。普朗克被迫把能量分成小份。',
+        '黑体炉口的颜色随温度改变，但经典物理公式在高频端完全失效——算出的能量无限大。普朗克被迫提出一个大胆假设：能量不是连续的，而是一份一份的“量子”。',
         'The blackbody furnace changes color with temperature, while classical formulas fail at high frequency. Planck is forced to divide energy into packets.'
       )
     }
@@ -2098,7 +2054,7 @@ const ACTIONS = [
     id: 'wrong_continuous_energy',
     type: 'misconception',
     chapter: 18,
-    label: text('坚持能量完全连续', 'Insist Energy Is Continuous'),
+    label: text('错误直觉：能量一定是连续的吗？', 'Misconception: Must Energy Be Continuous?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.blackbody && !s.facts.photoelectric,
@@ -2109,7 +2065,7 @@ const ACTIONS = [
         'Counterexample: blackbody radiation and the photoelectric effect both push you to admit that light and energy sometimes arrive in packets.'
       )
       return text(
-        '你把能量画成光滑斜坡。炉口的颜色却像一排台阶，不肯变得平滑。',
+        '你把能量画成光滑连续的斜坡。但黑体辐射的曲线像一排台阶——经典物理无法解释。能量可能不是连续的，而是以最小单位“量子”一份一份发射和吸收的。',
         'You draw energy as a smooth slope. The blackbody data refuses to fit that smooth picture.'
       )
     }
@@ -2118,7 +2074,7 @@ const ACTIONS = [
     id: 'photoelectric',
     type: 'experiment',
     chapter: 18,
-    label: text('照射金属板', 'Shine Light on a Metal Plate'),
+    label: text('光电效应：为什么光能打出电子？', 'Photoelectric Effect: Why Does Light Knock Out Electrons?'),
     hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.blackbody,
@@ -2128,7 +2084,7 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.photoelectric = true
       return text(
-        '低频强光推不出电子，高频弱光却可以。爱因斯坦把光当成一粒粒能量包，门忽然开了。',
+        '用很亮的红光照射金属，打不出电子；用微弱的紫光照射，电子却飞出来了。爱因斯坦解释：光是一粒粒的光子，每个光子的能量由频率决定——高频光子能量大，才能打出电子。',
         'Bright low-frequency light cannot eject electrons, while weak high-frequency light can. Einstein treats light as packets of energy, and the explanation opens.'
       )
     }
@@ -2137,7 +2093,7 @@ const ACTIONS = [
     id: 'law_quanta',
     type: 'theory',
     chapter: 18,
-    label: text('提出光量子', 'Discover Light Quanta'),
+    label: text('提出新概念：光是一份一份的能量包，E=hν', 'Propose: Light comes in discrete energy packets, E=hν'),
     hint: text('精力1 需：黑体 光电效应 记录3 思路1 预言1', 'Focus 1; requires: blackbody radiation, photoelectric effect, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.photoelectric,
@@ -2150,7 +2106,7 @@ const ACTIONS = [
       s.chapter = 19
       s.feedback = null
       return text(
-        '你写下光量子：光既能像波传播，也能像粒子交换能量。经典图像第一次裂出真正的缝。',
+        '你写下光量子假说：光既是波也是粒子——传播时像波，与物质交换能量时像一粒粒光子。经典物理的图像第一次裂出真正的裂缝，量子时代开始了。',
         'You discover light quanta: light can propagate like a wave while exchanging energy in particle-like packets. The classical picture cracks for real.'
       )
     }
@@ -2159,7 +2115,7 @@ const ACTIONS = [
     id: 'spectral_lines',
     type: 'experiment',
     chapter: 19,
-    label: text('观察原子光谱', 'Observe Atomic Spectra'),
+    label: text('观察原子光谱：为什么原子只发出特定颜色的光？', 'Observe Atomic Spectra: Why Do Atoms Emit Only Specific Colors?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     requires: (s) => s.laws.atom,
@@ -2168,7 +2124,7 @@ const ACTIONS = [
       s.records += 1
       s.facts.spectralLines = true
       return text(
-        '氢原子的光不是连续彩虹，而是一条条固定谱线。原子像只会唱几个音的乐器。',
+        '氢原子发出的光不是连续彩虹，而是一条条分立的谱线。每种原子都有自己独特的光谱——像指纹一样。原子内部有特定的能级，电子只能在能级之间跳跃。',
         'Hydrogen light is not a continuous rainbow, but fixed spectral lines. The atom sounds like an instrument with only certain notes.'
       )
     }
@@ -2177,7 +2133,7 @@ const ACTIONS = [
     id: 'wrong_planet_electron',
     type: 'misconception',
     chapter: 19,
-    label: text('把电子当小行星', 'Treat Electrons as Tiny Planets'),
+    label: text('错误直觉：电子像小行星一样绕核转？', 'Misconception: Do Electrons Orbit Like Tiny Planets?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.spectralLines && !s.facts.matterWave,
@@ -2188,7 +2144,7 @@ const ACTIONS = [
         'Counterexample: a circling charged particle should radiate energy and fall into the nucleus. Atoms remain stable.'
       )
       return text(
-        '你把电子画成绕核小行星。图很好懂，可它解释不了原子为什么没有塌掉。',
+        '你把电子画成绕核旋转的小行星。图很好懂，但有一个致命问题：加速运动的电子会辐射能量，应该在极短时间内掉进原子核——但原子是稳定的。经典物理在这里失效了。',
         'You draw electrons as tiny planets around the nucleus. The picture is clear, but it cannot explain why atoms do not collapse.'
       )
     }
@@ -2197,7 +2153,7 @@ const ACTIONS = [
     id: 'matter_wave',
     type: 'experiment',
     chapter: 19,
-    label: text('给电子配上波长', 'Assign a Wavelength to Electrons'),
+    label: text('德布罗意假说：电子也有波长？', 'de Broglie Hypothesis: Do Electrons Have a Wavelength?'),
     hint: text('精力2 -> 记录2 思路1 预言1', 'Focus 2 -> Notes +2, Insight +1, Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.spectralLines,
@@ -2208,7 +2164,7 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.matterWave = true
       return text(
-        '德布罗意把波长交给电子。轨道不再是任意圆圈，而像只能容纳整圈波纹的弦。',
+        '德布罗意提出：电子也有波长。轨道不再是任意半径的圆圈，而必须是能容纳整数个波长的周长——像一根只能以特定频率振动的弦。物质也有波动性。',
         'de Broglie assigns a wavelength to the electron. Allowed orbits stop being arbitrary circles and become standing-wave conditions.'
       )
     }
@@ -2217,7 +2173,7 @@ const ACTIONS = [
     id: 'uncertainty',
     type: 'experiment',
     chapter: 19,
-    label: text('比较位置和动量', 'Compare Position and Momentum Precision'),
+    label: text('不确定性：位置和动量能同时精确知道吗？', 'Uncertainty: Can Position and Momentum Both Be Known Exactly?'),
     hint: text('精力1 -> 记录1 思路1', 'Focus 1 -> Notes +1, Insight +1'),
     cost: 1,
     requires: (s) => s.facts.matterWave,
@@ -2227,7 +2183,7 @@ const ACTIONS = [
       s.insight += 1
       s.facts.uncertainty = true
       return text(
-        '你越想钉死位置，动量越散开。海森堡不是说仪器太差，而是世界不给这两张精确收据。',
+        '你越想精确测量电子的位置，它的动量就越不确定。海森堡说这不是仪器不够好，而是自然界的基本限制——位置和动量不能同时被精确知道。这就是不确定性原理。',
         'The more tightly you pin position, the more momentum spreads. Heisenberg is not blaming bad instruments; the world does not issue both exact receipts at once.'
       )
     }
@@ -2236,7 +2192,7 @@ const ACTIONS = [
     id: 'law_quantum_mechanics',
     type: 'theory',
     chapter: 19,
-    label: text('建立量子力学', 'Establish Quantum Mechanics'),
+    label: text('提出新概念：粒子状态由波函数描述，只能计算概率，不能确定轨道', 'Propose: Particle states are described by wavefunctions; only probabilities can be calculated, not definite orbits'),
     hint: text('精力1 需：物质波 不确定性 记录3 思路2 预言1', 'Focus 1; requires: matter waves, uncertainty, Notes 3, Insight 2, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.uncertainty,
@@ -2249,7 +2205,7 @@ const ACTIONS = [
       s.chapter = 20
       s.feedback = null
       return text(
-        '你写下量子力学：薛定谔的波函数给出概率，海森堡的不确定性划出边界。原子世界不再像小机械表。',
+        '你写下量子力学：薛定谔方程用波函数描述粒子的状态，给出的是概率而不是确定轨道。海森堡的不确定性划出了知识的边界。原子世界不再像精密的机械钟表——它由概率和不确定性支配。',
         'You establish quantum mechanics: Schrödinger’s wave function gives probabilities, and Heisenberg’s uncertainty principle sets limits. The atomic world is no tiny clockwork mechanism.'
       )
     }
@@ -2258,7 +2214,7 @@ const ACTIONS = [
     id: 'cloud_chamber',
     type: 'experiment',
     chapter: 20,
-    label: text('观察云室轨迹', 'Observe Cloud-Chamber Tracks'),
+    label: text('观察云室：放射性粒子留下了什么痕迹？', 'Observe Cloud Chamber: What Traces Do Radioactive Particles Leave?'),
     hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
     cost: 1,
     requires: (s) => s.laws.atom,
@@ -2267,7 +2223,7 @@ const ACTIONS = [
       s.records += 1
       s.facts.radioactivity = true
       return text(
-        '云室里细线突然生长又消失。贝克勒尔和居里夫人打开的门，通向原子核深处。',
+        '云室里细线突然出现又消失——那是放射性粒子留下的轨迹。贝克勒尔发现了铀的放射性，居里夫妇提炼出镭。他们打开的门通向原子核深处，那里藏着巨大的能量。',
         'Thin lines suddenly grow and vanish in the cloud chamber. The door opened by Becquerel and Marie Curie leads deep into the nucleus.'
       )
     }
@@ -2276,7 +2232,7 @@ const ACTIONS = [
     id: 'wrong_atom_immutable',
     type: 'misconception',
     chapter: 20,
-    label: text('认为原子核不可改变', 'Assume Nuclei Cannot Change'),
+    label: text('错误直觉：原子核是永恒不变的吗？', 'Misconception: Are Atomic Nuclei Eternal and Unchangeable?'),
     hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.radioactivity && !s.facts.fission,
@@ -2287,7 +2243,7 @@ const ACTIONS = [
         'Counterexample: radioactivity already shows that nuclei can change on their own. Strike uranium with neutrons and see whether the crack grows.'
       )
       return text(
-        '你把原子核当成最后的硬石头。云室轨迹却像石头里冒出的细烟。',
+        '你把原子核当成不可改变的终极硬石头。但云室里的轨迹像石头里冒出的细烟——原子核可以自发衰变，变成另一种元素。原子核不是永恒不变的。',
         'You treat the nucleus as the final hard stone. Cloud-chamber tracks rise from it like thin smoke.'
       )
     }
@@ -2296,7 +2252,7 @@ const ACTIONS = [
     id: 'split_uranium',
     type: 'experiment',
     chapter: 20,
-    label: text('用中子敲开铀核', 'Split Uranium Nuclei with Neutrons'),
+    label: text('用中子轰击铀核：核裂变能释放多少能量？', 'Split Uranium: How Much Energy Does Fission Release?'),
     hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
     cost: 2,
     requires: (s) => s.facts.radioactivity,
@@ -2306,7 +2262,7 @@ const ACTIONS = [
       s.insight += 1
       s.facts.fission = true
       return text(
-        '铀核裂成两块，并放出新的中子。哈恩看到结果，迈特纳给出解释：质量差变成了能量。',
+        '用中子轰击铀核，它裂成了两块，并释放出更多中子。哈恩发现了核裂变，迈特纳用E=mc²解释：消失的质量变成了巨大的能量。链式反应成为可能。',
         'Uranium splits into two pieces and releases new neutrons. Hahn sees the result, and Meitner explains it: missing mass becomes energy.'
       )
     }
@@ -2315,7 +2271,7 @@ const ACTIONS = [
     id: 'chain_reaction',
     type: 'experiment',
     chapter: 20,
-    label: text('计算链式反应', 'Calculate a Chain Reaction'),
+    label: text('计算链式反应：一个中子能引发多大的能量释放？', 'Calculate Chain Reaction: How Much Energy Can One Neutron Unleash?'),
     hint: text('精力2 -> 记录2 预言2', 'Focus 2 -> Notes +2, Predictions +2'),
     cost: 2,
     requires: (s) => s.facts.fission,
@@ -2325,7 +2281,7 @@ const ACTIONS = [
       s.predictions += 2
       s.facts.chainReaction = true
       return text(
-        '一个中子引出更多中子，数字开始像火一样蔓延。费米的反应堆和原子弹站在同一条岔路口。',
+        '一个中子引发裂变，放出更多中子，这些中子又引发新的裂变——数字像火一样指数增长。费米建造了第一个核反应堆。同一条链式反应，可以发电，也可以爆炸。',
         'One neutron leads to more neutrons, and the numbers spread like fire. Fermi’s reactor and the atomic bomb stand at the same fork.'
       )
     }
@@ -2334,7 +2290,7 @@ const ACTIONS = [
     id: 'law_nuclear_age',
     type: 'theory',
     chapter: 20,
-    label: text('进入核时代', 'Enter the Nuclear Age'),
+    label: text('提出新概念：核能可以发电也可以造武器——物理学走到了人类选择的十字路口', 'Propose: Nuclear energy can power cities or destroy them — physics arrives at a crossroads of human choice'),
     hint: text('精力1 需：裂变 链式反应 记录4 思路1 预言2', 'Focus 1; requires: fission, chain reaction, Notes 4, Insight 1, Predictions 2'),
     cost: 1,
     visible: (s) => s.facts.chainReaction,
@@ -2347,7 +2303,7 @@ const ACTIONS = [
       s.complete = true
       s.feedback = null
       return text(
-        '你写下核时代：同一套物理能点亮城市，也能毁掉城市。暗室最后没有给出按钮，只把责任交回你手里。',
+        '你写下核时代的开端：同一套物理原理既能点亮城市，也能毁灭城市。暗室最后没有给你一个“正确”的按钮——它只把知识和责任一起交回你手里。物理学的发展之路，由人类自己选择方向。',
         'You enter the nuclear age: the same physics can light cities and destroy them. The dark room gives you no final button; it places responsibility back in your hands.'
       )
     }
