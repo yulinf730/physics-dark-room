@@ -95,7 +95,7 @@ const UI = {
   reset: text('重新开始', 'Restart'),
   resetChapter: text('重开本章节', 'Restart Chapter'),
   resetAll: text('完全重新开始', 'Restart All'),
-  lang: text('English', '中文'),
+  lang: 'English',
   concepts: text('已建立的概念', 'Discovered Concepts'),
   log: text('记录', 'Journal'),
   complete: text('完成', 'Complete'),
