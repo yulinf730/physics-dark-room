@@ -2500,6 +2500,30 @@ function actionKind(action, lang) {
   return pick(UI.kinds.rest, lang)
 }
 
+const THEORY_DEFS = {
+  law_inertia: text('物体在不受外力时保持静止或匀速直线运动', 'An object remains at rest or in uniform motion unless acted upon by a force'),
+  law_second: text('力等于质量乘以加速度 F=ma', 'Force equals mass times acceleration F=ma'),
+  law_third: text('作用力与反作用力大小相等方向相反', 'Every action has an equal and opposite reaction'),
+  law_gravity: text('任何两个物体之间都存在引力，与质量乘积成正比', 'Every mass attracts every other mass with a force proportional to their product'),
+  write_principia: text('将力学三大定律和万有引力系统化为经典力学体系', 'Systematize the laws of motion and gravity into classical mechanics'),
+  law_charge: text('自然界存在正负两种电荷，同斥异吸', 'Nature has positive and negative charges; like repels, unlike attracts'),
+  law_current_magnetism: text('电流通过导线时会在周围产生磁场', 'An electric current flowing through a wire creates a magnetic field around it'),
+  law_induction: text('变化的磁场会在导体中产生感应电动势', 'A changing magnetic field induces an electromotive force in a conductor'),
+  law_maxwell: text('电场和磁场相互激发，形成电磁波以光速传播', 'Electric and magnetic fields generate each other, forming electromagnetic waves traveling at light speed'),
+  law_electric_power: text('利用电磁感应原理将机械能转化为电能', 'Convert mechanical energy into electrical energy using electromagnetic induction'),
+  law_radio: text('利用电磁波在空间中传输信息', 'Use electromagnetic waves to transmit information through space'),
+  law_energy: text('能量不会凭空产生或消失，只会从一种形式转化为另一种', 'Energy cannot be created or destroyed, only transformed from one form to another'),
+  law_entropy: text('孤立系统的熵永不减少，自然过程有方向性', 'The entropy of an isolated system never decreases; natural processes have direction'),
+  law_sound_wave: text('声音是介质中传播的机械纵波', 'Sound is a mechanical longitudinal wave propagating through a medium'),
+  law_optics: text('光是一种电磁波，可解释干涉、衍射等现象', 'Light is an electromagnetic wave, explaining interference and diffraction'),
+  law_special_relativity: text('物理定律在所有惯性系中相同，光速不变', 'The laws of physics are the same in all inertial frames; the speed of light is constant'),
+  law_general_relativity: text('引力是时空弯曲的表现，物质告诉时空如何弯曲', 'Gravity is the curvature of spacetime; matter tells spacetime how to curve'),
+  law_atomic_structure: text('原子由原子核和绕核运动的电子组成', 'Atoms consist of a nucleus surrounded by orbiting electrons'),
+  law_quanta: text('光以离散的能量包（光子）形式存在 E=hν', 'Light exists as discrete packets of energy (photons) E=hν'),
+  law_quantum_mechanics: text('微观粒子具有波粒二象性，由波函数描述', 'Microscopic particles exhibit wave-particle duality, described by wave functions'),
+  law_nuclear_age: text('原子核可以裂变或聚变，释放巨大能量', 'Atomic nuclei can undergo fission or fusion, releasing enormous energy')
+}
+
 const THEORY_TOASTS = {
   law_inertia: text('恭喜你，你已经提出了牛顿第一运动定律。', 'You have discovered Newton’s first law of motion.'),
   law_second: text('恭喜你，你已经总结出牛顿第二运动定律。', 'You have discovered Newton’s second law of motion.'),
@@ -2703,14 +2727,27 @@ Page({
 
     if (readyTheory || s.focus === 0 || visible.length < 3) {
       if (readyTheory || s.focus === 0) {
-        visible.push({
-          id: 'new_day',
-          label: pick(text('整理笔记', 'Organize Notes'), lang),
-          hint: readyTheory ? pick(text('线索完整 -> 建立理论', 'Complete clues -> discover theory'), lang) : pick(text('恢复精力', 'Restore focus'), lang),
-          kind: pick(UI.kinds.rest, lang),
-          primary: Boolean(readyTheory),
-          enabled: true
-        })
+        if (readyTheory) {
+          const theoryLabel = pick(readyTheory.label, lang)
+          const theoryDef = THEORY_DEFS[readyTheory.id] || { zh: '', en: '' }
+          visible.push({
+            id: 'new_day',
+            label: theoryLabel,
+            hint: pick(theoryDef, lang),
+            kind: pick(UI.kinds.theory, lang),
+            primary: true,
+            enabled: true
+          })
+        } else {
+          visible.push({
+            id: 'new_day',
+            label: pick(text('整理笔记', 'Organize Notes'), lang),
+            hint: pick(text('恢复精力', 'Restore focus'), lang),
+            kind: pick(UI.kinds.rest, lang),
+            primary: false,
+            enabled: true
+          })
+        }
       } else {
         const restOptions = [
           { label: text('静思冥想', 'Meditate'), hint: text('闭目沉思，理清思路', 'Close your eyes and think deeply') },
