@@ -2739,10 +2739,11 @@ Page({
             enabled: true
           })
         } else {
+          const fallback = restOptions[Math.floor(Math.random() * restOptions.length)]
           visible.push({
             id: 'new_day',
-            label: pick(text('整理笔记', 'Organize Notes'), lang),
-            hint: pick(text('恢复精力', 'Restore focus'), lang),
+            label: pick(fallback.label, lang),
+            hint: pick(fallback.hint, lang),
             kind: pick(UI.kinds.rest, lang),
             primary: false,
             enabled: true
