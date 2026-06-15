@@ -208,13 +208,13 @@ button { font: inherit; }
   .scene { font-size: 16px; }
   .goal { font-size: 15px; }
   .info { grid-template-columns: 1fr; }
-  .workers-panel { max-height: 120px; overflow-y: auto; }
-  .workers-panel .panel-title { font-size: 14px; margin-bottom: 6px; }
-  .worker span:first-child { font-size: 13px; }
-  .worker span:last-child { font-size: 11px; }
-  .worker { padding: 6px 0; gap: 2px; }
-  .worker-list { max-height: 90px; }
-  .log-scroll { max-height: 150px; }
+  .workers-panel { max-height: 80px; overflow-y: auto; }
+  .workers-panel .panel-title { font-size: 13px; margin-bottom: 4px; }
+  .worker span:first-child { font-size: 12px; }
+  .worker span:last-child { font-size: 10px; }
+  .worker { padding: 4px 0; gap: 1px; }
+  .worker-list { max-height: 60px; }
+  .log-scroll { max-height: 200px; }
 }
 
 @media (max-width: 420px) {
