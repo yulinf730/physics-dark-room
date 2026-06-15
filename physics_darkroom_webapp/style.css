@@ -68,12 +68,13 @@ button { font: inherit; }
 .top-actions { display: flex; gap: 8px; flex-shrink: 0; }
 .language, .reset {
   min-height: 34px;
-  padding: 0 12px;
+  padding: 0 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-2);
   color: #dfd6c5;
   cursor: pointer;
+  font-size: 12px;
 }
 .reset { color: #a79d8b; }
 .language:hover, .reset:hover, .action:hover:not(:disabled), .modal-button:hover { filter: brightness(1.12); }
@@ -225,7 +226,7 @@ button { font: inherit; }
 @media (max-width: 420px) {
   .room-top { align-items: flex-start; }
   .top-actions { flex-direction: column; gap: 6px; }
-  .language, .reset { min-height: 30px; padding: 0 9px; font-size: 13px; }
+  .language, .reset { min-height: 30px; padding: 0 8px; font-size: 11px; }
   .title { font-size: 27px; }
   .action-main { align-items: flex-start; }
 }
