@@ -2565,28 +2565,36 @@ const THEORY_TOASTS = {
 }
 
 function theoryToastText(action, lang) {
-  if (THEORY_TOASTS[action.id]) return pick(THEORY_TOASTS[action.id], lang)
-
-  const label = pick(action.label, lang)
-  if (lang === 'zh') {
-    return `恭喜你，新的理论已经完成：${label}。`
+  let base = ''
+  if (THEORY_TOASTS[action.id]) {
+    base = pick(THEORY_TOASTS[action.id], lang)
+  } else {
+    const label = pick(action.label, lang)
+    if (lang === 'zh') {
+      base = `恭喜你，新的理论已经完成：${label}。`
+    } else {
+      const patterns = [
+        [/^Discover (.+)$/, 'You have discovered $1.'],
+        [/^Establish (.+)$/, 'You have established $1.'],
+        [/^Define (.+)$/, 'You have defined $1.'],
+        [/^Understand (.+)$/, 'You now understand $1.'],
+        [/^Build (.+)$/, 'You have built $1.'],
+        [/^Enter (.+)$/, 'You have entered $1.'],
+        [/^Write (.+)$/, 'You have written $1.'],
+        [/^Propose (.+)$/, 'You have proposed $1.']
+      ]
+      base = label
+      for (const [pattern, template] of patterns) {
+        const match = label.match(pattern)
+        if (match) { base = template.replace('$1', match[1]); break }
+      }
+      if (base === label) base = `You have completed: ${label}.`
+    }
   }
-
-  const patterns = [
-    [/^Discover (.+)$/, 'You have discovered $1.'],
-    [/^Establish (.+)$/, 'You have established $1.'],
-    [/^Define (.+)$/, 'You have defined $1.'],
-    [/^Understand (.+)$/, 'You now understand $1.'],
-    [/^Build (.+)$/, 'You have built $1.'],
-    [/^Enter (.+)$/, 'You have entered $1.'],
-    [/^Write (.+)$/, 'You have written $1.'],
-    [/^Propose (.+)$/, 'You have proposed $1.']
-  ]
-  for (const [pattern, template] of patterns) {
-    const match = label.match(pattern)
-    if (match) return template.replace('$1', match[1])
+  if (THEORY_MONOLOGUES[action.id]) {
+    base += '\n\n' + pick(THEORY_MONOLOGUES[action.id], lang)
   }
-  return `You have completed: ${label}.`
+  return base
 }
 
 
