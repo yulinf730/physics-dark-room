@@ -2750,14 +2750,30 @@ Page({
         }
       } else {
         const restOptions = [
-          { label: text('静思冥想', 'Meditate'), hint: text('闭目沉思，理清思路', 'Close your eyes and think deeply') },
-          { label: text('散步', 'Take a Walk'), hint: text('在花园中漫步，放松身心', 'Stroll through the garden') },
-          { label: text('赏花', 'Enjoy Flowers'), hint: text('去公园赏花，感受自然之美', 'Visit the park and admire the flowers') },
-          { label: text('与老友聊天', 'Chat with a Friend'), hint: text('与老友畅谈，交流想法', 'Have a conversation with an old friend') },
-          { label: text('整理笔记', 'Organize Notes'), hint: text('回顾实验记录，整理思路', 'Review experiment notes') }
+          { label: text('在苹果树下静坐', 'Sit under an apple tree'), hint: text('像牛顿一样，在树下沉思自然的奥秘', 'Like Newton, ponder nature under a tree') },
+          { label: text('研磨三棱镜', 'Polish a prism'), hint: text('牛顿曾亲手磨制棱镜研究光的色散', 'Newton polished prisms to study light') },
+          { label: text('弹奏鲁特琴', 'Play the lute'), hint: text('伽利略的父亲是鲁特琴师，他也擅长弹奏', 'Galileo was a skilled lute player') },
+          { label: text('品一杯红酒', 'Sip some wine'), hint: text('伽利略最爱托斯卡纳的红酒，边饮边观星', 'Galileo loved Tuscan wine while stargazing') },
+          { label: text('拉一曲小提琴', 'Play the violin'), hint: text('爱因斯坦的小提琴是他思考时的最佳伴侣', 'Einstein found clarity in his violin') },
+          { label: text('泛舟湖上', 'Go sailing'), hint: text('爱因斯坦和玻尔都爱在湖上泛舟，任思绪漂流', 'Einstein and Bohr both loved sailing') },
+          { label: text('与爱犬嬉戏', 'Play with the dog'), hint: text('麦克斯韦常带着他的狗在苏格兰乡间漫步', 'Maxwell walked the Scottish hills with his dog') },
+          { label: text('朗诵一首诗', 'Recite a poem'), hint: text('麦克斯韦热爱诗歌，自己也写了不少', 'Maxwell loved poetry and wrote his own') },
+          { label: text('骑自行车郊游', 'Go cycling'), hint: text('居里夫妇周末最爱骑车去巴黎郊外', 'The Curies cycled through the French countryside') },
+          { label: text('弹一首钢琴曲', 'Play the piano'), hint: text('普朗克是出色的钢琴家，常与爱因斯坦合奏', 'Planck was a gifted pianist') },
+          { label: text('在山间徒步', 'Hike in the mountains'), hint: text('普朗克一生热爱登山，从阿尔卑斯山获得灵感', 'Planck found inspiration in the Alps') },
+          { label: text('装订一本旧书', 'Bind an old book'), hint: text('法拉第少年时是装订匠，在书中发现了科学', 'Faraday discovered science through bookbinding') },
+          { label: text('在花园里种一株花', 'Plant a flower'), hint: text('库仑晚年最爱在自家花园里侍弄花草', 'Coulomb loved tending his garden') },
+          { label: text('写一封家书', 'Write a letter home'), hint: text('伽利略常给修道院的女儿写信，倾诉心事', 'Galileo wrote heartfelt letters to his daughter') },
+          { label: text('煮一壶热茶', 'Brew a pot of tea'), hint: text('麦克斯韦每天下午都要喝一杯苏格兰红茶', 'Maxwell never missed his afternoon tea') },
+          { label: text('仰望星空', 'Gaze at the stars'), hint: text('开普勒说：仰望星空时，我们离真理最近', 'Kepler said stargazing brings us closest to truth') },
+          { label: text('做炼金术实验', 'Try an alchemy experiment'), hint: text('牛顿一生痴迷炼金术，写下了百万字笔记', 'Newton wrote a million words on alchemy') },
+          { label: text('翻阅百科全书', 'Browse an encyclopedia'), hint: text('安培少年时靠自学百科全书建立了知识体系', 'Ampère taught himself through encyclopedias') },
+          { label: text('吹奏长笛', 'Play the flute'), hint: text('赫兹在实验室累了就吹一曲长笛放松', 'Hertz relaxed with his flute between experiments') },
+          { label: text('做木工活', 'Do some woodworking'), hint: text('赫兹喜欢亲手制作实验装置，手艺精湛', 'Hertz was a skilled craftsman') }
         ]
         const slots = 3 - visible.length
-        const picked = restOptions.slice(0, slots)
+        const shuffled = restOptions.sort(() => Math.random() - 0.5)
+        const picked = shuffled.slice(0, slots)
         picked.forEach((opt) => {
           visible.push({
             id: 'new_day',
