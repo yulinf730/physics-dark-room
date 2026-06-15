@@ -208,12 +208,14 @@ button { font: inherit; }
   .scene { font-size: 16px; }
   .goal { font-size: 15px; }
   .info { grid-template-columns: 1fr; }
-  .workers-panel { max-height: 80px; overflow-y: auto; }
+  .workers-panel { display: flex; flex-direction: column; }
+  .workers-panel .panel-title { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+  .workers-panel { max-height: 130px; overflow-y: auto; }
   .workers-panel .panel-title { font-size: 13px; margin-bottom: 4px; }
   .worker span:first-child { font-size: 12px; }
   .worker span:last-child { font-size: 10px; }
   .worker { padding: 4px 0; gap: 1px; }
-  .worker-list { max-height: 60px; }
+  .worker-list { max-height: none; }
   .log-scroll { max-height: 200px; }
 }
 
