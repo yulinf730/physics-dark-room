@@ -210,7 +210,7 @@ button { font: inherit; }
   .info { grid-template-columns: 1fr; }
   .workers-panel { display: flex; flex-direction: column; }
   .workers-panel .panel-title { position: sticky; top: 0; background: var(--panel); z-index: 1; }
-  .workers-panel { max-height: 130px; overflow-y: auto; }
+  .workers-panel { max-height: 180px; overflow-y: auto; }
   .workers-panel .panel-title { font-size: 13px; margin-bottom: 4px; }
   .worker span:first-child { font-size: 12px; }
   .worker span:last-child { font-size: 10px; }
