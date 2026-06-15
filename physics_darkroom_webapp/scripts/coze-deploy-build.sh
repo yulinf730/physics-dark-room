@@ -2,7 +2,9 @@
 set -euo pipefail
 
 # 基于脚本位置定位项目根目录（scripts/ 的上一级）
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# 使用绝对路径确保在任何执行环境下都能正确解析
+SCRIPT_PATH="$(readlink -f "$0")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_DIR"
 
