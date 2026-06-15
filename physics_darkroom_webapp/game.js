@@ -114,7 +114,7 @@ const UI = {
     predictions: text('预言', 'Predictions'),
     doubt: text('疑问', 'Doubt')
   },
-  completeTitle: text('自然哲学的数学原理', 'The Mathematical Principles of Natural Philosophy'),
+  completeTitle: text('物理学的发展之路', 'The Path of Physics Development'),
   completeScene: text(
     '暗室不再只是暗室。桌上有小车、磁针、灯丝、热机、棱镜、原子核和一张写满概率的纸。',
     'The dark room is no longer merely dark. On the table lie carts, a compass, a filament, a heat engine, a prism, a nucleus, and a page covered in probability.'
