@@ -208,8 +208,9 @@ button { font: inherit; }
   .scene { font-size: 13px; margin-top: 10px; }
   .goal { font-size: 12px; margin-top: 8px; padding: 10px 12px; }
   .info { grid-template-columns: 1fr; }
+  .workers-panel { order: 2; display: flex; flex-direction: column; }
+  .log-panel { order: 1; }
   .panel { padding: 10px; }
-  .workers-panel { display: flex; flex-direction: column; }
   .workers-panel .panel-title { position: sticky; top: 0; background: var(--panel); z-index: 1; font-size: 12px; margin-bottom: 3px; }
   .workers-panel { max-height: 140px; overflow-y: auto; }
   .worker span:first-child { font-size: 11px; }
