@@ -95,7 +95,7 @@ const UI = {
   reset: text('重新开始', 'Restart'),
   resetChapter: text('重开本章节', 'Restart Chapter'),
   resetAll: text('完全重新开始', 'Restart All'),
-  lang: 'English',
+  lang: text('English', '中文'),
   concepts: text('已建立的概念', 'Discovered Concepts'),
   log: text('记录', 'Journal'),
   complete: text('完成', 'Complete'),
@@ -2802,7 +2802,7 @@ function renderDOM(data) {
   `).join('');
 
   document.getElementById('phaseLabel').textContent = data.phaseLabel || '';
-  document.getElementById('langBtn').textContent = 'English';
+  document.getElementById('langBtn').textContent = data.ui.lang;
   document.getElementById('resetBtn').textContent = data.ui.reset;
   document.getElementById('title').textContent = data.title || '';
   document.getElementById('scene').textContent = data.scene || '';
