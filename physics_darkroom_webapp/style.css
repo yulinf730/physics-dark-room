@@ -208,7 +208,13 @@ button { font: inherit; }
   .scene { font-size: 16px; }
   .goal { font-size: 15px; }
   .info { grid-template-columns: 1fr; }
-  .worker-list, .log-scroll { max-height: 220px; }
+  .workers-panel { max-height: 120px; overflow-y: auto; }
+  .workers-panel .panel-title { font-size: 14px; margin-bottom: 6px; }
+  .worker span:first-child { font-size: 13px; }
+  .worker span:last-child { font-size: 11px; }
+  .worker { padding: 6px 0; gap: 2px; }
+  .worker-list { max-height: 90px; }
+  .log-scroll { max-height: 150px; }
 }
 
 @media (max-width: 420px) {
