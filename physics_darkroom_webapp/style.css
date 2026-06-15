@@ -135,7 +135,7 @@ button { font: inherit; }
 
 .info {
   display: grid;
-  grid-template-columns: minmax(220px, .9fr) minmax(0, 1.5fr);
+  grid-template-columns: minmax(220px, 1.6fr) minmax(0, 0.8fr);
   gap: 12px;
   min-height: 220px;
 }
