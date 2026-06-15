@@ -14,5 +14,5 @@ export PORT=5000
 fuser -k 5000/tcp 2>/dev/null || true
 sleep 1
 
-# 启动带禁用缓存头的静态文件服务器
-exec python3 scripts/preview_server.py
+# 启动静态文件服务器（缓存控制由 HTML meta 标签处理）
+exec python3 -m http.server 5000 --bind 0.0.0.0
