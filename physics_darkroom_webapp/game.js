@@ -2675,6 +2675,8 @@ Page({
       return
     }
     if (id === 'new_day') {
+      this.state._restOption = null
+      this.state._restOptions = null
       this.newDay()
       this.afterChange()
       return
@@ -2769,11 +2771,11 @@ Page({
             enabled: true
           })
         } else {
-          const fallback = pickRestOption()
+          if (!s._restOption) s._restOption = pickRestOption()
           visible.push({
             id: 'new_day',
-            label: pick(fallback.label, lang),
-            hint: pick(fallback.hint, lang),
+            label: pick(s._restOption.label, lang),
+            hint: pick(s._restOption.hint, lang),
             kind: pick(UI.kinds.rest, lang),
             primary: false,
             enabled: true
@@ -2781,9 +2783,10 @@ Page({
         }
       } else {
         const slots = 3 - visible.length
-        const shuffled = [...REST_OPTIONS].sort(() => Math.random() - 0.5)
-        const picked = shuffled.slice(0, slots)
-        picked.forEach((opt) => {
+        if (!s._restOptions) {
+          s._restOptions = [...REST_OPTIONS].sort(() => Math.random() - 0.5).slice(0, slots)
+        }
+        s._restOptions.forEach((opt) => {
           visible.push({
             id: 'new_day',
             label: pick(opt.label, lang),
