@@ -2802,7 +2802,7 @@ function renderDOM(data) {
   `).join('');
 
   document.getElementById('phaseLabel').textContent = data.phaseLabel || '';
-  document.getElementById('langBtn').textContent = data.ui.lang;
+  document.getElementById('langBtn').textContent = 'English';
   document.getElementById('resetBtn').textContent = data.ui.reset;
   document.getElementById('title').textContent = data.title || '';
   document.getElementById('scene').textContent = data.scene || '';
