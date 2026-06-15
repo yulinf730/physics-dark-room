@@ -5,7 +5,7 @@ import socketserver
 import os
 
 PORT = 5000
-DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
