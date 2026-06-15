@@ -2589,6 +2589,117 @@ function theoryToastText(action, lang) {
   return `You have completed: ${label}.`
 }
 
+
+// ====== 随机观察细节 ======
+const observationDetails = [
+  text('你注意到实验中的细微变化，多了一份理解。', 'You notice subtle details in the experiment, gaining extra understanding.'),
+  text('一个不起眼的现象引起了你的注意。', 'An inconspicuous phenomenon catches your attention.'),
+  text('你在记录时发现了之前忽略的规律。', 'While taking notes, you spot a pattern you had overlooked.'),
+  text('实验比预想中更清晰地展示了原理。', 'The experiment reveals the principle more clearly than expected.'),
+  text('你反复确认了观察结果，确信这不是偶然。', 'You verify the observation repeatedly — this is no coincidence.'),
+  text('数据中浮现出一个有趣的趋势。', 'An interesting trend emerges from the data.'),
+  text('你换了一个角度观察，有了新的体会。', 'You observe from a different angle and gain new insight.'),
+  text('实验过程中一个意外的小插曲让你若有所思。', 'A small unexpected incident during the experiment makes you ponder.'),
+]
+
+function maybeAddObservationDetail(message) {
+  if (Math.random() < 0.25) {
+    const detail = observationDetails[Math.floor(Math.random() * observationDetails.length)]
+    return text(
+      pick(message, 'zh') + ' ' + pick(detail, 'zh'),
+      pick(message, 'en') + ' ' + pick(detail, 'en')
+    )
+  }
+  return message
+}
+
+// ====== 随机意外事件 ======
+const randomEvents = [
+  { trigger: text('窗外忽然刮起一阵大风，桌上的纸页被吹散了几张。你捡起来重新整理，发现其中一张背面有你之前的涂鸦——那上面竟然隐约预见了现在的思路。', 'A gust of wind scatters the papers on your desk. As you gather them, you notice an old doodle on the back of one — it vaguely foreshadows your current line of thought.'), effect: function(s) { s.insight += 1 } },
+  { trigger: text('一只猫跳上了窗台，打翻了墨水瓶。你正要恼火，却发现墨水在纸上晕开的形状，让你联想到一个新的想法。', 'A cat jumps onto the windowsill and knocks over the ink bottle. Just as you are about to get angry, you notice the ink blot on the paper resembles something that sparks a new idea.'), effect: function(s) { s.insight += 1 } },
+  { trigger: text('隔壁传来钟声，恰好在你思考的节奏上。你忽然觉得时间与运动之间，似乎有更深的关系。', 'The church bell rings next door, perfectly matching the rhythm of your thoughts. You suddenly feel there is a deeper connection between time and motion.'), effect: function(s) { s.predictions += 1 } },
+  { trigger: text('一位路过的学者敲了敲门，说他听说了你的研究，想借阅你之前的手稿。你翻出旧笔记时，意外发现了一条被遗忘的线索。', 'A passing scholar knocks on the door, saying he has heard of your research and wishes to borrow your earlier manuscripts. While digging out old notes, you stumble upon a forgotten clue.'), effect: function(s) { s.records += 1; s.insight += 1 } },
+  { trigger: text('你打了个盹，梦见苹果和月亮同时落向地面。醒来时，桌上多了一张你自己都不记得画过的图。', 'You doze off and dream of an apple and the Moon falling toward Earth together. When you wake, there is a diagram on the desk that you do not remember drawing.'), effect: function(s) { s.insight += 1; s.predictions += 1 } },
+  { trigger: text('炉火噼啪响了一声，火花溅到你的实验笔记旁。你赶紧拍掉，却发现火花在纸上留下了一个小小的焦痕——形状恰好和你正在研究的问题有关。', 'The fireplace crackles, and a spark lands near your lab notes. As you brush it away, you notice the tiny scorch mark resembles something related to your current problem.'), effect: function(s) { s.insight += 1 } },
+  { trigger: text('邮差送来一封信，是一位远方同行寄来的。信中提到了一个与你研究相关的现象，虽然对方并不知情，但这封信给了你新的启发。', 'The postman delivers a letter from a distant colleague. It mentions a phenomenon related to your research — though the sender is unaware, the letter gives you fresh inspiration.'), effect: function(s) { s.records += 1; s.predictions += 1 } },
+  { trigger: text('你在整理实验器材时，不小心把两个不相干的装置放在了一起。奇怪的是，它们之间似乎产生了某种你从未见过的反应。', 'While tidying up your equipment, you accidentally place two unrelated devices together. Strangely, something you have never seen before seems to happen between them.'), effect: function(s) { s.doubt += 1; s.insight += 1 } },
+]
+
+function tryRandomEvent(state, logFn) {
+  if (Math.random() < 0.15) {
+    const event = randomEvents[Math.floor(Math.random() * randomEvents.length)]
+    event.effect(state)
+    logFn(event.trigger)
+    return true
+  }
+  return false
+}
+
+// ====== 预言验证机制 ======
+const predictionChallenges = [
+  { id: 'predict_fall', requires: function(s) { return s.laws.inertia }, correct: text('它将永远保持匀速直线运动。预言正确！你对定律的理解更加深刻了。', 'It will continue moving at constant velocity forever. Prediction correct! Your understanding deepens.'), wrong: text('你犹豫了一下，发现自己对定律的理解还不够透彻。再想想吧。', 'You hesitate, realizing your grasp of the law is not yet solid. Think again.'), reward: function(s) { s.insight += 1; s.predictions -= 1 }, penalty: function(s) { s.doubt += 1 } },
+  { id: 'predict_moon', requires: function(s) { return s.laws.gravity }, correct: text('地球将沿切线方向飞入太空。你对引力的理解已经触及天体的秘密。', 'Earth would fly off along a tangent into space. Your understanding of gravity now touches celestial secrets.'), wrong: text('天体运动比你想的更微妙。回到万有引力的本质再想一想。', 'Celestial motion is more subtle than you think. Return to the essence of gravity.'), reward: function(s) { s.insight += 2; s.predictions -= 1 }, penalty: function(s) { s.doubt += 1 } },
+  { id: 'predict_charge', requires: function(s) { return s.laws.charge }, correct: text('纸屑会被吸引。你对静电的理解已经可以解释日常现象了。', 'The paper scraps will be attracted. Your understanding of static electricity can now explain everyday phenomena.'), wrong: text('电荷之间的相互作用比你想象的更普遍。再观察一次吧。', 'The interaction between charges is more universal than you think. Observe again.'), reward: function(s) { s.insight += 1; s.predictions -= 1 }, penalty: function(s) { s.doubt += 1 } },
+  { id: 'predict_light', requires: function(s) { return s.laws.special_relativity }, correct: text('地球上过了更长时间。时间的相对性不再是哲学，而是物理。', 'Much more time will have passed on Earth. The relativity of time is no longer philosophy — it is physics.'), wrong: text('时间比你想象的更奇妙。光速不变会带来反直觉的结论。', 'Time is stranger than you imagine. The constancy of light speed leads to counterintuitive conclusions.'), reward: function(s) { s.insight += 2; s.predictions -= 1 }, penalty: function(s) { s.doubt += 1 } },
+]
+
+function tryPredictionChallenge(state, logFn) {
+  if (state.predictions <= 0) return false
+  const available = predictionChallenges.filter(function(c) { return c.requires(state) })
+  if (available.length === 0) return false
+  if (Math.random() > 0.3) return false
+  const challenge = available[Math.floor(Math.random() * available.length)]
+  if (Math.random() < 0.7) { challenge.reward(state); logFn(challenge.correct) }
+  else { challenge.penalty(state); logFn(challenge.wrong) }
+  return true
+}
+
+// ====== 同行评议机制 ======
+const peerReviews = [
+  { reviewer: text('一位来自巴黎的学者', 'A scholar from Paris'), comment: text('"你的结论很有趣，但你是否考虑了所有可能的反例？我建议你再做一次实验来确认。"', '"Your conclusion is interesting, but have you considered all possible counterexamples? I suggest you repeat the experiment to confirm."'), effect: function(s) { s.doubt += 1; s.insight += 1 } },
+  { reviewer: text('一位皇家学会的成员', 'A member of the Royal Society'), comment: text('"这个理论很大胆。如果你能提供更多实验证据，我愿意在学会上推荐你的工作。"', '"This theory is bold. If you can provide more experimental evidence, I would be willing to recommend your work to the Society."'), effect: function(s) { s.predictions += 1 } },
+  { reviewer: text('一位德国教授', 'A German professor'), comment: text('"我独立推导了类似的结果，但你的方法更简洁。我们应该通信讨论这个。"', '"I have independently derived similar results, but your approach is more elegant. We should correspond about this."'), effect: function(s) { s.insight += 2 } },
+  { reviewer: text('一位持怀疑态度的老院士', 'A skeptical old academician'), comment: text('"年轻人，不要急着下结论。自然比你的公式更复杂。"', '"Young man, do not rush to conclusions. Nature is more complex than your formulas."'), effect: function(s) { s.doubt += 2 } },
+  { reviewer: text('一位意大利的实验家', 'An Italian experimentalist'), comment: text('"我在实验室里重复了你的推理，结果吻合得很好。祝贺你！"', '"I have reproduced your reasoning in my laboratory, and the results match well. Congratulations!"'), effect: function(s) { s.records += 2 } },
+  { reviewer: text('一位剑桥的数学教授', 'A mathematics professor from Cambridge'), comment: text('"你的物理直觉很好，但数学表述还可以更严格。我附上了一些修改建议。"', '"Your physical intuition is excellent, but the mathematical formulation could be more rigorous. I have attached some suggested revisions."'), effect: function(s) { s.insight += 1; s.doubt += 1 } },
+]
+
+function tryPeerReview(state, logFn) {
+  if (Math.random() > 0.35) return false
+  const review = peerReviews[Math.floor(Math.random() * peerReviews.length)]
+  review.effect(state)
+  const lang = state.lang || 'zh'
+  const msg = pick(review.reviewer, lang) + ' ' + pick(review.comment, lang)
+  logFn(text(msg, msg))
+  return true
+}
+
+// ====== 科学家内心独白 ======
+const THEORY_MONOLOGUES = {
+  law_inertia: text('"如果物体不受力就会一直运动下去……这完全违背了亚里士多德的教诲。我敢把这个想法写下来吗？但实验数据不会说谎。"', '"If an object keeps moving without any force… this completely contradicts Aristotle\'s teachings. Dare I write this down? But the experimental data does not lie."'),
+  law_second: text('"力、质量、加速度——它们之间的关系如此简洁。F=ma。这个公式会改变一切。"', '"Force, mass, acceleration — their relationship is so elegant. F=ma. This formula will change everything."'),
+  law_third: text('"作用力和反作用力总是成对出现。我推墙，墙也在推我。这个对称性太美了。"', '"Action and reaction always come in pairs. I push the wall, and the wall pushes me. This symmetry is beautiful."'),
+  law_gravity: text('"苹果和月亮遵循同一个法则。地上的运动和天上的运动，原来是一回事。宇宙比我想象的更统一。"', '"The apple and the Moon follow the same law. Motion on Earth and motion in the heavens — they are the same thing. The universe is more unified than I imagined."'),
+  write_principia: text('"三条定律加上万有引力。我把它们写成了《原理》。但这不仅仅是我的成就——我站在巨人的肩膀上。"', '"Three laws plus universal gravitation. I have written them into the Principia. But this is not my achievement alone — I stand on the shoulders of giants."'),
+  law_charge: text('"正电和负电，同斥异吸。电荷之间的力竟然也遵循平方反比律——这和万有引力太像了。"', '"Positive and negative charges — like repels, opposite attracts. The force between charges also follows an inverse-square law — so similar to gravity."'),
+  law_current_magnetism: text('"电流让磁针偏转！电和磁不是两个世界，它们之间有桥梁。奥斯特的发现打开了一扇新的大门。"', '"Electric current deflects the compass needle! Electricity and magnetism are not separate worlds — there is a bridge between them. Oersted\'s discovery opens a new door."'),
+  law_induction: text('"变化的磁场产生电流。不需要电池，只需要运动和变化。法拉第的线圈里藏着未来的发电机。"', '"A changing magnetic field produces current. No battery needed — just motion and change. Faraday\'s coil hides the generators of the future."'),
+  law_maxwell: text('"四个方程统一了电和磁。更妙的是，它们预言了电磁波——光本身就是电磁波。这是理论物理的胜利。"', '"Four equations unify electricity and magnetism. Even better, they predict electromagnetic waves — light itself is an electromagnetic wave. This is the triumph of theoretical physics."'),
+  law_electric_power: text('"从法拉第的线圈到照亮城市的电网。理论变成了机器，机器改变了世界。但别忘了——这一切都始于对自然的好奇。"', '"From Faraday\'s coil to the power grid lighting up cities. Theory became machines, and machines changed the world. But never forget — it all began with curiosity about nature."'),
+  law_radio: text('"电磁波穿过了墙壁，越过了海洋。赫兹说它没用，马可尼证明他错了。现在，世界变小了。"', '"Electromagnetic waves pass through walls and cross oceans. Hertz said they were useless; Marconi proved him wrong. Now, the world is smaller."'),
+  law_energy: text('"能量不会凭空产生，也不会凭空消失。它只是换了一副面孔——从热到功，从蒸汽到飞轮。"', '"Energy cannot be created or destroyed. It only changes its face — from heat to work, from steam to flywheel."'),
+  law_entropy: text('"熵总是在增加。时间的方向、热机的极限、宇宙的宿命——都写在这一条定律里。"', '"Entropy always increases. The direction of time, the limits of engines, the fate of the universe — all written in this one law."'),
+  law_sound_wave: text('"声音是空气的振动。真空里没有声音——这个简单的发现让我重新理解了空"的含义。"', '"Sound is the vibration of air. There is no sound in a vacuum — this simple discovery makes me rethink what emptiness means."'),
+  law_optics: text('"光会干涉，光会衍射。它是波，不是粒子。杨氏双缝实验是物理学史上最优雅的实验之一。"', '"Light interferes, light diffracts. It is a wave, not a particle. Young\'s double-slit experiment is one of the most elegant in the history of physics."'),
+  law_special_relativity: text('"光速不变。时间会变慢，长度会缩短，同时性是相对的。常识在这里失效了，但数学依然优美。"', '"The speed of light is constant. Time slows down, lengths contract, simultaneity is relative. Common sense fails here, but the mathematics remains beautiful."'),
+  law_general_relativity: text('"引力不是力，是时空的弯曲。物质告诉时空如何弯曲，时空告诉物质如何运动。这是我最快乐的想法。"', '"Gravity is not a force — it is the curvature of spacetime. Matter tells spacetime how to curve; spacetime tells matter how to move. This was my happiest thought."'),
+  law_atomic_structure: text('"原子不是不可分的。里面有原子核，外面有电子。物质的最底层还有结构——我们才刚刚开始探索。"', '"The atom is not indivisible. Inside there is a nucleus, outside there are electrons. Matter has structure at its deepest level — we have only just begun to explore."'),
+  law_quanta: text('"能量是一份一份的。普朗克常数虽然小，但它划开了一个新时代。经典物理的连续性在这里终结。"', '"Energy comes in packets. Planck\'s constant may be small, but it opens a new era. The continuity of classical physics ends here."'),
+  law_quantum_mechanics: text('"粒子也是波，波也是粒子。确定轨道不存在了，只有概率云。上帝真的掷骰子吗？"', '"Particles are waves, and waves are particles. Definite orbits no longer exist — only probability clouds. Does God really play dice?"'),
+  law_nuclear_age: text('"E=mc²。原子核里锁着恒星的能量。我们可以用它照亮城市，也可以用它毁灭城市。选择在我们手中。"', '"E=mc². The energy of stars is locked inside atomic nuclei. We can use it to light up cities, or to destroy them. The choice is in our hands."'),
+}
+
+
 Page({
   data: {
     title: '牛顿的暗室',
@@ -2675,7 +2786,9 @@ Page({
       this.state.facts[action.id] = true
       if (action.type === 'experiment') this.state.feedback = null
     }
-    this.log(message)
+    this.log(maybeAddObservationDetail(message))
+    tryRandomEvent(this.state, (m) => this.log(m))
+    tryPredictionChallenge(this.state, (m) => this.log(m))
     this.afterChange()
   },
 
@@ -2683,6 +2796,7 @@ Page({
     if (action.cost) this.state.focus -= action.cost
     const message = action.run(this.state)
     this.log(message)
+    tryPeerReview(this.state, (m) => this.log(m))
     this.showTheoryToast(action)
   },
 
@@ -2691,7 +2805,7 @@ Page({
     const lang = this.state.lang || 'zh'
     wx.showModal({
       title: pick(text('新的理论', 'New Theory'), lang),
-      content: theoryToastText(action, lang),
+      content: theoryToastText(action, lang, this.state),
       showCancel: false,
       confirmText: pick(text('继续', 'Continue'), lang)
     })
