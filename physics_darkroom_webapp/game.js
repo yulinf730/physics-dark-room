@@ -158,8 +158,8 @@ const CHAPTERS = [
       'An apple falls. The question is not simply that it falls. The real question is whether motion changes on its own.'
     ),
     scene: text(
-      '你需要把太快的下落变成可观察的运动，再从记录里找出“保持原状”的想法。',
-      'You need to slow the fall, make the motion measurable, and uncover the idea that objects tend to keep their state of motion.'
+      '苹果落得太快了，什么都看不清。你得想办法让运动慢下来，仔细观察，再从中发现“物体倾向于保持原来的运动状态”这个规律。',
+      'The apple falls too fast to observe. Slow the motion down, observe carefully, and discover the rule: objects tend to keep their current state of motion.'
     )
   },
   {
@@ -170,8 +170,8 @@ const CHAPTERS = [
       'If objects tend to keep their state of motion, what exactly does a force change? And why does mass matter?'
     ),
     scene: text(
-      '小车在桌上滑动。不同推力、不同质量，会让运动以不同方式改变。你还需要一种办法，抓住“正在变化”的那一瞬间。',
-      'A cart slides across the table. Different pushes and different masses change motion in different ways. You still need a way to capture change at a single instant.'
+      '一辆小车在桌面上滑动。用不同的力推它，或者换一辆更重的小车，运动的改变方式都不一样。你需要找到力、质量和加速度之间的关系。',
+      'A cart slides across the table. Push it with different forces, or swap in a heavier cart — the motion changes in different ways. Find the relationship between force, mass, and acceleration.'
     )
   },
   {
@@ -182,8 +182,8 @@ const CHAPTERS = [
       'When one object pushes another, is the force only one-way?'
     ),
     scene: text(
-      '两辆小车面对面。碰撞和拉扯会暴露一个事实：力总发生在两个物体之间。',
-      'Two carts face each other. Collisions and pulls reveal a fact: forces always act between objects.'
+      '两辆小车面对面。让它们碰撞，或者用弹簧连在一起拉开。你会发现：力从来不是单方面的，一个物体施加力，必然同时受到另一个物体的反作用力。',
+      'Two carts face each other. Crash them together, or connect them with a spring and pull them apart. You will find: forces always come in pairs — when one object pushes, it is pushed back.'
     )
   },
   {
@@ -194,8 +194,8 @@ const CHAPTERS = [
       'The apple falls toward Earth, and the Moon circles Earth. Could both be forms of falling?'
     ),
     scene: text(
-      '星图被摊开。你要把地上的实验，拿去解释天上的弯曲。',
-      'The star chart is unfolded. You must use experiments on Earth to explain the curve of a body in the sky.'
+      '你已经在地面上找到了运动的规律。现在抬头看天——月亮一直在“掉”，却永远掉不到地上。用你已有的知识，去解释天上的运动。',
+      'You have found the laws of motion on the ground. Now look up: the Moon is always "falling" but never hits Earth. Use what you already know to explain motion in the heavens.'
     )
   },
   {
@@ -206,8 +206,8 @@ const CHAPTERS = [
       'Can motion on Earth and motion in the heavens be described by the same laws?'
     ),
     scene: text(
-      '暗室里不再只有零散实验。定律、预言和证据开始互相咬合。',
-      'The dark room no longer contains only scattered experiments. Laws, predictions, and evidence begin to lock together.'
+      '你的暗室里已经积累了不少实验记录和想法。是时候把它们整理成一套完整的理论了——用几条简洁的定律，统一描述天上和地上的所有运动。',
+      'Your dark room now holds many experiments and ideas. Time to organize them into a complete theory — a few simple laws that describe all motion, on Earth and in the sky.'
     )
   },
   {
@@ -218,8 +218,8 @@ const CHAPTERS = [
       'After amber is rubbed, it attracts scraps of paper. Is this a force? If so, how can it act without contact?'
     ),
     scene: text(
-      '桌上多了琥珀、毛皮和几片薄纸。力学刚刚让你相信接触和引力，现在另一种看不见的影响闯进暗室。',
-      'Amber, fur, and paper scraps appear on the table. Mechanics taught you about contact and gravity; now another invisible influence enters the room.'
+      '桌上出现了琥珀、毛皮和纸屑。你刚刚理解了引力和接触力，现在又遇到一种全新的力——不需要接触，隔着空气就能起作用。这是怎么回事？',
+      'Amber, fur, and paper scraps appear on the table. You just understood gravity and contact forces, and now a new kind of force appears — it works through the air without touching. What is going on?'
     )
   },
   {
@@ -230,8 +230,8 @@ const CHAPTERS = [
       'When current flows through a wire, a nearby compass needle turns. Are electricity and magnetism really separate?'
     ),
     scene: text(
-      '一节电池、一根导线、一枚磁针被摆在一起。你还不知道它们会不会彼此认出。',
-      'A battery, a wire, and a compass needle are placed together. You do not yet know whether they will affect one another.'
+      '桌上有一节电池、一根导线和一枚指南针。把导线接通，看看旁边的磁针会不会动。如果动了，说明电和磁之间有某种联系。',
+      'A battery, a wire, and a compass needle sit on the table. Connect the wire to the battery and watch the compass — if the needle moves, electricity and magnetism are connected.'
     )
   },
   {
@@ -242,8 +242,8 @@ const CHAPTERS = [
       'A magnet can induce a current in a coil without touching it. Is the magnet itself enough, or is change the key?'
     ),
     scene: text(
-      '线圈安静地躺着。磁铁靠近、远离，指针忽然动了一下，像暗室里的第二次心跳。',
-      'The coil lies still. As the magnet moves in and out, the needle jumps like a second heartbeat in the dark room.'
+      '线圈安静地放在那里。把磁铁插进去、拔出来——电流表的指针跳动了。磁铁不动的时候什么也不发生，只有变化才能产生电。',
+      'A coil sits quietly. Push a magnet in, pull it out — the meter needle jumps. When the magnet stays still, nothing happens. Only change creates electricity.'
     )
   },
   {
@@ -254,8 +254,8 @@ const CHAPTERS = [
       'If a changing electric field can produce a magnetic field, and a changing magnetic field can produce an electric field, can the two propagate outward together?'
     ),
     scene: text(
-      '纸上不再只有小车和轨道，而是布满看不见的线。电场、磁场和光，开始靠近同一张图。',
-      'The page no longer shows only carts and orbits. It fills with invisible lines. Electric fields, magnetic fields, and light begin to belong to the same diagram.'
+      '你已经知道电生磁、磁生电。现在把这两条规律放在一起：变化的电场产生磁场，变化的磁场又产生电场……它们互相激发，会不会像波浪一样传播出去？',
+      'You already know electricity creates magnetism and magnetism creates electricity. Now put them together: a changing electric field makes a magnetic field, which makes an electric field... Could they ripple outward like a wave?'
     )
   },
   {
@@ -266,8 +266,8 @@ const CHAPTERS = [
       'If electric currents can produce magnetic effects, and changing magnetic fields can induce currents, can we make them do useful work?'
     ),
     scene: text(
-      '桌上多了线圈、铁芯、转轴和一截细灯丝。法拉第的影子在铜线里转动，爱迪生的灯泡还没有亮。',
-      'Coils, an iron core, an axle, and a thin filament appear. Faraday turns inside the copper wire; Edison’s lamp has not yet lit.'
+      '你手上有线圈、铁芯和磁铁。把它们组合起来：让电流转动电机，或者让转动的磁铁发出电来。电磁学不只是理论，它可以驱动机器、点亮灯泡。',
+      'You have coils, iron cores, and magnets. Combine them: use current to spin a motor, or spin a magnet to generate electricity. Electromagnetism is not just theory — it can drive machines and light lamps.'
     )
   },
   {
@@ -278,8 +278,8 @@ const CHAPTERS = [
       'Maxwell’s theory says electromagnetic waves can travel. Can they leave a wire and carry messages across distance?'
     ),
     scene: text(
-      '火花间隙啪地亮了一下。赫兹看到波，马可尼想把它送过海面。',
-      'A spark gap snaps. Hertz sees the wave; Marconi wants to send it across the sea.'
+      '电磁波已经被预言存在了。现在你要用火花放电产生它，再用天线接收它。如果能成功，信息就可以不用电线，直接穿过空气传到远方。',
+      'Electromagnetic waves have been predicted. Now generate them with a spark, and detect them with an antenna. If it works, messages can travel through the air without wires.'
     )
   },
   {
@@ -290,8 +290,8 @@ const CHAPTERS = [
       'Steam can push a piston. Is heat a substance, or is it another face of motion and energy?'
     ),
     scene: text(
-      '水壶、活塞和飞轮挤进暗室。瓦特的机器喘着气，焦耳在旁边摇动桨叶。',
-      'A kettle, a piston, and a flywheel crowd into the room. Watt’s engine breathes; nearby, Joule turns a paddle.'
+      '烧水产生蒸汽，蒸汽推动活塞——热变成了机械运动。但热到底是什么？是一种流动的“热质”，还是能量的一种形式？你需要用实验来回答。',
+      'Boil water to make steam, and steam pushes a piston — heat becomes mechanical motion. But what is heat? A fluid-like substance, or a form of energy? You need experiments to decide.'
     )
   },
   {
@@ -302,8 +302,8 @@ const CHAPTERS = [
       'If energy is conserved, why do heat engines still waste energy as heat? And why does time seem to have only one direction?'
     ),
     scene: text(
-      '卡诺画出循环，克劳修斯写下熵，玻尔兹曼把看不见的分子数成一片人群。',
-      'Carnot draws a cycle, Clausius writes down entropy, and Boltzmann counts invisible molecules as a crowd of possibilities.'
+      '能量不会凭空消失，但热机永远不能把热全部变成功。总有一部分热量散失到环境中。这背后有一个更深的规律——熵总是在增加，它决定了时间的方向。',
+      'Energy is never destroyed, but no engine can turn all heat into work. Some heat always escapes. Behind this is a deeper law: entropy always increases, and it gives time its direction.'
     )
   },
   {
@@ -314,8 +314,8 @@ const CHAPTERS = [
       'Could sound be a wave too? If so, what is actually vibrating?'
     ),
     scene: text(
-      '音叉、玻璃罩和撒着细沙的金属板摆上桌面。空气忽然变得不再空。',
-      'A tuning fork, a bell jar, and a sand-covered plate sit on the table. Suddenly, air no longer feels empty.'
+      '敲一下音叉，听到声音。但声音是怎么传到耳朵里的？用实验证明声音是空气的振动——它需要介质，有频率和波长，和水波、电磁波一样遵循波的规律。',
+      'Strike a tuning fork and hear the sound. But how does it reach your ear? Prove with experiments that sound is vibration traveling through air — it needs a medium, has frequency and wavelength, and follows wave laws.'
     )
   },
   {
@@ -326,8 +326,8 @@ const CHAPTERS = [
       'Light refracts, forms images, disperses into colors, and interferes. Is it made of particles, waves, or something stranger?'
     ),
     scene: text(
-      '棱镜把白光拆开，透镜把远处拉近，杨氏双缝在墙上留下明暗条纹。',
-      'A prism splits white light, a lens forms images of distant things, and Young’s double slit leaves bright and dark bands on the wall.'
+      '用棱镜把白光分成彩虹，用透镜把远景拉到眼前，再用双缝实验看光的干涉条纹。光的行为有时候像粒子，有时候像波——你得把两种证据都收集起来。',
+      'Split white light into a rainbow with a prism, bring distant scenes close with a lens, and see interference fringes with a double slit. Light sometimes acts like particles, sometimes like waves — collect evidence for both.'
     )
   },
   {
@@ -338,8 +338,8 @@ const CHAPTERS = [
       'If you chase a beam of light, could you ever see it frozen in place?'
     ),
     scene: text(
-      '以太风没有吹动仪器。迈克耳孙和莫雷的干涉条纹安静得过分，爱因斯坦开始怀疑“同时”。',
-      'The ether wind refuses to move the apparatus. Michelson and Morley’s fringes remain almost too quiet, and Einstein begins to question simultaneity.'
+      '按照常识，你跑得够快就能追上任何东西。但实验发现光速永远不变，不管你怎么追。这意味着时间和空间不是绝对的——爱因斯坦从这里开始重新思考一切。',
+      'Common sense says if you run fast enough, you can catch anything. But experiments show the speed of light never changes, no matter how you chase it. This means time and space are not absolute — Einstein starts rethinking everything from here.'
     )
   },
   {
@@ -350,8 +350,8 @@ const CHAPTERS = [
       'What if gravity is not an invisible hand, but the curvature of spacetime itself?'
     ),
     scene: text(
-      '电梯在想象中下落。太阳旁边的星光微微偏折，旧的万有引力开始显出更深的轮廓。',
-      'An elevator falls in a thought experiment. Starlight bends beside the Sun, and the old idea of gravity reveals a deeper outline.'
+      '想象你在一个自由下落的电梯里，感觉不到自己的重量。爱因斯坦说：引力不是一种力，而是时空被质量弯曲后的几何效应。太阳的质量让周围的时空弯曲，行星只是沿着弯曲的路径走。',
+      'Imagine falling freely in an elevator — you feel weightless. Einstein says gravity is not a force, but the curvature of spacetime caused by mass. The Sun bends spacetime around it, and planets simply follow curved paths.'
     )
   },
   {
@@ -362,8 +362,8 @@ const CHAPTERS = [
       'Is the atom truly an indivisible hard sphere? If not, what is hidden inside?'
     ),
     scene: text(
-      '阴极射线在玻璃管里发光，金箔被 α 粒子轰击。汤姆孙、卢瑟福和密立根把原子拆出层次。',
-      'Cathode rays glow inside a glass tube, and particles strike a sheet of gold foil. Thomson, Rutherford, and Millikan reveal layers inside the atom.'
+      '用阴极射线轰击原子，用α粒子去撞金箔。实验结果显示原子内部几乎是空的，中间有一个极小的核，电子在周围。原子不是不可分的——它有结构。',
+      'Bombard atoms with cathode rays, shoot alpha particles at gold foil. The results show atoms are mostly empty space, with a tiny dense nucleus at the center and electrons around it. Atoms have structure.'
     )
   },
   {
@@ -374,8 +374,8 @@ const CHAPTERS = [
       'Thermal radiation and the photoelectric effect refuse to obey classical physics. Could energy come in discrete packets?'
     ),
     scene: text(
-      '黑体炉口发出颜色，金属板被光照后吐出电子。普朗克和爱因斯坦把能量切成一小包一小包。',
-      'A blackbody furnace glows with color, and a metal plate spits out electrons when light falls on it. Planck and Einstein divide energy into packets.'
+      '烧红的铁块发出特定颜色的光，紫外光照在金属上会打出电子。经典物理无法解释这些现象。普朗克和爱因斯坦提出一个大胆的想法：能量不是连续的，而是一份一份的“量子”。',
+      'A hot iron glows with specific colors, and ultraviolet light knocks electrons off metal. Classical physics cannot explain this. Planck and Einstein propose a bold idea: energy is not continuous, but comes in discrete packets — "quanta".'
     )
   },
   {
@@ -386,8 +386,8 @@ const CHAPTERS = [
       'Where exactly is the electron? Is it a tiny planet orbiting the nucleus, or a wave described by probability?'
     ),
     scene: text(
-      '光谱线像原子的指纹。德布罗意给物质配上波，薛定谔写下方程，海森堡拿走了确定轨道。',
-      'Spectral lines are atomic fingerprints. de Broglie gives matter a wavelength, Schrödinger writes an equation, and Heisenberg takes away exact orbits.'
+      '电子不像行星那样有确定的轨道。你只能算出它在某个位置出现的概率。物质同时具有粒子和波的性质，原子世界由概率和不确定性支配——这彻底改变了我们对“实在”的理解。',
+      'Electrons do not have definite orbits like planets. You can only calculate the probability of finding one at a given position. Matter has both particle and wave nature, and the atomic world is ruled by probability and uncertainty — this changes our understanding of reality itself.'
     )
   },
   {
@@ -398,8 +398,8 @@ const CHAPTERS = [
       'If atomic nuclei can change too, where will the energy they release take the world?'
     ),
     scene: text(
-      '云室里有细线划过。铀核裂开，链式反应在纸上扩散。反应堆和原子弹从同一个方程旁边站起来。',
-      'Thin tracks cross a cloud chamber. Uranium splits, and a chain reaction spreads across the page. The reactor and the atomic bomb rise from beside the same equation.'
+      '原子核里蕴藏着巨大的能量。用中子轰击铀核，它会分裂并释放更多中子，引发链式反应。这能量可以点亮城市，也可以毁灭城市——物理学走到了一个需要人类做出选择的十字路口。',
+      'Enormous energy is locked inside atomic nuclei. Bombard uranium with neutrons, and it splits, releasing more neutrons in a chain reaction. This energy can light up cities or destroy them — physics arrives at a crossroads where humanity must choose.'
     )
   }
 ]
