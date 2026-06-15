@@ -199,24 +199,26 @@ button { font: inherit; }
 .modal-button.primary { border-color: rgba(214,127,64,.62); background: #332216; color: #fff3dd; }
 
 @media (max-width: 760px) {
-  .page { padding: 10px; }
-  .status-bar { gap: 6px; }
-  .resource { padding: 7px 5px; }
-  .resource-label { font-size: 11px; }
-  .resource-value { font-size: 14px; }
-  .room { padding: 16px; }
-  .scene { font-size: 16px; }
-  .goal { font-size: 15px; }
+  .page { padding: 8px; }
+  .status-bar { gap: 4px; }
+  .resource { padding: 5px 4px; }
+  .resource-label { font-size: 10px; }
+  .resource-value { font-size: 12px; }
+  .room { padding: 10px; }
+  .scene { font-size: 13px; margin-top: 10px; }
+  .goal { font-size: 12px; margin-top: 8px; padding: 10px 12px; }
   .info { grid-template-columns: 1fr; }
+  .panel { padding: 10px; }
   .workers-panel { display: flex; flex-direction: column; }
-  .workers-panel .panel-title { position: sticky; top: 0; background: var(--panel); z-index: 1; }
-  .workers-panel { max-height: 180px; overflow-y: auto; }
-  .workers-panel .panel-title { font-size: 13px; margin-bottom: 4px; }
-  .worker span:first-child { font-size: 12px; }
-  .worker span:last-child { font-size: 10px; }
-  .worker { padding: 4px 0; gap: 1px; }
+  .workers-panel .panel-title { position: sticky; top: 0; background: var(--panel); z-index: 1; font-size: 12px; margin-bottom: 3px; }
+  .workers-panel { max-height: 140px; overflow-y: auto; }
+  .worker span:first-child { font-size: 11px; }
+  .worker span:last-child { font-size: 9px; }
+  .worker { padding: 3px 0; gap: 1px; }
   .worker-list { max-height: none; }
-  .log-scroll { max-height: 200px; }
+  .log-scroll { max-height: 120px; }
+  .log-line { font-size: 11px; padding: 5px 0; }
+  .panel-title { font-size: 12px; margin-bottom: 6px; }
 }
 
 @media (max-width: 420px) {
