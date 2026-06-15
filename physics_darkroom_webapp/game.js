@@ -91,6 +91,25 @@ function pick(value, lang) {
   return value[lang] || value.zh
 }
 
+const restActivities = [
+  text('整理思路，回顾发现', 'Organize thoughts, review findings'),
+  text('在花园里散散步', 'Take a stroll in the garden'),
+  text('与同行科学家喝杯茶聊聊', 'Have tea and chat with fellow scientists'),
+  text('静坐冥想，放空大脑', 'Sit quietly and meditate'),
+  text('休养生息，养精蓄锐', 'Rest and recharge your energy'),
+  text('去公园赏花观鸟', 'Visit the park, admire flowers and birds'),
+  text('靠在椅子上小憩片刻', 'Lean back and take a short nap'),
+  text('翻阅手稿，温故知新', 'Browse manuscripts, review past insights'),
+  text('泡杯咖啡，望向窗外', 'Brew a coffee and gaze out the window'),
+  text('在河边漫步，听水声', 'Walk by the river, listen to the water'),
+  text('点燃烟斗，沉思片刻', 'Light a pipe and ponder for a while'),
+  text('仰望星空，放松心情', 'Gaze at the stars and relax'),
+]
+
+function randomRestActivity() {
+  return restActivities[Math.floor(Math.random() * restActivities.length)]
+}
+
 const UI = {
   reset: text('重新开始', 'Restart'),
   resetChapter: text('重开本章节', 'Restart Chapter'),
@@ -2726,8 +2745,8 @@ Page({
       const theoryLabel = readyTheory ? pick(readyTheory.summary || readyTheory.label, lang) : ''
       visible.push({
         id: 'new_day',
-        label: readyTheory ? theoryLabel : pick(text('结束本轮', 'End Round'), lang),
-        hint: readyTheory ? pick(text('线索完整 -> 建立理论', 'Complete clues -> discover theory'), lang) : pick(text('恢复精力', 'Restore focus'), lang),
+        label: readyTheory ? theoryLabel : pick(randomRestActivity(), lang),
+        hint: readyTheory ? pick(text('线索完整 -> 建立理论', 'Complete clues -> discover theory'), lang) : pick(text('休息一下，恢复精力', 'Take a break, restore focus'), lang),
         kind: pick(UI.kinds.rest, lang),
         primary: Boolean(readyTheory),
         enabled: true
