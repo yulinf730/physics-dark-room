@@ -2702,14 +2702,36 @@ Page({
     if (enabledExperiments[1]) visible.push(enabledExperiments[1])
 
     if (readyTheory || s.focus === 0 || visible.length < 3) {
-      visible.push({
-        id: 'new_day',
-        label: readyTheory || s.focus === 0 ? pick(text('整理笔记', 'Organize Notes'), lang) : pick(text('结束本轮', 'End Round'), lang),
-        hint: readyTheory ? pick(text('线索完整 -> 建立理论', 'Complete clues -> discover theory'), lang) : pick(text('恢复精力', 'Restore focus'), lang),
-        kind: pick(UI.kinds.rest, lang),
-        primary: Boolean(readyTheory),
-        enabled: true
-      })
+      if (readyTheory || s.focus === 0) {
+        visible.push({
+          id: 'new_day',
+          label: pick(text('整理笔记', 'Organize Notes'), lang),
+          hint: readyTheory ? pick(text('线索完整 -> 建立理论', 'Complete clues -> discover theory'), lang) : pick(text('恢复精力', 'Restore focus'), lang),
+          kind: pick(UI.kinds.rest, lang),
+          primary: Boolean(readyTheory),
+          enabled: true
+        })
+      } else {
+        const restOptions = [
+          { label: text('静思冥想', 'Meditate'), hint: text('闭目沉思，理清思路', 'Close your eyes and think deeply') },
+          { label: text('散步', 'Take a Walk'), hint: text('在花园中漫步，放松身心', 'Stroll through the garden') },
+          { label: text('赏花', 'Enjoy Flowers'), hint: text('去公园赏花，感受自然之美', 'Visit the park and admire the flowers') },
+          { label: text('与老友聊天', 'Chat with a Friend'), hint: text('与老友畅谈，交流想法', 'Have a conversation with an old friend') },
+          { label: text('整理笔记', 'Organize Notes'), hint: text('回顾实验记录，整理思路', 'Review experiment notes') }
+        ]
+        const slots = 3 - visible.length
+        const picked = restOptions.slice(0, slots)
+        picked.forEach((opt) => {
+          visible.push({
+            id: 'new_day',
+            label: pick(opt.label, lang),
+            hint: pick(opt.hint, lang),
+            kind: pick(UI.kinds.rest, lang),
+            primary: false,
+            enabled: true
+          })
+        })
+      }
     }
 
     return visible.slice(0, 3)
