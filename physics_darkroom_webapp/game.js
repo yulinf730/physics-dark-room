@@ -2732,8 +2732,8 @@ Page({
           const theoryDef = THEORY_DEFS[readyTheory.id] || { zh: '', en: '' }
           visible.push({
             id: 'new_day',
-            label: theoryLabel,
-            hint: pick(theoryDef, lang),
+            label: pick(theoryDef, lang),
+            hint: pick(text('提出新概念', 'Propose New Concept'), lang),
             kind: pick(UI.kinds.theory, lang),
             primary: true,
             enabled: true
