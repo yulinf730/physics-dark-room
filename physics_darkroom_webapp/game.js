@@ -2520,6 +2520,19 @@ function findReadyTheory(state) {
   )
 }
 
+// 检查action是否因灵感不足而无法执行
+function isInsightBlocked(state, action) {
+  if (action.type === 'theory') return false
+  if (!action.requires) return false
+  if (canRun(state, action)) return false
+  // 尝试不带灵感要求检查
+  const saved = state.insight
+  state.insight = INSIGHT_REQUIRE + 1
+  const result = canRun(state, action)
+  state.insight = saved
+  return !result
+}
+
 function canRun(state, action) {
   if (state.complete) return false
   if (action.chapter !== state.chapter) return false
@@ -2793,6 +2806,17 @@ Page({
       this.afterChange()
       return
     }
+    if (id === 'insight_spark') {
+      // 灵光乍现：困惑化为灵感突破
+      s.doubt -= 2
+      s.insight += 2
+      this.log(text(
+        '你把那些无处安放的困惑翻过来，发现它们指向了同一个方向。疑虑不再是阻碍，而是路标。',
+        'You turn your restless doubts over and find they all point the same way. Confusion is no longer an obstacle; it becomes a signpost.'
+      ))
+      this.afterChange()
+      return
+    }
 
     const action = ACTIONS.find((item) => item.id === id)
     if (!action || !canRun(s, action)) return
@@ -2886,22 +2910,30 @@ Page({
 
     const readyTheory = findReadyTheory(s)
     const confused = s.doubt >= DOUBT_LOCK && s.insight < INSIGHT_REQUIRE
+    const sparking = s.doubt >= DOUBT_LOCK && s.insight >= INSIGHT_SPARK
 
     const chapterActions = ACTIONS
       .filter((action) => action.chapter === s.chapter)
       .filter((action) => action.type !== 'theory')
       .filter((action) => !action.visible || action.visible(s))
       .filter((action) => !action.once || !s.facts[action.id])
-      .map((action) => ({
-        id: action.id,
-        label: pick(action.label, lang),
-        hint: pick(action.hint, lang),
-        kind: actionKind(action, lang),
-        primary: action.type === 'theory',
-        type: action.type,
-        enabled: !confused && Boolean(canRun(s, action)),
-        locked: confused ? pick(UI.doubtConfused, lang) : ''
-      }))
+      .map((action) => {
+        const blocked = confused || isInsightBlocked(s, action)
+        return {
+          id: action.id,
+          label: pick(action.label, lang),
+          hint: pick(action.hint, lang),
+          kind: actionKind(action, lang),
+          primary: action.type === 'theory',
+          type: action.type,
+          enabled: !blocked && Boolean(canRun(s, action)),
+          locked: blocked
+            ? confused
+              ? pick(UI.doubtConfused, lang)
+              : pick(text('灵感不足，需要更多思考', 'Not enough insight. Think more.'), lang)
+            : ''
+        }
+      })
 
     const enabledExperiments = chapterActions.filter((a) => a.enabled && a.type === 'experiment')
     const enabledMisconceptions = chapterActions.filter((a) => a.enabled && a.type === 'misconception')
@@ -2911,7 +2943,19 @@ Page({
     if (enabledMisconceptions[0]) visible.push(enabledMisconceptions[0])
     if (enabledExperiments[1]) visible.push(enabledExperiments[1])
 
-    // Fill remaining slots
+    // 灵光乍现：困惑高但灵感足够时出现特殊选项
+    if (sparking) {
+      visible.push({
+        id: 'insight_spark',
+        label: pick(text('将困惑化为方向', 'Transform Doubt Into Direction'), lang),
+        hint: pick(text('灵感 ≥ 3，困惑 ≥ 5：把疑虑化为突破的线索', 'Doubt becomes a clue for breakthrough'), lang),
+        kind: pick(text('灵感', 'Spark'), lang),
+        primary: false,
+        enabled: true,
+        locked: ''
+      })
+    }
+
     if (readyTheory || s.energy <= 0 || visible.length < 3) {
       if (readyTheory || s.energy <= 0) {
         if (readyTheory) {
