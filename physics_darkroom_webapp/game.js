@@ -2922,16 +2922,10 @@ Page({
         return {
           id: action.id,
           label: pick(action.label, lang),
-          hint: pick(action.hint, lang),
           kind: actionKind(action, lang),
           primary: action.type === 'theory',
           type: action.type,
-          enabled: !blocked && Boolean(canRun(s, action)),
-          locked: blocked
-            ? confused
-              ? pick(UI.doubtConfused, lang)
-              : pick(text('灵感不足，需要更多思考', 'Not enough insight. Think more.'), lang)
-            : ''
+          enabled: !blocked
         }
       })
 
@@ -2948,11 +2942,9 @@ Page({
       visible.push({
         id: 'insight_spark',
         label: pick(text('将困惑化为方向', 'Transform Doubt Into Direction'), lang),
-        hint: pick(text('灵感 ≥ 3，困惑 ≥ 5：把疑虑化为突破的线索', 'Doubt becomes a clue for breakthrough'), lang),
         kind: pick(text('灵感', 'Spark'), lang),
         primary: false,
-        enabled: true,
-        locked: ''
+        enabled: true
       })
     }
 
@@ -2963,7 +2955,6 @@ Page({
           visible.push({
             id: 'propose_theory',
             label: pick(theoryDef, lang),
-            hint: pick(text('提出新概念', 'Propose New Concept'), lang),
             kind: pick(UI.kinds.theory, lang),
             primary: true,
             enabled: true
@@ -2973,7 +2964,6 @@ Page({
           visible.push({
             id: 'new_day',
             label: pick(s._restOption.text, lang),
-            hint: pick(text('休息恢复精力', 'Rest to recover energy'), lang),
             kind: pick(UI.kinds.rest, lang),
             primary: false,
             enabled: true
@@ -2988,7 +2978,6 @@ Page({
           visible.push({
             id: 'new_day',
             label: pick(opt.text, lang),
-            hint: pick(text('休息恢复精力', 'Rest to recover energy'), lang),
             kind: pick(UI.kinds.rest, lang),
             primary: false,
             enabled: true
@@ -3102,7 +3091,6 @@ function renderDOM(data) {
         <span class="action-label">${escapeHtml(item.label)}</span>
         <span class="action-kind">${escapeHtml(item.kind)}</span>
       </span>
-      ${item.hint ? `<span class="cost">${escapeHtml(item.hint)}</span>` : ''}
     </button>
   `).join('');
 
