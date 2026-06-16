@@ -1,5 +1,5 @@
 /* Physics Dark Room - Web App build
-   Converted from the WeChat Mini Program version.
+   Plain-language revision: clearer tutorial, simpler Chinese/English copy, less poetic ambiguity.
 */
 
 const webStorage = {
@@ -83,7 +83,7 @@ function Page(config) {
   miniProgramPage = config;
 }
 
-const STORAGE_KEY = 'physics_darkroom_v4'
+const STORAGE_KEY = 'physics_darkroom_v5_plain_language'
 
 // --- 资源系统常量 ---
 const BASE_MAX_ENERGY = 10
@@ -111,38 +111,46 @@ function randInt(min, max) {
 
 const UI = {
   reset: text('重新开始', 'Restart'),
-  resetChapter: text('重开本章节', 'Restart Chapter'),
-  resetAll: text('完全重新开始', 'Restart All'),
+  resetChapter: text('重开本章', 'Restart Chapter'),
+  resetAll: text('从头开始', 'Restart All'),
   lang: text('English', '中文'),
-  concepts: text('已建立的概念', 'Concepts'),
-  log: text('暗室手记', 'Dark Room Journal'),
+  concepts: text('我的发现', 'My Discoveries'),
+  log: text('实验记录', 'Experiment Log'),
   complete: text('完成', 'Complete'),
   day: text('', 'Round '),
   roundSuffix: text('轮', ''),
   kinds: {
-    theory: text('判断', 'Theory'),
+    theory: text('规律', 'Law'),
     experiment: text('实验', 'Experiment'),
-    misconception: text('判断', 'Misconception'),
-    rest: text('休整', 'Rest')
+    misconception: text('判断', 'Guess'),
+    rest: text('休息', 'Rest')
   },
   resources: {
     energy: text('精力', 'Energy'),
-    notes: text('手稿', 'Notes'),
+    notes: text('记录', 'Notes'),
     insight: text('灵感', 'Insight'),
-    doubt: text('困惑', 'Doubt')
+    doubt: text('疑问', 'Questions')
   },
-  lowEnergy: text('精力不足，需要休息恢复', 'Low energy. Rest to recover.'),
-  insightLocked: text('（需要灵感 ≥ 2）', '(Requires Insight ≥ 2)'),
-  doubtConfused: text('困惑缠身，思路不清……休息一下或许有帮助。', 'Too confused to think clearly... Perhaps rest will help.'),
-  insightSpark: text('灵光乍现！你隐约看到了一条新的路径。', 'A spark of insight! You glimpse a new path forward.'),
-  completeTitle: text('物理学的发展之路', 'The Path of Physics Development'),
+  lowEnergy: text('精力不足。请选择休息来恢复。', 'Not enough energy. Choose rest to recover.'),
+  insightLocked: text('需要更多灵感', 'Requires more Insight'),
+  doubtConfused: text('疑问太多，思路混乱。先休息，或者做更多实验。', 'Too many questions. Rest or do more experiments.'),
+  insightSpark: text('你的疑问开始连成一条线。现在可以把疑问转化成灵感。', 'Your questions are starting to connect. You can turn them into insight.'),
+  completeTitle: text('物理世界建立完成', 'The Physics World Is Built'),
   completeScene: text(
-    '暗室不再只是暗室。桌上有小车、磁针、灯丝、热机、棱镜、原子核和一张写满概率的纸。',
-    'The dark room is no longer merely dark. On the table lie carts, a compass, a filament, a heat engine, a prism, a nucleus, and a page covered in probability.'
+    '你从最简单的运动开始，一步一步发现了力、电、磁、热、声、光、相对论、量子和核能。',
+    'You started with simple motion and gradually discovered force, electricity, magnetism, heat, sound, light, relativity, quantum physics, and nuclear energy.'
   ),
   completeGoal: text(
-    '你走完了一条物理史主线：从苹果和月亮，到电机、无线电、热、声、光、时空、量子和核能。最后的问题不再是"能不能做到"，而是"该怎样使用"。',
-    'You have followed one central path through physics: from the apple and the Moon to motors, radio, heat, sound, light, spacetime, quanta, and nuclear energy. The final question is no longer whether it can be done, but how it should be used.'
+    '游戏结束。但物理学真正的问题还在继续：这些知识应该怎样使用？',
+    'The game is complete. But the real question remains: how should this knowledge be used?'
+  )
+}
+
+const TUTORIAL = {
+  title: text('怎么玩', 'How to Play'),
+  html: text(
+    '<p>这是一个通过实验发现物理规律的文字游戏。</p><p>每一轮选择一个行动。</p><p><b>实验</b>会给你记录、灵感或新的疑问。</p><p>当证据足够时，会出现<b>提出规律</b>按钮。点击它进入下一章。</p><p>目标：从简单运动开始，慢慢建立完整的物理世界。</p>',
+    '<p>This is a text game about discovering physics through experiments.</p><p>Choose one action each round.</p><p><b>Experiments</b> give you notes, insight, or new questions.</p><p>When you have enough evidence, a <b>Propose a Law</b> button appears. Use it to enter the next chapter.</p><p>Goal: start from simple motion and build a complete picture of physics.</p>'
   )
 }
 
@@ -165,264 +173,138 @@ const START_STATE = {
     {
       time: 0,
       text: text(
-        '窗外啪嗒一声。苹果落地，月亮还挂在天上。桌上的小车像在等你发问。',
-        'Outside, an apple drops to the ground. The Moon still hangs overhead. The little cart on the table seems to be waiting for your question.'
+        '你在暗室中醒来。桌上有一个苹果、一块木板和一辆小车。你的第一个问题是：运动为什么会改变？',
+        'You wake up in a dark room. On the table are an apple, a wooden board, and a small cart. Your first question is: why does motion change?'
       )
     }
   ]
 }
 const CHAPTERS = [
   {
-    title: text('落体与惯性', 'Falling Bodies and Inertia'),
-    label: text('第一问', 'Q1'),
-    question: text(
-      '苹果会落下。问题不是“它落下了”，而是：运动会不会自己改变？',
-      'An apple falls. The question is not simply that it falls. The real question is whether motion changes on its own.'
-    ),
-    scene: text(
-      '窗外啪嗒一声，苹果落地。暗室的桌上摆着一颗石子、一块木片，还有一段可以搭成斜面的木板。你翻开空白的笔记本，写下第一个问题：为什么物体会往下落？',
-      'Outside, an apple drops. On the dark room table lie a stone, a wooden block, and a plank that can form a slope. You open a blank notebook and write the first question: why do things fall?'
-    )
+    title: text("为什么运动会改变？", "Why Does Motion Change?"),
+    label: text("第一问", "Q1"),
+    question: text("苹果会落下，小车会滑动。物体的运动是自己改变的，还是被力改变的？", "An apple falls, and a cart can slide. Does motion change by itself, or is it changed by force?"),
+    scene: text("桌上有一个苹果、一块木板、一颗石子和一辆小车。你要从最简单的运动开始，找出物体为什么会开始运动、改变速度或停下来。", "On the table are an apple, a wooden board, a stone, and a small cart. Start with simple motion and find out why objects start moving, change speed, or stop.")
   },
   {
-    title: text('力与质量', 'Force, Mass, and Acceleration'),
-    label: text('第二问', 'Q2'),
-    question: text(
-      '如果物体会保持原状，那么力到底改变了什么？质量又为什么重要？',
-      'If objects tend to keep their state of motion, what exactly does a force change? And why does mass matter?'
-    ),
-    scene: text(
-      '一辆小车停在桌面上。旁边放着不同重量的砝码，还有一把可以计时的滴漏。上一次你发现了惯性，现在你要搞清楚：力到底改变了什么？',
-      'A cart sits on the table. Beside it are weights of different sizes and a water clock for timing. Last time you discovered inertia; now you must figure out: what exactly does force change?'
-    )
+    title: text("力、质量和加速度", "Force, Mass, and Acceleration"),
+    label: text("第二问", "Q2"),
+    question: text("如果力会改变运动，那么力、质量和加速度之间有什么关系？", "If force changes motion, how are force, mass, and acceleration related?"),
+    scene: text("小车、砝码和计时工具出现在桌上。你要测试：同样的力作用在不同质量的物体上，会产生怎样不同的运动变化。", "A cart, weights, and timing tools appear on the table. Test how the same force changes the motion of objects with different masses.")
   },
   {
-    title: text('相互作用', 'Action and Reaction'),
-    label: text('第三问', 'Q3'),
-    question: text(
-      '一个物体推另一个物体时，力是单向的吗？',
-      'When one object pushes another, is the force only one-way?'
-    ),
-    scene: text(
-      '两辆小车面对面停在桌上，中间夹着一根弹簧。你推一辆车去撞另一辆——它们都动了。力是不是从来就不是单方面的？',
-      'Two carts face each other with a spring between them. You push one into the other — both move. Is force never one-sided?'
-    )
+    title: text("力总是成对出现吗？", "Do Forces Always Come in Pairs?"),
+    label: text("第三问", "Q3"),
+    question: text("一个物体推另一个物体时，只有被推的物体受力吗？", "When one object pushes another, is only the second object affected?"),
+    scene: text("两辆小车面对面，中间有弹簧和绳子。你要观察碰撞和拉绳，判断力是不是单向发生的。", "Two carts face each other with a spring and a rope nearby. Observe collisions and pulling to decide whether forces act only one way.")
   },
   {
-    title: text('月亮为什么一直落不下来', 'Why Does the Moon Keep Missing Earth?'),
-    label: text('第四问', 'Q4'),
-    question: text(
-      '苹果落向地面，月亮却绕着地球。它们可能是同一种运动吗？',
-      'The apple falls toward Earth, and the Moon circles Earth. Could both be forms of falling?'
-    ),
-    scene: text(
-      '桌上摊开一张星图。你已经弄清了地面上的运动规律。现在抬头看天：月亮每晚的位置都在变，却从不掉下来。它也在“下落”吗？',
-      'A star chart is spread on the table. You have figured out the laws of motion on Earth. Now look up: the Moon changes position every night yet never falls. Is it also “falling”?'
-    )
+    title: text("苹果和月亮", "The Apple and the Moon"),
+    label: text("第四问", "Q4"),
+    question: text("苹果会落向地面，月亮却绕着地球。它们可能由同一种力控制吗？", "The apple falls to Earth, while the Moon orbits Earth. Could the same force explain both?"),
+    scene: text("星图摊在桌上。你已经理解了地面上的运动，现在要把同样的想法用到天上的月亮。", "A star chart lies on the table. You understand motion on Earth; now apply the same ideas to the Moon.")
   },
   {
-    title: text('写成原理', 'Writing the Principles'),
-    label: text('收束', 'Closure'),
-    question: text(
-      '现在，地上的运动和天上的运动能否共用一套语言？',
-      'Can motion on Earth and motion in the heavens be described by the same laws?'
-    ),
-    scene: text(
-      '你的笔记本已经写满了实验记录。三条运动定律、万有引力——它们拼在一起，像一幅终于合拢的拼图。是时候把它们写成一套完整的理论了。',
-      'Your notebook is filled with experiments. Three laws of motion, universal gravitation — they fit together like a puzzle finally complete. Time to write them as one theory.'
-    )
+    title: text("把力学写成系统", "Build a System of Mechanics"),
+    label: text("收束", "Closure"),
+    question: text("地上的运动和天上的运动，能不能用同一套规律解释？", "Can motion on Earth and motion in space be explained by the same laws?"),
+    scene: text("你的实验记录已经足够多。现在要把运动定律和引力放在一起，形成一套完整的力学体系。", "You now have enough notes. Combine the laws of motion and gravity into one system of mechanics.")
   },
   {
-    title: text('看不见的吸引', 'Invisible Electric Attraction'),
-    label: text('第五问', 'Q5'),
-    question: text(
-      '琥珀摩擦之后会吸起纸屑。这是力吗？如果是，为什么不用接触也能发生？',
-      'After amber is rubbed, it attracts scraps of paper. Is this a force? If so, how can it act without contact?'
-    ),
-    scene: text(
-      '力学的大厦刚刚落成，桌上就出现了新的东西：一块琥珀、一张毛皮、几片薄纸。摩擦之后，纸屑被吸了起来——不接触也能产生力。经典力学解释不了这个。',
-      'The edifice of mechanics is barely complete when new items appear: amber, fur, paper scraps. After rubbing, the paper rises — a force without contact. Classical mechanics cannot explain this.'
-    )
+    title: text("看不见的电力", "Invisible Electric Force"),
+    label: text("第五问", "Q5"),
+    question: text("摩擦后的琥珀能吸起纸屑。不接触也能产生力吗？", "Rubbed amber attracts paper scraps. Can a force act without contact?"),
+    scene: text("桌上出现琥珀、毛皮和纸屑。你要研究一种新的力：它看不见，却能隔空影响物体。", "Amber, fur, and paper scraps appear. Study a new force: invisible, but able to act across space.")
   },
   {
-    title: text('电流与磁针', 'Current and the Compass'),
-    label: text('第六问', 'Q6'),
-    question: text(
-      '电流经过导线时，旁边的磁针会偏转。电和磁真的互不相干吗？',
-      'When current flows through a wire, a nearby compass needle turns. Are electricity and magnetism really separate?'
-    ),
-    scene: text(
-      '桌上多了一节电池、一根导线和一枚指南针。你把导线接通，磁针微微偏了一下。电和磁——两个看似无关的现象——在暗室里第一次打了招呼。',
-      'A battery, a wire, and a compass join the table. You connect the circuit, and the needle twitches. Electricity and magnetism — two seemingly unrelated phenomena — greet each other for the first time.'
-    )
+    title: text("电流和磁针", "Current and the Compass"),
+    label: text("第六问", "Q6"),
+    question: text("电流通过导线时，为什么旁边的磁针会转动？", "Why does a compass turn when current flows through a wire?"),
+    scene: text("电池、导线和指南针出现在桌上。你要测试电流和磁现象之间是否有关联。", "A battery, a wire, and a compass appear. Test whether electric current and magnetism are connected.")
   },
   {
-    title: text('线圈里的电', 'Current in the Coil'),
-    label: text('第七问', 'Q7'),
-    question: text(
-      '磁铁不接触线圈，却能让感应电流出现。到底是磁铁本身，还是变化在起作用？',
-      'A magnet can induce a current in a coil without touching it. Is the magnet itself enough, or is change the key?'
-    ),
-    scene: text(
-      '线圈安静地躺在桌上。你把磁铁插进去——电流表的指针跳了一下。拔出来——又跳了一下。磁铁不动的时候，什么也不发生。变化才是关键。',
-      'A coil lies still on the table. You push a magnet in — the meter jumps. Pull it out — it jumps again. When the magnet stays still, nothing happens. Change is the key.'
-    )
+    title: text("变化产生电", "Change Produces Electricity"),
+    label: text("第七问", "Q7"),
+    question: text("磁铁靠近线圈时能产生电流。关键是磁铁，还是磁场的变化？", "A magnet near a coil can produce current. Is the key the magnet itself, or the change in magnetic field?"),
+    scene: text("线圈、电流表和磁铁出现在桌上。你要观察什么时候有电流，什么时候没有。", "A coil, meter, and magnet appear. Observe when current appears and when it does not.")
   },
   {
-    title: text('场与光', 'Fields and Light'),
-    label: text('第八问', 'Q8'),
-    question: text(
-      '如果变化的电场能产生磁场，变化的磁场能产生电场，那么它们会不会一起向外传播？',
-      'If a changing electric field can produce a magnetic field, and a changing magnetic field can produce an electric field, can the two propagate outward together?'
-    ),
-    scene: text(
-      '电生磁，磁生电。你把这两条规律放在一起，发现它们可以互相激发，像波浪一样向外传播。算一下这个波的速度——和光速一模一样。光，难道就是电磁波？',
-      'Electricity creates magnetism, magnetism creates electricity. Put them together and they can ripple outward like a wave. Calculate the speed — it matches the speed of light exactly. Could light be an electromagnetic wave?'
-    )
+    title: text("场和光", "Fields and Light"),
+    label: text("第八问", "Q8"),
+    question: text("电场和磁场能不能互相产生，并像波一样传播？", "Can electric and magnetic fields produce each other and travel as waves?"),
+    scene: text("你开始不只研究物体，也研究空间中的场。现在的问题是：光会不会就是一种电磁波？", "You now study fields in space, not just objects. The question is: could light be an electromagnetic wave?")
   },
   {
-    title: text('电的机器', 'Electrical Machines'),
-    label: text('第九问', 'Q9'),
-    question: text(
-      '如果电流能产生磁效应，变化的磁场能感应电流，能不能让它们替人做功？',
-      'If electric currents can produce magnetic effects, and changing magnetic fields can induce currents, can we make them do useful work?'
-    ),
-    scene: text(
-      '理论已经完备。桌上多了线圈、铁芯和转轴。法拉第让线圈在磁场中转了起来，电能变成了机械运动。反过来转，机械运动又变成了电。电力时代的蓝图就在这张桌上。',
-      'Theory is complete. Coils, iron cores, and axles appear. Faraday makes a coil spin in a magnetic field — electricity becomes motion. Spin it the other way, and motion becomes electricity. The blueprint of the electric age lies on this table.'
-    )
+    title: text("电的机器", "Electrical Machines"),
+    label: text("第九问", "Q9"),
+    question: text("电和磁的规律能不能变成真正有用的机器？", "Can the laws of electricity and magnetism become useful machines?"),
+    scene: text("桌上有线圈、磁铁、铁芯、转轴和灯泡。你要制造电动机和发电机，看能量怎样转换。", "Coils, magnets, iron cores, axles, and a bulb appear. Build motors and generators to see how energy changes form.")
   },
   {
-    title: text('无线电', 'Radio Communication'),
-    label: text('第十问', 'Q10'),
-    question: text(
-      '麦克斯韦说电磁波会传播。它能不能离开导线，把消息带到远处？',
-      'Maxwell’s theory says electromagnetic waves can travel. Can they leave a wire and carry messages across distance?'
-    ),
-    scene: text(
-      '火花在间隙里啪地跳过。赫兹证明了电磁波真的存在。现在马可尼想把信息压进这些波里，让它们飞过海面。信息第一次可以不用导线传递了。',
-      'A spark snaps across a gap. Hertz proved EM waves are real. Now Marconi wants to encode messages into these waves and send them across the sea. For the first time, information can travel without wires.'
-    )
+    title: text("无线传递信息", "Sending Information Without Wires"),
+    label: text("第十问", "Q10"),
+    question: text("电磁波能不能离开导线，把信息传到远方？", "Can electromagnetic waves leave wires and carry information far away?"),
+    scene: text("火花、天线和接收器出现了。你要把电磁波变成可以传递信息的工具。", "Sparks, antennas, and receivers appear. Turn electromagnetic waves into tools for communication.")
   },
   {
-    title: text('热与功', 'Heat and Work'),
-    label: text('第十一问', 'Q11'),
-    question: text(
-      '蒸汽能推动活塞。热到底是一种东西，还是运动和能量的另一种面孔？',
-      'Steam can push a piston. Is heat a substance, or is it another face of motion and energy?'
-    ),
-    scene: text(
-      '水壶里的蒸汽顶起壶盖，热变成了运动。但热到底是什么？是一种叫“热质”的流体，还是能量的一种形式？焦耳在旁边摇动桨叶，准备用实验来回答。',
-      'Steam lifts the kettle lid — heat becomes motion. But what is heat? A fluid called “caloric”, or a form of energy? Joule is nearby, turning a paddle, ready to answer with an experiment.'
-    )
+    title: text("热和功", "Heat and Work"),
+    label: text("第十一问", "Q11"),
+    question: text("蒸汽能推动活塞。热是一种物质，还是能量的一种形式？", "Steam can push a piston. Is heat a substance, or a form of energy?"),
+    scene: text("水壶、桨叶和蒸汽机模型出现在桌上。你要研究热怎样和机械功互相转化。", "A kettle, paddle wheel, and steam engine model appear. Study how heat and mechanical work transform into each other.")
   },
   {
-    title: text('熵与方向', 'Entropy and the Arrow of Time'),
-    label: text('第十二问', 'Q12'),
-    question: text(
-      '能量守恒了，为什么热机还是会浪费？为什么时间好像只往一个方向流？',
-      'If energy is conserved, why do heat engines still waste energy as heat? And why does time seem to have only one direction?'
-    ),
-    scene: text(
-      '能量不会消失，但热机永远不能把热全部变成功。总有一部分散失到环境中。卡诺画出了理想循环，克劳修斯写下了一个新词：熵。它决定了时间的方向。',
-      'Energy is never lost, but no engine can turn all heat into work. Some always escapes. Carnot draws the ideal cycle, and Clausius writes a new word: entropy. It gives time its direction.'
-    )
+    title: text("熵和时间方向", "Entropy and the Direction of Time"),
+    label: text("第十二问", "Q12"),
+    question: text("如果能量守恒，为什么热机还是不能百分百有效？", "If energy is conserved, why can no heat engine be 100% efficient?"),
+    scene: text("你已经知道能量不会消失。但热机总会浪费一部分热。现在要研究效率、熵和时间方向。", "You know energy is conserved, but heat engines always waste some heat. Study efficiency, entropy, and the direction of time.")
   },
   {
-    title: text('声音的形状', 'The Shape of Sound'),
-    label: text('第十三问', 'Q13'),
-    question: text(
-      '声音会不会也是一种波？如果是，波动的究竟是什么？',
-      'Could sound be a wave too? If so, what is actually vibrating?'
-    ),
-    scene: text(
-      '音叉在手里振动，声音传到耳朵。但声音是怎么过来的？敲一下音叉，撒着细沙的金属板上出现了花纹——声音有形状。空气不再是空的，它是声音的路。',
-      'A tuning fork vibrates, and sound reaches your ear. But how? Strike the fork, and sand on a metal plate forms patterns — sound has shape. Air is no longer empty; it is the road sound travels.'
-    )
+    title: text("声音是波", "Sound Is a Wave"),
+    label: text("第十三问", "Q13"),
+    question: text("声音怎样从物体传到耳朵？它是不是一种波？", "How does sound travel from an object to your ear? Is it a wave?"),
+    scene: text("音叉、钟罩和共振装置出现了。你要找出声音传播需要什么，以及到底是什么在振动。", "A tuning fork, bell jar, and resonance tools appear. Find out what sound needs to travel and what is vibrating.")
   },
   {
-    title: text('光的路', 'The Path of Light'),
-    label: text('第十四问', 'Q14'),
-    question: text(
-      '光会折射、成像、分色、干涉。它是粒子、波，还是更奇怪的东西？',
-      'Light refracts, forms images, disperses into colors, and interferes. Is it made of particles, waves, or something stranger?'
-    ),
-    scene: text(
-      '棱镜把白光拆成彩虹，透镜把远景拉到眼前，杨氏双缝在墙上留下明暗条纹。光的行为有时候像粒子，有时候像波——你得把两种证据都收集起来。',
-      'A prism splits white light into a rainbow, a lens brings distant scenes close, and Young’s double slit leaves bright and dark bands on the wall. Light acts like particles sometimes, like waves other times — gather evidence for both.'
-    )
+    title: text("光的行为", "The Behavior of Light"),
+    label: text("第十四问", "Q14"),
+    question: text("光会折射、成像、分色和干涉。它到底怎样传播？", "Light refracts, forms images, splits into colors, and interferes. How does it travel?"),
+    scene: text("棱镜、透镜和双缝装置出现在桌上。你要收集证据，判断光是否像波一样传播。", "A prism, lens, and double-slit setup appear. Gather evidence to decide whether light behaves like a wave.")
   },
   {
-    title: text('追不上光', 'Chasing a Beam of Light'),
-    label: text('第十五问', 'Q15'),
-    question: text(
-      '如果你追着一束光跑，会不会看到一束静止的光？',
-      'If you chase a beam of light, could you ever see it frozen in place?'
-    ),
-    scene: text(
-      '按照常识，跑得够快就能追上任何东西。但迈克耳孙和莫雷转动干涉仪，光速纹丝不动。不管你朝哪个方向、跑得多快，光速永远不变。这意味着时间和空间不是绝对的。',
-      'Common sense says run fast enough and you can catch anything. But Michelson and Morley rotate their interferometer, and the speed of light refuses to budge. No matter your direction or speed, light speed is constant. This means time and space are not absolute.'
-    )
+    title: text("追光问题", "Chasing Light"),
+    label: text("第十五问", "Q15"),
+    question: text("如果你追着一束光跑，会看到什么？", "What would you see if you chased a beam of light?"),
+    scene: text("光速实验和时钟出现在桌上。你要重新思考速度、时间和空间。", "Light-speed experiments and clocks appear. Rethink speed, time, and space.")
   },
   {
-    title: text('弯曲的时空', 'Curved Spacetime'),
-    label: text('第十六问', 'Q16'),
-    question: text(
-      '如果引力不是一只看不见的手，而是时空本身弯了呢？',
-      'What if gravity is not an invisible hand, but the curvature of spacetime itself?'
-    ),
-    scene: text(
-      '想象你在一部自由下落的电梯里，感觉不到自己的重量。爱因斯坦说：引力不是力，而是时空被质量弯曲后的几何效应。太阳弯曲了周围的时空，行星只是沿着弯曲的路径走。',
-      'Imagine falling freely in an elevator — you feel weightless. Einstein says gravity is not a force, but the curvature of spacetime caused by mass. The Sun bends spacetime around it; planets simply follow curved paths.'
-    )
+    title: text("引力和时空", "Gravity and Spacetime"),
+    label: text("第十六问", "Q16"),
+    question: text("引力只是普通的力，还是时空本身弯曲的结果？", "Is gravity an ordinary force, or the result of curved spacetime?"),
+    scene: text("自由下落的电梯、太阳和星光的图像出现了。你要测试一个新想法：质量会改变时空的形状。", "A falling elevator, the Sun, and starlight diagrams appear. Test a new idea: mass changes the shape of spacetime.")
   },
   {
-    title: text('原子有内部', 'Inside the Atom'),
-    label: text('第十七问', 'Q17'),
-    question: text(
-      '原子真的是不可分的硬球吗？如果不是，里面藏着什么？',
-      'Is the atom truly an indivisible hard sphere? If not, what is hidden inside?'
-    ),
-    scene: text(
-      '阴极射线在玻璃管里发光。汤姆孙发现了一种比原子还轻一千多倍的粒子——电子。原子不是最小的。用α粒子轰击金箔，大部分穿了过去，少数被猛地弹回——原子内部几乎是空的，中心有一个极小的核。',
-      'Cathode rays glow in a glass tube. Thomson discovers a particle over a thousand times lighter than an atom — the electron. Atoms are not the smallest. Bombard gold foil with alpha particles: most pass through, a few bounce back violently — atoms are mostly empty, with a tiny dense nucleus.'
-    )
+    title: text("原子里面有什么？", "What Is Inside the Atom?"),
+    label: text("第十七问", "Q17"),
+    question: text("原子真的是不可分割的小球吗？", "Is the atom really an indivisible small sphere?"),
+    scene: text("阴极射线管、金箔和油滴实验装置出现了。你要研究原子内部是否还有更小的结构。", "A cathode ray tube, gold foil, and oil drop setup appear. Study whether atoms contain smaller structures.")
   },
   {
-    title: text('能量一份一份', 'Energy in Packets'),
-    label: text('第十八问', 'Q18'),
-    question: text(
-      '热辐射和金属表面的电子都不肯按经典物理行动。能量会不会不是连续的？',
-      'Thermal radiation and the photoelectric effect refuse to obey classical physics. Could energy come in discrete packets?'
-    ),
-    scene: text(
-      '烧红的铁块发出特定颜色的光，经典公式在高频端完全失效。用很亮的红光照金属，打不出电子；用微弱的紫光照，电子却飞了出来。普朗克和爱因斯坦提出：能量不是连续的，而是一份一份的量子。',
-      'A hot iron glows with specific colors, and the classical formula fails at high frequencies. Bright red light cannot knock electrons off metal; faint violet light can. Planck and Einstein propose: energy is not continuous, but comes in discrete quanta.'
-    )
+    title: text("能量是一份一份的吗？", "Does Energy Come in Packets?"),
+    label: text("第十八问", "Q18"),
+    question: text("经典物理解释不了热辐射和光电效应。能量可能不是连续的吗？", "Classical physics cannot explain blackbody radiation and the photoelectric effect. Could energy be non-continuous?"),
+    scene: text("黑体辐射和光电效应实验出现了。你要研究光的能量是否是一份一份的。", "Blackbody radiation and photoelectric experiments appear. Study whether light energy comes in packets.")
   },
   {
-    title: text('概率的原子', 'Atoms and Probability'),
-    label: text('第十九问', 'Q19'),
-    question: text(
-      '电子到底在哪里？它是绕核转的小行星，还是一团只能计算概率的波？',
-      'Where exactly is the electron? Is it a tiny planet orbiting the nucleus, or a wave described by probability?'
-    ),
-    scene: text(
-      '氢原子只发出特定颜色的光，像原子的指纹。德布罗意说电子也有波长，薛定谔写下了波函数方程，海森堡发现你越想精确测量位置，动量就越不确定。原子世界由概率和不确定性支配。',
-      'Hydrogen emits only specific colors — atomic fingerprints. de Broglie says electrons have wavelengths, Schrödinger writes the wave equation, and Heisenberg finds that the more precisely you measure position, the less you know about momentum. The atomic world is ruled by probability and uncertainty.'
-    )
+    title: text("概率的原子世界", "The Probabilistic Atom"),
+    label: text("第十九问", "Q19"),
+    question: text("电子有确定轨道吗，还是只能用概率描述？", "Do electrons have definite orbits, or can we only describe them with probability?"),
+    scene: text("原子光谱、电子波和测量装置出现了。你要研究微观世界为什么不能再用普通轨道来描述。", "Atomic spectra, electron waves, and measuring tools appear. Study why the microscopic world cannot be described with ordinary orbits.")
   },
   {
-    title: text('核火', 'Nuclear Fire'),
-    label: text('第二十问', 'Q20'),
-    question: text(
-      '如果原子核也能改变，释放出来的能量会把世界带到哪里？',
-      'If atomic nuclei can change too, where will the energy they release take the world?'
-    ),
-    scene: text(
-      '云室里细线划过——那是放射性粒子留下的轨迹。用中子轰击铀核，它裂成两块，释放出更多中子。链式反应像火一样蔓延。同一条方程，可以点亮城市，也可以毁灭城市。物理学走到了人类选择的十字路口。',
-      'Thin tracks cross a cloud chamber — traces of radioactive particles. Bombard uranium with neutrons, and it splits, releasing more neutrons. A chain reaction spreads like fire. The same equation can light cities or destroy them. Physics arrives at a crossroads of human choice.'
-    )
+    title: text("核能和选择", "Nuclear Energy and Choice"),
+    label: text("第二十问", "Q20"),
+    question: text("如果原子核能裂变，释放出的巨大能量应该怎样使用？", "If nuclei can split and release huge energy, how should that energy be used?"),
+    scene: text("云室、铀核和链式反应模型出现了。你要理解核能，也要面对物理知识带来的人类选择。", "A cloud chamber, uranium nucleus, and chain reaction model appear. Understand nuclear energy and the human choices it creates.")
   }
 ]
 const ACTIONS = [
@@ -431,15 +313,15 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 0,
     label: text('观察苹果：它怎么落下来的？', 'Watch the Apple: How Does It Fall?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     once: true,
     run(s) {
       s.records += 1
       s.facts.apple = true
       return text(
-        '苹果落下，没有转弯，也没有犹豫。你在纸上写：它总是奔向地面。',
-        'The apple falls without turning or hesitating. You write: it always moves toward the ground.'
+        '苹果落到地面。你记录：没有支撑时，物体会向下加速。',
+        'The apple falls to the ground. You write: without support, an object accelerates downward.'
       )
     }
   },
@@ -448,7 +330,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 0,
     label: text('比较不同物体：石子、木块也这样落吗？', 'Compare: Do Stone and Wood Fall the Same?'),
-    hint: text('精力1 -> 记录1 疑问1', 'Focus 1 -> Notes +1, Doubt +1'),
+    hint: text('消耗1精力，获得1记录 疑问1', 'Use 1 Energy. Gain 1 Note., Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.apple,
     once: true,
@@ -457,8 +339,8 @@ const ACTIONS = [
       s.doubt += 1
       s.facts.manyFall = true
       return text(
-        '石子、木块、苹果都往下走。原来不是苹果听话，是整个房间都偏向地面。',
-        'A stone, a wooden block, and an apple all move downward. Apples are not special; the whole room seems tilted toward Earth.'
+        '石子、木块和苹果都会下落。你发现：下落不是苹果特有的现象。',
+        'A stone, a wooden block, and an apple all fall. You discover that falling is not special to apples.'
       )
     }
   },
@@ -467,7 +349,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 0,
     label: text('搭一个斜面：把下落变慢，仔细看', 'Build an Inclined Plane: Slow Down the Fall'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.manyFall,
     once: true,
@@ -476,8 +358,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.slope = true
       return text(
-        '斜面把下落拖慢了。运动像被摊开的纸条，终于能一格一格数清。',
-        'The inclined plane slows the fall down. Motion becomes a strip of paper you can count square by square.'
+        '斜面让小车慢慢滑下。运动变慢后，你可以更清楚地观察速度怎样变化。',
+        'The slope makes the cart move more slowly. When motion is slower, you can observe how speed changes.'
       )
     }
   },
@@ -485,19 +367,19 @@ const ACTIONS = [
     id: 'wrong_weight',
     type: 'misconception',
     chapter: 0,
-    label: text('草率下结论：重的东西落得更快？', 'Jump to Conclusion: Heavier = Faster?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('过早判断：重的东西落得更快？', 'Early guess: Heavier = Faster?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.apple && !s.facts.manyFall,
     run(s) {
       s.doubt += 1
       s.feedback = text(
-        '反例：你还只看过苹果。先比较别的物体，否则“重物更快”只是顺手猜的。',
-        'Counterexample: you have only watched the apple. Compare other objects first; otherwise, "heavier objects fall faster" is only a guess.'
+        '这个判断太早了。你还没有比较足够多的物体。先做实验，再下结论。',
+        'This guess is too early. Compare more objects before making a conclusion.'
       )
       return text(
-        '你写下“重的更快”。纸面很安静，像是在等第二个物体来反驳。',
-        'You write, "heavier means faster." The page stays quiet, as if waiting for another object to answer back.'
+        '你猜“重的东西一定落得更快”。但现在证据不够，你需要继续比较。',
+        'You guess that heavier objects must fall faster. But you do not have enough evidence yet.'
       )
     }
   },
@@ -505,8 +387,8 @@ const ACTIONS = [
     id: 'wrong_direction_only',
     type: 'misconception',
     chapter: 0,
-    label: text('仓促推论：都往下落就够了吗？', 'Hasty Conclusion: Is Direction Enough?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('过早判断：都往下落就够了吗？', 'Early guess: Is Direction Enough?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.manyFall && !s.facts.slope,
     run(s) {
@@ -516,8 +398,8 @@ const ACTIONS = [
         'Counterexample: stone and wood both fall downward, but that only tells you the direction. To judge whether motion changes on its own, you need to slow the motion down.'
       )
       return text(
-        '你差点把“都向下”当成完整解释。可是方向只是线索，还不是定律。',
-        'You almost treat "they all go down" as a full explanation. Direction is a clue, not a law.'
+        '“都向下”只说明方向相同，还不能解释运动怎样变化。你需要更多证据。',
+        '“They all go down” only describes direction. It does not explain how motion changes.'
       )
     }
   },
@@ -525,8 +407,8 @@ const ACTIONS = [
     id: 'law_inertia',
     type: 'theory',
     chapter: 0,
-    label: text('提出新概念：物体不受力时保持静止或匀速直线运动', 'Propose: Objects at rest stay at rest; objects in motion stay in motion'),
-    hint: text('精力1 需：斜面 记录3 思路1', 'Focus 1; requires: inclined plane, Notes 3, Insight 1'),
+    label: text('提出规律：物体不受力时保持静止或匀速直线运动', 'Propose a law: Objects at rest stay at rest; objects in motion stay in motion'),
+    hint: text('消耗1精力。需要：斜面 记录3 思路1', 'Use 1 Energy. Requires: inclined plane, Notes 3, Insight 1'),
     cost: 1,
     requires: (s) => s.facts.slope && s.records >= 3 && s.insight >= 1,
     run(s) {
@@ -537,7 +419,7 @@ const ACTIONS = [
       s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
-        '你写下第一条规则：没人打扰时，物体会坚持原来的样子。静止如此，匀速也如此。',
+        '你发现了惯性定律：没有外力时，静止的物体保持静止；匀速直线运动的物体继续匀速直线运动。',
         'You discover the first law of motion: unless acted on by a net external force, an object remains at rest or continues moving with constant velocity in a straight line.'
       )
     }
@@ -547,15 +429,15 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 1,
     label: text('轻推小车：力是怎样改变运动的？', 'Nudge the Cart: How Does Force Change Motion?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     once: true,
     run(s) {
       s.records += 1
       s.facts.push = true
       return text(
-        '你轻推小车。它没有“想通”，只是被迫改变。力第一次露出手。',
-        'You nudge the cart. It does not make a choice; it is forced to change. Force shows its hand for the first time.'
+        '你轻推小车，小车的速度发生改变。你记录：力会改变物体的运动。',
+        'You nudge the cart, and its speed changes. You write: force changes motion.'
       )
     }
   },
@@ -563,8 +445,8 @@ const ACTIONS = [
     id: 'wrong_push_forever',
     type: 'misconception',
     chapter: 1,
-    label: text('错误直觉：物体运动必须一直有力推着？', 'Misconception: Does Motion Require Continuous Force?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：物体运动必须一直有力推着？', 'Wrong guess: Does Motion Require Continuous Force?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.push,
     run(s) {
@@ -584,7 +466,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 1,
     label: text('改变推力：力越大，运动变化越快吗？', 'Vary the Force: More Force = Faster Change?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.push,
     once: true,
@@ -593,8 +475,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.forceChange = true
       return text(
-        '推得越狠，小车变速越快。你盯着那种“变快的快”，给它留了个位置。',
-        'The harder the push, the faster the cart’s speed changes. You make room in your notes for acceleration.'
+        '推力越大，小车速度改变得越快。你开始关注“加速度”。',
+        'A larger force changes the cart’s speed faster. You begin to focus on acceleration.'
       )
     }
   },
@@ -603,7 +485,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 1,
     label: text('给小车加重：质量大了，同样的力效果一样吗？', 'Add Mass: Same Force, Different Effect?'),
-    hint: text('精力1 -> 记录1 疑问1', 'Focus 1 -> Notes +1, Doubt +1'),
+    hint: text('消耗1精力，获得1记录 疑问1', 'Use 1 Energy. Gain 1 Note., Doubt +1'),
     cost: 1,
     requires: (s) => s.facts.push,
     once: true,
@@ -612,8 +494,8 @@ const ACTIONS = [
       s.doubt += 1
       s.facts.mass = true
       return text(
-        '小车变重后开始固执。同样一推，它像在说：改变我，没那么容易。',
-        'With more mass, the cart becomes stubborn. The same push now seems to say: changing me will not be so easy.'
+        '小车加重后，同样的推力产生的加速度变小。质量越大，越难改变运动。',
+        'With more mass, the same force produces less acceleration. More mass means motion is harder to change.'
       )
     }
   },
@@ -621,8 +503,8 @@ const ACTIONS = [
     id: 'invent_calculus',
     type: 'experiment',
     chapter: 1,
-    label: text('精确测量：把时间切成无限薄的瞬间', 'Slice Time: Measure Change at Each Instant'),
-    hint: text('精力2 -> 思路1 预言1', 'Focus 2 -> Insight +1, Prediction +1'),
+    label: text('测量：把时间切成无限薄的瞬间', 'Slice Time: Measure Change at Each Instant'),
+    hint: text('消耗2精力，获得1灵感，获得1预测', 'Use 2 Energy. Gain 1 Insight and 1 Prediction.'),
     cost: 2,
     requires: (s) => s.facts.forceChange && s.facts.mass,
     once: true,
@@ -631,8 +513,8 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.calculus = true
       return text(
-        '你把时间切成越来越薄的片。速度不再只是“前后差多少”，而成了每一瞬间的变化。',
-        'You slice time into thinner and thinner moments. Speed is no longer just a before-and-after difference; it becomes change at an instant.'
+        '你把运动分成很短的时间间隔，开始研究每一瞬间速度怎样变化。',
+        'You divide motion into very small time intervals and study how speed changes at each instant.'
       )
     }
   },
@@ -640,8 +522,8 @@ const ACTIONS = [
     id: 'wrong_average_only',
     type: 'misconception',
     chapter: 1,
-    label: text('偷懒：只看平均速度够不够？', 'Shortcut: Is Average Velocity Enough?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('简单猜想：只看平均速度够不够？', 'Simple guess: Is Average Velocity Enough?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.forceChange && s.facts.mass && !s.facts.calculus,
     run(s) {
@@ -660,8 +542,8 @@ const ACTIONS = [
     id: 'law_second',
     type: 'theory',
     chapter: 1,
-    label: text('提出新概念：力等于质量乘以加速度，F=ma', 'Propose: Force = mass × acceleration, F=ma'),
-    hint: text('精力1 需：推力 质量 微积分 记录4 思路2', 'Focus 1; requires: force, mass, calculus, Notes 4, Insight 2'),
+    label: text('提出规律：力等于质量乘以加速度，F=ma', 'Propose a law: Force = mass × acceleration, F=ma'),
+    hint: text('消耗1精力。需要：推力 质量 微积分 记录4 思路2', 'Use 1 Energy. Requires: force, mass, calculus, Notes 4, Insight 2'),
     cost: 1,
     requires: (s) => s.facts.forceChange && s.facts.mass && s.facts.calculus && s.records >= 4 && s.insight >= 2,
     run(s) {
@@ -672,8 +554,8 @@ const ACTIONS = [
       s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
-        '借着微积分，你抓住了每一瞬间的加速度。力、质量和变化被锁进一行：F = ma。',
-        'With calculus, you describe acceleration at each instant. Net force, mass, and acceleration lock into one line: F = ma.'
+        '你总结出第二定律：合力等于质量乘以加速度，F = ma。',
+        'You discover Newton’s second law: net force equals mass times acceleration, F = ma.'
       )
     }
   },
@@ -682,15 +564,15 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 2,
     label: text('碰撞实验：两辆小车相撞，各自怎么动？', 'Collision: What Happens to Both Carts?'),
-    hint: text('精力2 -> 记录2', 'Focus 2 -> Notes +2'),
+    hint: text('消耗2精力，获得2记录', 'Use 2 Energy. Gain 2 Notes.'),
     cost: 2,
     once: true,
     run(s) {
       s.records += 2
       s.facts.collision = true
       return text(
-        '两辆小车撞在一起。一个被推出去，另一个也狼狈地退回。力没有独角戏。',
-        'Two carts collide. One is pushed away; the other rolls back. Force is never a solo act.'
+        '两辆小车相撞后，两个小车的运动都改变了。你记录：相互作用会影响双方。',
+        'After two carts collide, both carts change their motion. Interaction affects both objects.'
       )
     }
   },
@@ -698,8 +580,8 @@ const ACTIONS = [
     id: 'wrong_one_way_force',
     type: 'misconception',
     chapter: 2,
-    label: text('错误直觉：力是单向的，只有一方受力？', 'Misconception: Is Force One-Sided?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：力是单向的，只有一方受力？', 'Wrong guess: Is Force One-Sided?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.collision && !s.facts.rope,
     run(s) {
@@ -719,7 +601,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 2,
     label: text('拉绳实验：你拉绳，绳也拉你吗？', 'Pull a Rope: Does It Pull You Back?'),
-    hint: text('精力1 -> 记录1 思路1', 'Focus 1 -> Notes +1, Insight +1'),
+    hint: text('消耗1精力，获得1记录 思路1', 'Use 1 Energy. Gain 1 Note., Insight +1'),
     cost: 1,
     once: true,
     run(s) {
@@ -727,8 +609,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.rope = true
       return text(
-        '你拉绳，绳也拉你。你忽然觉得，世界从来不允许单方面动手。',
-        'You pull the rope, and the rope pulls you back. The world does not allow one-sided action.'
+        '你拉绳子时，绳子也在拉你。力似乎总是成对出现。',
+        'When you pull the rope, the rope pulls you back. Forces seem to come in pairs.'
       )
     }
   },
@@ -736,8 +618,8 @@ const ACTIONS = [
     id: 'measure_pair_force',
     type: 'experiment',
     chapter: 2,
-    label: text('精确测量：绳子两端的力一样大吗？', 'Measure: Are Forces at Both Ends Equal?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    label: text('测量：绳子两端的力一样大吗？', 'Measure: Are Forces at Both Ends Equal?'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.rope,
     once: true,
@@ -755,8 +637,8 @@ const ACTIONS = [
     id: 'wrong_pair_not_equal',
     type: 'misconception',
     chapter: 2,
-    label: text('错误直觉：反作用力应该小一些？', 'Misconception: Is the Reaction Weaker?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：反作用力应该小一些？', 'Wrong guess: Is the Reaction Weaker?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.rope && !s.facts.equalPair,
     run(s) {
@@ -775,8 +657,8 @@ const ACTIONS = [
     id: 'law_third',
     type: 'theory',
     chapter: 2,
-    label: text('提出新概念：作用力与反作用力大小相等、方向相反', 'Propose: Equal and opposite reaction'),
-    hint: text('精力1 需：碰撞 拉绳 两端相等 记录5 思路1', 'Focus 1; requires: collision, rope, equal readings, Notes 5, Insight 1'),
+    label: text('提出规律：作用力与反作用力大小相等、方向相反', 'Propose a law: Equal and opposite reaction'),
+    hint: text('消耗1精力。需要：碰撞 拉绳 两端相等 记录5 思路1', 'Use 1 Energy. Requires: collision, rope, equal readings, Notes 5, Insight 1'),
     cost: 1,
     visible: (s) => s.facts.equalPair,
     requires: (s) => s.facts.collision && s.facts.rope && s.facts.equalPair && s.records >= 5 && s.insight >= 1,
@@ -788,7 +670,7 @@ const ACTIONS = [
       s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
-        '你写下第三条规则：两个物体相互作用时，力大小相等、方向相反，分别作用在彼此身上。',
+        '你发现第三定律：两个物体相互作用时，它们受到大小相等、方向相反的力。',
         'You discover the third law of motion: when two objects interact, they exert equal and opposite forces on each other.'
       )
     }
@@ -798,15 +680,15 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 3,
     label: text('观察月亮：它每晚位置都在变，为什么不掉下来？', 'Study the Moon: Why Does It Not Fall?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     once: true,
     run(s) {
       s.doubt += 1
       s.facts.moon = true
       return text(
-        '月亮每晚都换一点方向，却始终不肯离开。它像一辆永远错过地面的车。',
-        'Each night the Moon changes direction, yet it never escapes. It is like a cart that keeps missing the ground.'
+        '月亮的方向一直在改变，但它没有撞上地球。你开始怀疑：月亮也许一直在向地球“下落”。',
+        'The Moon keeps changing direction but does not hit Earth. You suspect it may be constantly “falling” toward Earth.'
       )
     }
   },
@@ -814,8 +696,8 @@ const ACTIONS = [
     id: 'wrong_moon_free',
     type: 'misconception',
     chapter: 3,
-    label: text('错误直觉：月亮在天上，所以它没有在下落？', 'Misconception: The Moon Is Not Falling?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：月亮在天上，所以它没有在下落？', 'Wrong guess: The Moon Is Not Falling?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.moon,
     run(s) {
@@ -835,7 +717,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 3,
     label: text('计算月亮的弯曲：它每秒“掉”多少？', 'Calculate: How Much Does the Moon “Fall”?'),
-    hint: text('精力2 -> 预言1 思路1', 'Focus 2 -> Prediction +1, Insight +1'),
+    hint: text('消耗2精力，获得1预测，获得1灵感', 'Use 2 Energy. Gain 1 Prediction and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.moon,
     once: true,
@@ -844,8 +726,8 @@ const ACTIONS = [
       s.insight += 1
       s.facts.curve = true
       return text(
-        '你画出月亮的弯路：它确实在下落，只是速度太横，总把地面错过去。',
-        'You draw the Moon’s path: it is falling, but its sideways speed keeps making it miss Earth.'
+        '你画出月亮的弯曲轨道。它一直向地球弯曲运动，但横向速度让它不断错过地球。',
+        'You draw the Moon’s curved path. It falls toward Earth, but its sideways speed keeps making it miss.'
       )
     }
   },
@@ -853,8 +735,8 @@ const ACTIONS = [
     id: 'compare_earth_sky',
     type: 'experiment',
     chapter: 3,
-    label: text('关键比较：苹果的下落和月亮的“下落”是同一回事吗？', 'Key Comparison: Same Force for Apple and Moon?'),
-    hint: text('精力2 -> 预言1 记录1', 'Focus 2 -> Prediction +1, Notes +1'),
+    label: text('比较：苹果的下落和月亮的“下落”是同一回事吗？', 'Compare: Same Force for Apple and Moon?'),
+    hint: text('消耗2精力，获得1预测，获得1记录', 'Use 2 Energy. Gain 1 Prediction and 1 Note.'),
     cost: 2,
     requires: (s) => s.facts.curve && s.laws.second,
     once: true,
@@ -863,8 +745,8 @@ const ACTIONS = [
       s.predictions += 1
       s.facts.sameGravity = true
       return text(
-        '苹果和月亮被放在同一张纸上。一个落到脚边，一个落成轨道。',
-        'The apple and the Moon share one page. One falls to your feet; the other falls into orbit.'
+        '你把苹果下落和月亮绕行放在一起比较。它们可能都受到地球引力影响。',
+        'You compare the falling apple with the orbiting Moon. Both may be affected by Earth’s gravity.'
       )
     }
   },
@@ -872,8 +754,8 @@ const ACTIONS = [
     id: 'law_gravity',
     type: 'theory',
     chapter: 3,
-    label: text('提出新概念：任何两个物体之间都存在引力，与距离平方成反比', 'Propose: Universal gravitation; force weakens with distance squared'),
-    hint: text('精力1 需：地月比较 预言2 思路1', 'Focus 1; requires: Earth–Moon comparison, Predictions 2, Insight 1'),
+    label: text('提出规律：任何两个物体之间都存在引力，与距离平方成反比', 'Propose a law: Universal gravitation; force weakens with distance squared'),
+    hint: text('消耗1精力。需要：地月比较 预言2 思路1', 'Use 1 Energy. Requires: Earth–Moon comparison, Predictions 2, Insight 1'),
     cost: 1,
     requires: (s) => s.facts.sameGravity && s.predictions >= 2 && s.insight >= 1,
     run(s) {
@@ -884,8 +766,8 @@ const ACTIONS = [
       s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
-        '你提出万有引力：同一种看不见的拉扯，拽住苹果，也拽住月亮。',
-        'You propose universal gravitation: every mass attracts every other mass, including both the apple and the Moon.'
+        '你提出万有引力：任何两个有质量的物体都会相互吸引。',
+        'You propose universal gravitation: every mass attracts every other mass.'
       )
     }
   },
@@ -893,8 +775,8 @@ const ACTIONS = [
     id: 'write_principia',
     type: 'theory',
     chapter: 4,
-    label: text('集大成：把三条定律和万有引力写成完整的理论体系', 'Synthesize: Three Laws + Gravity = One System'),
-    hint: text('精力1 需：三定律 万有引力 记录2', 'Focus 1; requires: three laws, gravity, Notes 2'),
+    label: text('总结：把三条定律和万有引力写成完整的理论体系', 'Summarize: Three Laws + Gravity = One System'),
+    hint: text('消耗1精力。需要：三定律 万有引力 记录2', 'Use 1 Energy. Requires: three laws, gravity, Notes 2'),
     cost: 1,
     requires: (s) => s.laws.inertia && s.laws.second && s.laws.third && s.laws.gravity && s.records >= 2,
     run(s) {
@@ -914,7 +796,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 5,
     label: text('摩擦琥珀：为什么纸屑会被吸起来？', 'Rub Amber: Why Are Paper Scraps Attracted?'),
-    hint: text('精力1 -> 记录1 疑问1', 'Focus 1 -> Notes +1, Doubt +1'),
+    hint: text('消耗1精力，获得1记录 疑问1', 'Use 1 Energy. Gain 1 Note., Doubt +1'),
     cost: 1,
     once: true,
     run(s) {
@@ -931,8 +813,8 @@ const ACTIONS = [
     id: 'wrong_contact_only',
     type: 'misconception',
     chapter: 5,
-    label: text('错误直觉：力必须通过接触才能传递？', 'Misconception: Must Forces Act Through Contact?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：力必须通过接触才能传递？', 'Wrong guess: Must Forces Act Through Contact?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.amber && !s.facts.chargePair,
     run(s) {
@@ -952,7 +834,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 5,
     label: text('比较两种效果：有的吸、有的斥，为什么？', 'Compare: Some Attract, Some Repel — Why?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.amber,
     once: true,
@@ -970,8 +852,8 @@ const ACTIONS = [
     id: 'law_charge',
     type: 'theory',
     chapter: 5,
-    label: text('提出新概念：电荷有两种，同种相斥、异种相吸', 'Propose: Two kinds of charge; like repels, unlike attracts'),
-    hint: text('精力1 需：吸引排斥 记录3 思路1', 'Focus 1; requires: attraction and repulsion, Notes 3, Insight 1'),
+    label: text('提出规律：电荷有两种，同种相斥、异种相吸', 'Propose a law: Two kinds of charge; like repels, unlike attracts'),
+    hint: text('消耗1精力。需要：吸引排斥 记录3 思路1', 'Use 1 Energy. Requires: attraction and repulsion, Notes 3, Insight 1'),
     cost: 1,
     visible: (s) => s.facts.chargePair,
     requires: (s) => s.facts.chargePair && s.records >= 3 && s.insight >= 1,
@@ -993,7 +875,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 6,
     label: text('接通电路：导线里有什么在流动？', 'Connect the Circuit: What Flows Inside?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     once: true,
     run(s) {
@@ -1009,8 +891,8 @@ const ACTIONS = [
     id: 'compass_near_wire',
     type: 'experiment',
     chapter: 6,
-    label: text('关键实验：通电导线旁边的磁针会动吗？', 'Key Experiment: Does Current Affect a Compass?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    label: text('实验：通电导线旁边的磁针会动吗？', 'Experiment: Does Current Affect a Compass?'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.current,
     once: true,
@@ -1028,8 +910,8 @@ const ACTIONS = [
     id: 'wrong_electric_magnetic_separate',
     type: 'misconception',
     chapter: 6,
-    label: text('错误直觉：电和磁是两回事，互不相干？', 'Misconception: Are Electricity and Magnetism Unrelated?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：电和磁是两回事，互不相干？', 'Wrong guess: Are Electricity and Magnetism Unrelated?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.current && !s.facts.oersted,
     run(s) {
@@ -1048,8 +930,8 @@ const ACTIONS = [
     id: 'law_current_magnetism',
     type: 'theory',
     chapter: 6,
-    label: text('提出新概念：电流周围会产生磁场，使磁针偏转', 'Propose: Current produces a magnetic field'),
-    hint: text('精力1 需：磁针偏转 记录3 思路1', 'Focus 1; requires: compass deflection, Notes 3, Insight 1'),
+    label: text('提出规律：电流周围会产生磁场，使磁针偏转', 'Propose a law: Current produces a magnetic field'),
+    hint: text('消耗1精力。需要：磁针偏转 记录3 思路1', 'Use 1 Energy. Requires: compass deflection, Notes 3, Insight 1'),
     cost: 1,
     visible: (s) => s.facts.oersted,
     requires: (s) => s.facts.oersted && s.records >= 3 && s.insight >= 1,
@@ -1071,7 +953,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 7,
     label: text('移动磁铁：磁铁穿过线圈会产生电吗？', 'Move a Magnet: Does It Generate Current?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     once: true,
     run(s) {
@@ -1088,8 +970,8 @@ const ACTIONS = [
     id: 'wrong_static_magnet_current',
     type: 'misconception',
     chapter: 7,
-    label: text('错误直觉：磁铁放在线圈旁边就能一直发电？', 'Misconception: Stationary Magnet = Continuous Current?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：磁铁放在线圈旁边就能一直发电？', 'Wrong guess: Stationary Magnet = Continuous Current?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.induction && !s.facts.changeMatters,
     run(s) {
@@ -1109,7 +991,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 7,
     label: text('反向移动：磁铁反方向动，电流也反向吗？', 'Reverse: Does Opposite Motion Reverse Current?'),
-    hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
+    hint: text('消耗1精力，获得1记录 预言1', 'Use 1 Energy. Gain 1 Note., Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.induction,
     once: true,
@@ -1127,8 +1009,8 @@ const ACTIONS = [
     id: 'law_induction',
     type: 'theory',
     chapter: 7,
-    label: text('提出新概念：变化的磁场会在闭合线圈中产生感应电流', 'Propose: Changing magnetic field induces current'),
-    hint: text('精力1 需：变化 记录3 思路1 预言1', 'Focus 1; requires: change, Notes 3, Insight 1, Prediction 1'),
+    label: text('提出规律：变化的磁场会在闭合线圈中产生感应电流', 'Propose a law: Changing magnetic field induces current'),
+    hint: text('消耗1精力。需要：变化 记录3 思路1 预言1', 'Use 1 Energy. Requires: change, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.changeMatters,
     requires: (s) => s.facts.changeMatters && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -1151,7 +1033,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 8,
     label: text('画场线：空间本身有结构吗？', 'Draw Field Lines: Does Space Have Structure?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.laws.currentMagnetism && s.laws.induction,
     once: true,
@@ -1169,8 +1051,8 @@ const ACTIONS = [
     id: 'wrong_light_separate',
     type: 'misconception',
     chapter: 8,
-    label: text('错误直觉：光和电磁是两回事？', 'Misconception: Is Light Separate from EM?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：光和电磁是两回事？', 'Wrong guess: Is Light Separate from EM?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.fields && !s.facts.lightSpeed,
     run(s) {
@@ -1190,7 +1072,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 8,
     label: text('计算电磁波速度：它和光速一样吗？', 'Calculate: Does EM Wave Speed = Light Speed?'),
-    hint: text('精力2 -> 预言2 思路1', 'Focus 2 -> Predictions +2, Insight +1'),
+    hint: text('消耗2精力，获得2预测，获得1灵感', 'Use 2 Energy. Gain 2 Predictions and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.fields,
     once: true,
@@ -1208,8 +1090,8 @@ const ACTIONS = [
     id: 'law_maxwell',
     type: 'theory',
     chapter: 8,
-    label: text('提出新概念：变化的电场和磁场互相激发，以光速传播；光就是电磁波', 'Propose: Maxwell’s equations; light is an EM wave'),
-    hint: text('精力1 需：场 光速 记录2 思路2 预言2', 'Focus 1; requires: fields, speed of light, Notes 2, Insight 2, Predictions 2'),
+    label: text('提出规律：变化的电场和磁场互相激发，以光速传播；光就是电磁波', 'Propose a law: Maxwell’s equations; light is an EM wave'),
+    hint: text('消耗1精力。需要：场 光速 记录2 思路2 预言2', 'Use 1 Energy. Requires: fields, speed of light, Notes 2, Insight 2, Predictions 2'),
     cost: 1,
     visible: (s) => s.facts.lightSpeed,
     requires: (s) => s.facts.fields && s.facts.lightSpeed && s.records >= 2 && s.insight >= 2 && s.predictions >= 2,
@@ -1232,7 +1114,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 9,
     label: text('造电动机：通电线圈在磁场中会转吗？', 'Build a Motor: Will a Coil Spin in a Field?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.laws.currentMagnetism,
     once: true,
@@ -1250,8 +1132,8 @@ const ACTIONS = [
     id: 'wrong_power_free',
     type: 'misconception',
     chapter: 9,
-    label: text('错误直觉：电动机凭空产生能量？', 'Misconception: Does a Motor Create Energy?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：电动机凭空产生能量？', 'Wrong guess: Does a Motor Create Energy?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.motor && !s.facts.generator,
     run(s) {
@@ -1271,7 +1153,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 9,
     label: text('造发电机：反过来转线圈能发电吗？', 'Build a Generator: Spin a Coil = Electricity?'),
-    hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
+    hint: text('消耗2精力，获得2记录 预言1', 'Use 2 Energy. Gain 2 Notes., Prediction +1'),
     cost: 2,
     requires: (s) => s.laws.induction,
     once: true,
@@ -1290,7 +1172,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 9,
     label: text('点亮灯泡：电能可以变成光和热', 'Light a Bulb: Electricity Becomes Light and Heat'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     requires: (s) => s.facts.generator,
     once: true,
@@ -1307,8 +1189,8 @@ const ACTIONS = [
     id: 'law_electric_power',
     type: 'theory',
     chapter: 9,
-    label: text('提出新概念：发电、输电、用电可以组成完整的电力系统', 'Propose: Generation + Transmission = Power System'),
-    hint: text('精力1 需：电机 发电机 灯 记录4 思路1 预言1', 'Focus 1; requires: motor, generator, lamp, Notes 4, Insight 1, Prediction 1'),
+    label: text('提出规律：发电、输电、用电可以组成完整的电力系统', 'Propose a law: Generation + Transmission = Power System'),
+    hint: text('消耗1精力。需要：电机 发电机 灯 记录4 思路1 预言1', 'Use 1 Energy. Requires: motor, generator, lamp, Notes 4, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.bulb,
     requires: (s) => s.facts.motor && s.facts.generator && s.facts.bulb && s.records >= 4 && s.insight >= 1 && s.predictions >= 1,
@@ -1331,7 +1213,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 10,
     label: text('火花放电：电磁波能被制造出来吗？', 'Make a Spark: Can We Generate EM Waves?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     requires: (s) => s.laws.maxwell,
     once: true,
@@ -1348,8 +1230,8 @@ const ACTIONS = [
     id: 'wrong_wire_needed',
     type: 'misconception',
     chapter: 10,
-    label: text('错误直觉：信息必须通过导线才能传递？', 'Misconception: Must Signals Travel Through Wires?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：信息必须通过导线才能传递？', 'Wrong guess: Must Signals Travel Through Wires?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.spark && !s.facts.antenna,
     run(s) {
@@ -1369,7 +1251,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 10,
     label: text('架设天线：能接收到远处传来的电磁波吗？', 'Raise an Antenna: Can It Receive Distant Waves?'),
-    hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
+    hint: text('消耗2精力，获得2记录 预言1', 'Use 2 Energy. Gain 2 Notes., Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.spark,
     once: true,
@@ -1388,7 +1270,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 10,
     label: text('调谐接收：怎样从众多信号中选出想要的那一个？', 'Tune a Receiver: Pick One Signal from Many'),
-    hint: text('精力1 -> 记录1 思路1', 'Focus 1 -> Notes +1, Insight +1'),
+    hint: text('消耗1精力，获得1记录 思路1', 'Use 1 Energy. Gain 1 Note., Insight +1'),
     cost: 1,
     requires: (s) => s.facts.antenna,
     once: true,
@@ -1406,8 +1288,8 @@ const ACTIONS = [
     id: 'law_radio',
     type: 'theory',
     chapter: 10,
-    label: text('提出新概念：信息可以通过调制电磁波，跨越空间无线传输', 'Propose: Encode info on EM waves; wireless transmission'),
-    hint: text('精力1 需：天线 调谐 记录3 思路1 预言1', 'Focus 1; requires: antenna, tuning, Notes 3, Insight 1, Prediction 1'),
+    label: text('提出规律：信息可以通过调制电磁波，跨越空间无线传输', 'Propose a law: Encode info on EM waves; wireless transmission'),
+    hint: text('消耗1精力。需要：天线 调谐 记录3 思路1 预言1', 'Use 1 Energy. Requires: antenna, tuning, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.radio,
     requires: (s) => s.facts.antenna && s.facts.radio && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -1430,7 +1312,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 11,
     label: text('烧水观察：蒸汽顶起壶盖，热变成了什么？', 'Boil Water: Steam Lifts the Lid — What Is Heat?'),
-    hint: text('精力1 -> 记录1 疑问1', 'Focus 1 -> Notes +1, Doubt +1'),
+    hint: text('消耗1精力，获得1记录 疑问1', 'Use 1 Energy. Gain 1 Note., Doubt +1'),
     cost: 1,
     once: true,
     run(s) {
@@ -1447,8 +1329,8 @@ const ACTIONS = [
     id: 'wrong_caloric',
     type: 'misconception',
     chapter: 11,
-    label: text('错误直觉：热是一种叫“热质”的流体？', 'Misconception: Is Heat a Fluid Called “Caloric”?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：热是一种叫“热质”的流体？', 'Wrong guess: Is Heat a Fluid Called “Caloric”?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.steam && !s.facts.joule,
     run(s) {
@@ -1468,7 +1350,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 11,
     label: text('焦耳实验：用桨叶搅水，机械功能变成热吗？', 'Joule’s Experiment: Work into Heat?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.steam,
     once: true,
@@ -1487,7 +1369,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 11,
     label: text('分析蒸汽机：热是怎样推动活塞做功的？', 'Analyze a Steam Engine: How Does Heat Do Work?'),
-    hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
+    hint: text('消耗1精力，获得1记录 预言1', 'Use 1 Energy. Gain 1 Note., Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.joule,
     once: true,
@@ -1505,8 +1387,8 @@ const ACTIONS = [
     id: 'law_energy',
     type: 'theory',
     chapter: 11,
-    label: text('提出新概念：能量既不会创生也不会消失，只能从一种形式转化为另一种', 'Propose: Energy is neither created nor destroyed'),
-    hint: text('精力1 需：功热转换 热机 记录3 思路1 预言1', 'Focus 1; requires: work–heat conversion, engine, Notes 3, Insight 1, Prediction 1'),
+    label: text('提出规律：能量既不会创生也不会消失，只能从一种形式转化为另一种', 'Propose a law: Energy is neither created nor destroyed'),
+    hint: text('消耗1精力。需要：功热转换 热机 记录3 思路1 预言1', 'Use 1 Energy. Requires: work–heat conversion, engine, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.engine,
     requires: (s) => s.facts.joule && s.facts.engine && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -1529,7 +1411,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 12,
     label: text('观察废热：热机为什么总会浪费一部分热量？', 'Observe Waste Heat: Why Always Some Loss?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.laws.energy,
     once: true,
@@ -1547,8 +1429,8 @@ const ACTIONS = [
     id: 'wrong_perpetual_engine',
     type: 'misconception',
     chapter: 12,
-    label: text('错误直觉：能不能造一台不浪费热量的完美热机？', 'Misconception: A Perfect Engine with No Waste?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：能不能造一台不浪费热量的完美热机？', 'Wrong guess: A Perfect Engine with No Waste?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.wasteHeat && !s.facts.carnotCycle,
     run(s) {
@@ -1568,7 +1450,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 12,
     label: text('卡诺循环：热机的最高效率由什么决定？', 'Carnot Cycle: What Limits Engine Efficiency?'),
-    hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
+    hint: text('消耗2精力，获得2记录 预言1', 'Use 2 Energy. Gain 2 Notes., Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.wasteHeat,
     once: true,
@@ -1604,8 +1486,8 @@ const ACTIONS = [
     id: 'law_entropy',
     type: 'theory',
     chapter: 12,
-    label: text('提出新概念：孤立系统的熵永不减少，熵增给了时间一个方向', 'Propose: Entropy never decreases; arrow of time'),
-    hint: text('精力1 需：循环 分子排法 记录3 思路2 预言1', 'Focus 1; requires: cycle, microstates, Notes 3, Insight 2, Prediction 1'),
+    label: text('提出规律：孤立系统的熵永不减少，熵增给了时间一个方向', 'Propose a law: Entropy never decreases; arrow of time'),
+    hint: text('消耗1精力。需要：循环 分子排法 记录3 思路2 预言1', 'Use 1 Energy. Requires: cycle, microstates, Notes 3, Insight 2, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.entropyClue,
     requires: (s) => s.facts.carnotCycle && s.facts.entropyClue && s.records >= 3 && s.insight >= 2 && s.predictions >= 1,
@@ -1628,7 +1510,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 13,
     label: text('敲响音叉：声音是怎么传到耳朵里的？', 'Strike a Tuning Fork: How Does Sound Travel?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     once: true,
     run(s) {
@@ -1644,8 +1526,8 @@ const ACTIONS = [
     id: 'wrong_sound_material',
     type: 'misconception',
     chapter: 13,
-    label: text('错误直觉：声音是细小的物质微粒飞出来？', 'Misconception: Is Sound Made of Particles?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：声音是细小的物质微粒飞出来？', 'Wrong guess: Is Sound Made of Particles?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.vibration && !s.facts.airWave,
     run(s) {
@@ -1665,7 +1547,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 13,
     label: text('抽真空实验：没有空气还能听到声音吗？', 'Vacuum Experiment: Sound Without Air?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.vibration,
     once: true,
@@ -1684,7 +1566,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 13,
     label: text('共振实验：声音有形状吗？', 'Resonance: Does Sound Have a Shape?'),
-    hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
+    hint: text('消耗1精力，获得1记录 预言1', 'Use 1 Energy. Gain 1 Note., Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.airWave,
     once: true,
@@ -1702,8 +1584,8 @@ const ACTIONS = [
     id: 'law_sound_wave',
     type: 'theory',
     chapter: 13,
-    label: text('提出新概念：声音是介质中的机械波，有频率、波长和振幅', 'Propose: Sound is a mechanical wave'),
-    hint: text('精力1 需：空气 共振 记录3 思路1 预言1', 'Focus 1; requires: air, resonance, Notes 3, Insight 1, Prediction 1'),
+    label: text('提出规律：声音是介质中的机械波，有频率、波长和振幅', 'Propose a law: Sound is a mechanical wave'),
+    hint: text('消耗1精力。需要：空气 共振 记录3 思路1 预言1', 'Use 1 Energy. Requires: air, resonance, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.resonance,
     requires: (s) => s.facts.airWave && s.facts.resonance && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -1726,7 +1608,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 14,
     label: text('让白光穿过棱镜：白光真的是单纯的吗？', 'Pass Light Through a Prism: Is White Pure?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     once: true,
     run(s) {
@@ -1742,8 +1624,8 @@ const ACTIONS = [
     id: 'wrong_color_glass',
     type: 'misconception',
     chapter: 14,
-    label: text('错误直觉：颜色是玻璃“制造”出来的？', 'Misconception: Does Glass Create Colors?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：颜色是玻璃“制造”出来的？', 'Wrong guess: Does Glass Create Colors?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.spectrum && !s.facts.interference,
     run(s) {
@@ -1763,7 +1645,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 14,
     label: text('用透镜成像：光在不同介质中会弯曲吗？', 'Focus with a Lens: Does Light Bend?'),
-    hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
+    hint: text('消耗1精力，获得1记录 预言1', 'Use 1 Energy. Gain 1 Note., Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.spectrum,
     once: true,
@@ -1782,7 +1664,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 14,
     label: text('双缝干涉：光能像水波一样互相叠加吗？', 'Double Slit: Can Light Interfere Like Waves?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.lens,
     once: true,
@@ -1800,8 +1682,8 @@ const ACTIONS = [
     id: 'law_optics',
     type: 'theory',
     chapter: 14,
-    label: text('提出新概念：光是一种波，会折射、成像、分色、干涉和衍射', 'Propose: Light is a wave; refraction, interference, diffraction'),
-    hint: text('精力1 需：光谱 透镜 干涉 记录3 思路1 预言1', 'Focus 1; requires: spectrum, lens, interference, Notes 3, Insight 1, Prediction 1'),
+    label: text('提出规律：光是一种波，会折射、成像、分色、干涉和衍射', 'Propose a law: Light is a wave; refraction, interference, diffraction'),
+    hint: text('消耗1精力。需要：光谱 透镜 干涉 记录3 思路1 预言1', 'Use 1 Energy. Requires: spectrum, lens, interference, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.interference,
     requires: (s) => s.facts.spectrum && s.facts.lens && s.facts.interference && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -1823,8 +1705,8 @@ const ACTIONS = [
     id: 'chase_light',
     type: 'experiment',
     chapter: 15,
-    label: text('思想实验：如果你追着一束光跑，会发生什么？', 'Thought Experiment: What If You Chase Light?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('思考实验：如果你追着一束光跑，会发生什么？', 'Thought experiment: What If You Chase Light?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     once: true,
     run(s) {
@@ -1840,8 +1722,8 @@ const ACTIONS = [
     id: 'wrong_ether',
     type: 'misconception',
     chapter: 15,
-    label: text('错误直觉：光需要“以太”这种介质才能传播？', 'Misconception: Does Light Need “Ether”?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：光需要“以太”这种介质才能传播？', 'Wrong guess: Does Light Need “Ether”?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.lightPuzzle && !s.facts.michelsonMorley,
     run(s) {
@@ -1861,7 +1743,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 15,
     label: text('迈克耳孙-莫雷实验：能测到以太风吗？', 'Michelson-Morley: Any Ether Wind?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.lightPuzzle,
     once: true,
@@ -1880,7 +1762,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 15,
     label: text('重新思考“同时”：远处的“现在”是绝对的吗？', 'Rethink Simultaneity: Is “Now” Absolute?'),
-    hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
+    hint: text('消耗2精力，获得2记录 预言1', 'Use 2 Energy. Gain 2 Notes., Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.michelsonMorley,
     once: true,
@@ -1898,8 +1780,8 @@ const ACTIONS = [
     id: 'law_special_relativity',
     type: 'theory',
     chapter: 15,
-    label: text('提出新概念：光速不变，空间和时间是相对的，E=mc²', 'Propose: Light speed constant; relativity; E=mc²'),
-    hint: text('精力1 需：无以太 同时性 记录3 思路1 预言1', 'Focus 1; requires: no ether wind, simultaneity, Notes 3, Insight 1, Prediction 1'),
+    label: text('提出规律：光速不变，空间和时间是相对的，E=mc²', 'Propose a law: Light speed constant; relativity; E=mc²'),
+    hint: text('消耗1精力。需要：无以太 同时性 记录3 思路1 预言1', 'Use 1 Energy. Requires: no ether wind, simultaneity, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.clocks,
     requires: (s) => s.facts.michelsonMorley && s.facts.clocks && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -1921,8 +1803,8 @@ const ACTIONS = [
     id: 'falling_elevator',
     type: 'experiment',
     chapter: 16,
-    label: text('思想实验：在自由下落的电梯里，引力还在吗？', 'Thought Experiment: Gravity in a Falling Elevator?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    label: text('思考实验：在自由下落的电梯里，引力还在吗？', 'Thought experiment: Gravity in a Falling Elevator?'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.laws.specialRelativity,
     once: true,
@@ -1940,8 +1822,8 @@ const ACTIONS = [
     id: 'wrong_gravity_force_only',
     type: 'misconception',
     chapter: 16,
-    label: text('错误直觉：引力就是普通的力，和时空无关？', 'Misconception: Is Gravity Just a Force?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：引力就是普通的力，和时空无关？', 'Wrong guess: Is Gravity Just a Force?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.elevator && !s.facts.curvedSpacetime,
     run(s) {
@@ -1960,7 +1842,7 @@ const ACTIONS = [
     id: 'predict_light_bending',
     type: 'experiment',
     chapter: 16,
-    label: text('理论预言：太阳的质量会让经过的星光弯曲吗？', 'Predict: Does the Sun Bend Starlight?'),
+    label: text('预测：太阳的质量会让经过的星光弯曲吗？', 'Predict: Does the Sun Bend Starlight?'),
     hint: text('精力2 -> 记录1 预言2', 'Focus 2 -> Notes +1, Predictions +2'),
     cost: 2,
     requires: (s) => s.facts.elevator,
@@ -1979,8 +1861,8 @@ const ACTIONS = [
     id: 'observe_eclipse',
     type: 'experiment',
     chapter: 16,
-    label: text('实验验证：日食时观测星光是否真的偏折了', 'Verify: Observe Starlight During an Eclipse'),
-    hint: text('精力1 -> 记录1 思路1', 'Focus 1 -> Notes +1, Insight +1'),
+    label: text('验证：日食时观测星光是否真的偏折了', 'Verify: Observe Starlight During an Eclipse'),
+    hint: text('消耗1精力，获得1记录 思路1', 'Use 1 Energy. Gain 1 Note., Insight +1'),
     cost: 1,
     requires: (s) => s.facts.curvedSpacetime,
     once: true,
@@ -1998,8 +1880,8 @@ const ACTIONS = [
     id: 'law_general_relativity',
     type: 'theory',
     chapter: 16,
-    label: text('提出新概念：物质弯曲时空，弯曲的时空决定物质的运动——引力就是几何', 'Propose: Mass curves spacetime; gravity is geometry'),
-    hint: text('精力1 需：电梯 偏折观测 记录3 思路2 预言2', 'Focus 1; requires: falling elevator, light bending, Notes 3, Insight 2, Predictions 2'),
+    label: text('提出规律：物质弯曲时空，弯曲的时空决定物质的运动——引力就是几何', 'Propose a law: Mass curves spacetime; gravity is geometry'),
+    hint: text('消耗1精力。需要：电梯 偏折观测 记录3 思路2 预言2', 'Use 1 Energy. Requires: falling elevator, light bending, Notes 3, Insight 2, Predictions 2'),
     cost: 1,
     visible: (s) => s.facts.eclipse,
     requires: (s) => s.facts.elevator && s.facts.eclipse && s.records >= 3 && s.insight >= 2 && s.predictions >= 2,
@@ -2022,7 +1904,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 17,
     label: text('偏转阴极射线：原子内部有什么？', 'Deflect Cathode Rays: Inside the Atom?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     once: true,
     run(s) {
@@ -2038,8 +1920,8 @@ const ACTIONS = [
     id: 'wrong_solid_atom',
     type: 'misconception',
     chapter: 17,
-    label: text('错误直觉：原子是不可分割的实心小球？', 'Misconception: Are Atoms Solid Spheres?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：原子是不可分割的实心小球？', 'Wrong guess: Are Atoms Solid Spheres?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.electron && !s.facts.nucleus,
     run(s) {
@@ -2059,7 +1941,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 17,
     label: text('轰击金箔：用α粒子探测原子内部结构', 'Bombard Gold Foil: Probe the Atom'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.electron,
     once: true,
@@ -2078,7 +1960,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 17,
     label: text('测量油滴电荷：电荷是连续的还是分立的？', 'Measure Oil Drops: Continuous or Discrete?'),
-    hint: text('精力1 -> 记录1 预言1', 'Focus 1 -> Notes +1, Prediction +1'),
+    hint: text('消耗1精力，获得1记录 预言1', 'Use 1 Energy. Gain 1 Note., Prediction +1'),
     cost: 1,
     requires: (s) => s.facts.nucleus,
     once: true,
@@ -2096,8 +1978,8 @@ const ACTIONS = [
     id: 'law_atomic_structure',
     type: 'theory',
     chapter: 17,
-    label: text('提出新概念：原子有核，电子在外，电荷有最小单位', 'Propose: Nucleus + electrons; discrete charge'),
-    hint: text('精力1 需：电子 原子核 电荷量子 记录3 思路1 预言1', 'Focus 1; requires: electron, nucleus, quantized charge, Notes 3, Insight 1, Prediction 1'),
+    label: text('提出规律：原子有核，电子在外，电荷有最小单位', 'Propose a law: Nucleus + electrons; discrete charge'),
+    hint: text('消耗1精力。需要：电子 原子核 电荷量子 记录3 思路1 预言1', 'Use 1 Energy. Requires: electron, nucleus, quantized charge, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.chargeQuantized,
     requires: (s) => s.facts.electron && s.facts.nucleus && s.facts.chargeQuantized && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -2120,7 +2002,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 18,
     label: text('记录黑体辐射：热辐射的能量分布有什么规律？', 'Record Blackbody Radiation: What Pattern?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     once: true,
     run(s) {
@@ -2137,8 +2019,8 @@ const ACTIONS = [
     id: 'wrong_continuous_energy',
     type: 'misconception',
     chapter: 18,
-    label: text('错误直觉：能量一定是连续的吗？', 'Misconception: Must Energy Be Continuous?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：能量一定是连续的吗？', 'Wrong guess: Must Energy Be Continuous?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.blackbody && !s.facts.photoelectric,
     run(s) {
@@ -2158,7 +2040,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 18,
     label: text('光电效应：为什么光能打出电子？', 'Photoelectric Effect: Light Kicks Out Electrons?'),
-    hint: text('精力2 -> 记录2 预言1', 'Focus 2 -> Notes +2, Prediction +1'),
+    hint: text('消耗2精力，获得2记录 预言1', 'Use 2 Energy. Gain 2 Notes., Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.blackbody,
     once: true,
@@ -2176,8 +2058,8 @@ const ACTIONS = [
     id: 'law_quanta',
     type: 'theory',
     chapter: 18,
-    label: text('提出新概念：光是一份一份的能量包，E=hν', 'Propose: Light = energy packets; E=hν'),
-    hint: text('精力1 需：黑体 光电效应 记录3 思路1 预言1', 'Focus 1; requires: blackbody radiation, photoelectric effect, Notes 3, Insight 1, Prediction 1'),
+    label: text('提出规律：光是一份一份的能量包，E=hν', 'Propose a law: Light = energy packets; E=hν'),
+    hint: text('消耗1精力。需要：黑体 光电效应 记录3 思路1 预言1', 'Use 1 Energy. Requires: blackbody radiation, photoelectric effect, Notes 3, Insight 1, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.photoelectric,
     requires: (s) => s.facts.blackbody && s.facts.photoelectric && s.records >= 3 && s.insight >= 1 && s.predictions >= 1,
@@ -2200,7 +2082,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 19,
     label: text('观察原子光谱：为什么原子只发出特定颜色的光？', 'Observe Atomic Spectra: Discrete Colors?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     requires: (s) => s.laws.atom,
     once: true,
@@ -2217,8 +2099,8 @@ const ACTIONS = [
     id: 'wrong_planet_electron',
     type: 'misconception',
     chapter: 19,
-    label: text('错误直觉：电子像小行星一样绕核转？', 'Misconception: Electrons Like Tiny Planets?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：电子像小行星一样绕核转？', 'Wrong guess: Electrons Like Tiny Planets?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.spectralLines && !s.facts.matterWave,
     run(s) {
@@ -2238,7 +2120,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 19,
     label: text('德布罗意假说：电子也有波长？', 'de Broglie Hypothesis: Electrons Have Wavelength?'),
-    hint: text('精力2 -> 记录2 思路1 预言1', 'Focus 2 -> Notes +2, Insight +1, Prediction +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感 预言1', 'Use 2 Energy. Gain 2 Notes and 1 Insight., Prediction +1'),
     cost: 2,
     requires: (s) => s.facts.spectralLines,
     once: true,
@@ -2258,7 +2140,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 19,
     label: text('不确定性：位置和动量能同时精确知道吗？', 'Uncertainty: Can We Know Both Exactly?'),
-    hint: text('精力1 -> 记录1 思路1', 'Focus 1 -> Notes +1, Insight +1'),
+    hint: text('消耗1精力，获得1记录 思路1', 'Use 1 Energy. Gain 1 Note., Insight +1'),
     cost: 1,
     requires: (s) => s.facts.matterWave,
     once: true,
@@ -2276,8 +2158,8 @@ const ACTIONS = [
     id: 'law_quantum_mechanics',
     type: 'theory',
     chapter: 19,
-    label: text('提出新概念：粒子状态由波函数描述，只能计算概率，不能确定轨道', 'Propose: Wavefunctions give probabilities, not orbits'),
-    hint: text('精力1 需：物质波 不确定性 记录3 思路2 预言1', 'Focus 1; requires: matter waves, uncertainty, Notes 3, Insight 2, Prediction 1'),
+    label: text('提出规律：粒子状态由波函数描述，只能计算概率，不能确定轨道', 'Propose a law: Wavefunctions give probabilities, not orbits'),
+    hint: text('消耗1精力。需要：物质波 不确定性 记录3 思路2 预言1', 'Use 1 Energy. Requires: matter waves, uncertainty, Notes 3, Insight 2, Prediction 1'),
     cost: 1,
     visible: (s) => s.facts.uncertainty,
     requires: (s) => s.facts.matterWave && s.facts.uncertainty && s.records >= 3 && s.insight >= 2 && s.predictions >= 1,
@@ -2300,7 +2182,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 20,
     label: text('观察云室：放射性粒子留下了什么痕迹？', 'Observe Cloud Chamber: Radioactive Traces?'),
-    hint: text('精力1 -> 记录1', 'Focus 1 -> Notes +1'),
+    hint: text('消耗1精力，获得1记录', 'Use 1 Energy. Gain 1 Note.'),
     cost: 1,
     requires: (s) => s.laws.atom,
     once: true,
@@ -2317,8 +2199,8 @@ const ACTIONS = [
     id: 'wrong_atom_immutable',
     type: 'misconception',
     chapter: 20,
-    label: text('错误直觉：原子核是永恒不变的吗？', 'Misconception: Are Nuclei Unchangeable?'),
-    hint: text('精力1 -> 疑问1', 'Focus 1 -> Doubt +1'),
+    label: text('错误判断：原子核是永恒不变的吗？', 'Wrong guess: Are Nuclei Unchangeable?'),
+    hint: text('消耗1精力，增加1疑问', 'Use 1 Energy. Gain 1 Question.'),
     cost: 1,
     requires: (s) => s.facts.radioactivity && !s.facts.fission,
     run(s) {
@@ -2338,7 +2220,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 20,
     label: text('用中子轰击铀核：核裂变能释放多少能量？', 'Split Uranium: How Much Energy?'),
-    hint: text('精力2 -> 记录2 思路1', 'Focus 2 -> Notes +2, Insight +1'),
+    hint: text('消耗2精力，获得2记录，获得1灵感', 'Use 2 Energy. Gain 2 Notes and 1 Insight.'),
     cost: 2,
     requires: (s) => s.facts.radioactivity,
     once: true,
@@ -2357,7 +2239,7 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 20,
     label: text('计算链式反应：一个中子能引发多大的能量释放？', 'Calculate Chain Reaction: Exponential Growth?'),
-    hint: text('精力2 -> 记录2 预言2', 'Focus 2 -> Notes +2, Predictions +2'),
+    hint: text('消耗2精力，获得2记录 预言2', 'Use 2 Energy. Gain 2 Notes., Predictions +2'),
     cost: 2,
     requires: (s) => s.facts.fission,
     once: true,
@@ -2375,8 +2257,8 @@ const ACTIONS = [
     id: 'law_nuclear_age',
     type: 'theory',
     chapter: 20,
-    label: text('提出新概念：核能可以发电也可以造武器——物理学走到了人类选择的十字路口', 'Propose: Nuclear energy; physics at a crossroads'),
-    hint: text('精力1 需：裂变 链式反应 记录4 思路1 预言2', 'Focus 1; requires: fission, chain reaction, Notes 4, Insight 1, Predictions 2'),
+    label: text('提出规律：核能可以发电也可以造武器——物理学走到了人类选择的十字路口', 'Propose a law: Nuclear energy; physics at a crossroads'),
+    hint: text('消耗1精力。需要：裂变 链式反应 记录4 思路1 预言2', 'Use 1 Energy. Requires: fission, chain reaction, Notes 4, Insight 1, Predictions 2'),
     cost: 1,
     visible: (s) => s.facts.chainReaction,
     requires: (s) => s.facts.fission && s.facts.chainReaction && s.records >= 4 && s.insight >= 1 && s.predictions >= 2,
@@ -2704,7 +2586,7 @@ function theoryToastText(action, lang) {
 
   const label = pick(action.label, lang)
   if (lang === 'zh') {
-    return `恭喜你，新的理论已经完成：${label}。`
+    return `你提出了新的规律：${label}。`
   }
 
   const patterns = [
@@ -2721,7 +2603,7 @@ function theoryToastText(action, lang) {
     const match = label.match(pattern)
     if (match) return template.replace('$1', match[1])
   }
-  return `You have completed: ${label}.`
+  return `You have proposed a new law: ${label}.`
 }
 
 Page({
@@ -2748,6 +2630,15 @@ Page({
     if (this.state.insight === undefined) this.state.insight = 0
     if (this.state.doubt === undefined) this.state.doubt = 1
     this.render()
+    if (!wx.getStorageSync('physics_darkroom_tutorial_seen_v1')) {
+      wx.setStorageSync('physics_darkroom_tutorial_seen_v1', true)
+      const lang = this.state.lang || 'zh'
+      showOverlay({
+        title: pick(TUTORIAL.title, lang),
+        html: pick(TUTORIAL.html, lang),
+        buttons: [{ text: pick(text('开始游戏', 'Start'), lang), primary: true }]
+      })
+    }
   },
 
   onHide() {
@@ -2786,8 +2677,8 @@ Page({
       this.state.actionOrder = this.state.actionOrder.filter((id) => !clearedKeys.includes(id))
     }
     this.log(text(
-      '你把本章的纸页翻回开头。前面的定律还在，眼前的问题重新变暗。',
-      'You turn this chapter back to its first page. Earlier laws remain; the question before you grows dark again.'
+      '你重开了本章。前面已经发现的规律仍然保留。',
+      'You restarted this chapter. Earlier discoveries remain.'
     ))
     this.afterChange()
   },
@@ -3165,16 +3056,25 @@ function showDiscoveryTimeline(item, state, lang) {
     // Check if step is completed
     let completed = false
     if (isTheory) {
-      // Map action ID to law key: law_inertia -> inertia, law_principia -> principia
-      const lawKey = actionId.startsWith('law_') ? actionId.slice(4) : actionId
+      // Map action ID to law key: law_inertia -> inertia, write_principia -> principia
+      let lawKey = actionId
+      if (actionId.startsWith('law_')) lawKey = actionId.slice(4)
+      else if (actionId === 'write_principia') lawKey = 'principia'
       completed = !!laws[lawKey]
     } else {
       completed = !!facts[actionId]
     }
     // Determine order in player's actual sequence
     const orderIdx = actionOrder.indexOf(actionId)
-    return { label, isTheory, completed, orderIdx }
+    return { label, isTheory, completed, orderIdx, actionId }
   })
+
+  // Find the theory definition for this concept
+  let theoryDef = ''
+  const theoryStep = steps.find((s) => s.isTheory)
+  if (theoryStep && THEORY_DEFS[theoryStep.actionId]) {
+    theoryDef = pick(THEORY_DEFS[theoryStep.actionId], lang)
+  }
 
   // Build HTML
   let html = '<div class="timeline">'
@@ -3200,6 +3100,10 @@ function showDiscoveryTimeline(item, state, lang) {
     </div>`
   })
   html += '</div>'
+
+  if (theoryDef) {
+    html += `<div class="tl-definition">${escapeHtml(theoryDef)}</div>`
+  }
 
   showOverlay({
     title: item.name,

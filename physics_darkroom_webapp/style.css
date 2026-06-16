@@ -187,6 +187,7 @@ button { font: inherit; }
 .tl-label-theory { color: #e8c77a; font-size: 14px; font-weight: 700; }
 .tl-label-pending { color: #6b6455; font-size: 14px; }
 .tl-order { display: inline-block; margin-left: 8px; padding: 1px 6px; border-radius: 4px; background: rgba(214,127,64,.18); color: #d47f40; font-size: 11px; }
+.tl-definition { margin-top: 16px; padding: 12px 14px; border-left: 3px solid rgba(214,127,64,.62); background: rgba(214,127,64,.08); color: #eadfcb; font-size: 14px; line-height: 1.55; border-radius: 0 6px 6px 0; }
 
 .log-line {
   padding: 9px 0;
