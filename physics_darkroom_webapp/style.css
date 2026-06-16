@@ -87,8 +87,8 @@ button { font: inherit; }
   font-weight: 700;
 }
 .scene, .goal, .feedback { line-height: 1.58; }
-.scene { margin: 16px 0 0; color: #c8beaa; font-size: 17px; }
-.goal {
+.scene { display: none; margin: 16px 0 0; color: #c8beaa; font-size: 17px; }
+.goal { display: none;
   margin: 14px 0 0;
   padding: 13px 14px;
   border-left: 4px solid rgba(214,127,64,.72);
