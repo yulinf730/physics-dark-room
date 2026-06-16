@@ -46,14 +46,6 @@ physics_darkroom_webapp/
 ## 章节推进
 每提出一个理论后，`s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy`，并切换到下一章。共20章+结局。
 
-## 概念发现过程（点击可查看）
-- 右侧"已建立的概念"面板中，每个概念卡片均可点击
-- 点击后从屏幕下方滑出详情面板，显示：
-  - **事实（fact）**：发现该概念的实验叙事
-  - **定律（law）**：发现链（各实验步骤）+ 提出定律的叙事 + 历史注记
-- 发现链通过解析 `requires()` 函数自动推导，从 ACTIONS 中提取相关实验
-- `FACT_CONCEPTS` 和 `LAW_LIST` 各有 33 个 `historyNote` 历史注记
-
 ## 常见问题和预防
 - 进度保存在浏览器 localStorage，换浏览器或清除数据后进度丢失
 - 资源系统常量定义在 game.js 顶部（BASE_MAX_ENERGY、ENERGY_PER_CHAPTER 等）
