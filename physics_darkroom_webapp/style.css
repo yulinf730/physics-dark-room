@@ -123,14 +123,6 @@ button { font: inherit; }
 .action:disabled, .action.is-disabled { cursor: not-allowed; opacity: .55; background: #171614; }
 .action-main { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .action-label { font-weight: 700; }
-.action-kind {
-  flex: 0 0 auto;
-  padding: 3px 7px;
-  border: 1px solid rgba(222,216,200,.16);
-  border-radius: 999px;
-  color: #a79d8b;
-  font-size: 12px;
-}
 .cost { display: block; margin-top: 6px; color: #9e927f; font-size: 13px; }
 
 .info {

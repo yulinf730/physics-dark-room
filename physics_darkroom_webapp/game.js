@@ -3100,7 +3100,6 @@ function renderDOM(data) {
     <button class="action ${item.primary ? 'primary' : ''} ${item.enabled ? '' : 'is-disabled'}" ${item.enabled ? '' : 'disabled'} data-id="${escapeHtml(item.id)}">
       <span class="action-main">
         <span class="action-label">${escapeHtml(item.label)}</span>
-        <span class="action-kind">${escapeHtml(item.kind)}</span>
       </span>
       ${item.hint ? `<span class="cost">${escapeHtml(item.hint)}</span>` : ''}
     </button>
