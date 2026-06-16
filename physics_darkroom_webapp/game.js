@@ -528,6 +528,7 @@ const ACTIONS = [
       s.insight -= 1
       s.laws.inertia = true
       s.chapter = 1
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下第一条规则：没人打扰时，物体会坚持原来的样子。静止如此，匀速也如此。',
@@ -662,6 +663,7 @@ const ACTIONS = [
       s.insight -= 2
       s.laws.second = true
       s.chapter = 2
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '借着微积分，你抓住了每一瞬间的加速度。力、质量和变化被锁进一行：F = ma。',
@@ -777,6 +779,7 @@ const ACTIONS = [
       s.insight -= 1
       s.laws.third = true
       s.chapter = 3
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下第三条规则：两个物体相互作用时，力大小相等、方向相反，分别作用在彼此身上。',
@@ -872,6 +875,7 @@ const ACTIONS = [
       s.insight -= 1
       s.laws.gravity = true
       s.chapter = 4
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你提出万有引力：同一种看不见的拉扯，拽住苹果，也拽住月亮。',
@@ -891,6 +895,7 @@ const ACTIONS = [
       s.records -= 2
       s.laws.principia = true
       s.chapter = 5
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你合上《原理》。地上的碰撞、桌上的小车、天上的月亮，终于说起同一种语言。墙后，磁针轻轻偏了一下。',
@@ -969,6 +974,7 @@ const ACTIONS = [
       s.insight -= 1
       s.laws.charge = true
       s.chapter = 6
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你给这种隔空的电性起了名字：电荷。同类相斥，异类相吸，暗室里多了一种看不见的秩序。',
@@ -1046,6 +1052,7 @@ const ACTIONS = [
       s.insight -= 1
       s.laws.currentMagnetism = true
       s.chapter = 7
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下：电流会产生磁效应。导线周围不再是空的，而像有看不见的旋涡。',
@@ -1125,6 +1132,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.induction = true
       s.chapter = 8
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下：变化的磁场会生出电流。暗室里第一次出现了“变化产生变化”的味道。',
@@ -1205,6 +1213,7 @@ const ACTIONS = [
       s.predictions -= 2
       s.laws.maxwell = true
       s.chapter = 9
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下麦克斯韦方程。电和磁互相追逐，自己向外传播；光，原来就是这种追逐的波。桌角的线圈忽然像一台机器。',
@@ -1303,6 +1312,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.electricPower = true
       s.chapter = 10
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你把电动机、发电机和灯连成一条链：能量可以远距离分配，黑夜第一次显得可以被工程管理。',
@@ -1401,6 +1411,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.radio = true
       s.chapter = 11
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下无线通信：把信息压进电磁波，再用调谐把它从空气里捞出来。暗室终于能听见远方。',
@@ -1499,6 +1510,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.energy = true
       s.chapter = 12
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下能量守恒：功、热、电和运动可以换装，但总账不会凭空增减。',
@@ -1597,6 +1609,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.entropy = true
       s.chapter = 13
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下熵：能量仍守恒，但可用性会散开。时间的箭头第一次在暗室里有了刻度。',
@@ -1694,6 +1707,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.sound = true
       s.chapter = 14
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下声波：介质来回振动，扰动向前传播。听见世界，原来是在读空气的波纹。',
@@ -1791,6 +1805,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.optics = true
       s.chapter = 15
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下波动光学：光会折射、成像、分色，也会干涉。它的路不是一条线，而是一整片波前。',
@@ -1888,6 +1903,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.specialRelativity = true
       s.chapter = 16
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下狭义相对论：光速不让步，空间和时间只好一起调整。爱因斯坦把“现在”变成一道需要测量的问题。',
@@ -1987,6 +2003,7 @@ const ACTIONS = [
       s.predictions -= 2
       s.laws.generalRelativity = true
       s.chapter = 17
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下广义相对论：物质告诉时空怎样弯曲，时空告诉物质怎样运动。引力变成了几何。',
@@ -2084,6 +2101,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.atom = true
       s.chapter = 18
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下原子结构：电子在外，原子核在内，电荷有最小单位。物质第一次被拆出内部地形。',
@@ -2163,6 +2181,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.quanta = true
       s.chapter = 19
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下光量子：光既能像波传播，也能像粒子交换能量。经典图像第一次裂出真正的缝。',
@@ -2262,6 +2281,7 @@ const ACTIONS = [
       s.predictions -= 1
       s.laws.quantum = true
       s.chapter = 20
+      s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
       s.feedback = null
       return text(
         '你写下量子力学：薛定谔的波函数给出概率，海森堡的不确定性划出边界。原子世界不再像小机械表。',
