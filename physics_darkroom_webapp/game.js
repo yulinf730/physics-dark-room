@@ -122,14 +122,21 @@ const UI = {
   kinds: {
     theory: text('规律', 'Law'),
     experiment: text('实验', 'Experiment'),
-    misconception: text('判断', 'Guess'),
+    misconception: text('直觉', 'Intuition'),
+    intuition: text('灵感', 'Insight'),
     rest: text('休息', 'Rest')
   },
   resources: {
     energy: text('精力', 'Energy'),
-    notes: text('记录', 'Notes'),
+    notes: text('手稿', 'Manuscripts'),
     insight: text('灵感', 'Insight'),
-    doubt: text('疑问', 'Questions')
+    doubt: text('困惑', 'Doubt')
+  },
+  resourceDesc: {
+    energy: text('行动消耗精力，休息恢复', 'Actions cost energy. Rest to recover.'),
+    notes: text('已发现的概念数量', 'Number of concepts discovered.'),
+    insight: text('正确直觉获得灵感，解锁深层实验', 'Correct intuition grants insight. Unlocks deeper experiments.'),
+    doubt: text('错误直觉增加困惑，过多会阻塞思路', 'Wrong intuition increases doubt. Too much blocks thinking.')
   },
   lowEnergy: text('精力不足。请选择休息来恢复。', 'Not enough energy. Choose rest to recover.'),
   insightLocked: text('需要更多灵感', 'Requires more Insight'),
@@ -385,14 +392,14 @@ const ACTIONS = [
   },
   {
     id: 'wrong_direction_only',
-    type: 'misconception',
+    type: 'intuition',
     chapter: 0,
-    label: text('直觉：既然都往下落，运动规律应该一样？', 'Intuition: They all fall down, so the same rule applies?'),
-    hint: text('顺着直觉探索，可能增加困惑', 'Follow your intuition. May increase doubt.'),
+    label: text('直觉：既然都往下落，也许它们遵循同一条规律？', 'Intuition: They all fall down. Perhaps one law governs them all?'),
+    hint: text('顺着直觉探索，可能获得灵感', 'Follow your intuition. May gain insight.'),
     cost: 1,
     requires: (s) => s.facts.manyFall && !s.facts.slope,
     run(s) {
-      s.doubt += 1
+      // insight handled by handleAction
       s.feedback = text(
         '反例：石子和木块都向下，只说明方向相同。要判断运动会不会自己改变，还得把运动放慢。',
         'Counterexample: stone and wood both fall downward, but that only tells you the direction. To judge whether motion changes on its own, you need to slow the motion down.'
@@ -694,14 +701,14 @@ const ACTIONS = [
   },
   {
     id: 'wrong_moon_free',
-    type: 'misconception',
+    type: 'intuition',
     chapter: 3,
-    label: text('直觉：月亮挂在天上，它根本没在落？', 'Intuition: The moon hangs there. It is not falling at all?'),
-    hint: text('顺着直觉探索，可能增加困惑', 'Follow your intuition. May increase doubt.'),
+    label: text('直觉：也许月亮也在"下落"，只是永远落不到地面？', 'Intuition: Perhaps the moon IS falling, just never reaching the ground?'),
+    hint: text('顺着直觉探索，可能获得灵感', 'Follow your intuition. May gain insight.'),
     cost: 1,
     requires: (s) => s.facts.moon,
     run(s) {
-      s.doubt += 1
+      // insight handled by handleAction
       s.feedback = text(
         '反例：月亮的方向每晚都在变。它不是不下落，而是一直错过地面。',
         'Counterexample: the Moon changes direction every night. It is not refusing to fall; it keeps missing Earth.'
@@ -908,14 +915,14 @@ const ACTIONS = [
   },
   {
     id: 'wrong_electric_magnetic_separate',
-    type: 'misconception',
+    type: 'intuition',
     chapter: 6,
-    label: text('直觉：电是电，磁是磁，两回事吧？', 'Intuition: Electricity and magnetism are separate things?'),
-    hint: text('顺着直觉探索，可能增加困惑', 'Follow your intuition. May increase doubt.'),
+    label: text('直觉：也许电和磁之间存在某种联系？', 'Intuition: Perhaps electricity and magnetism are connected?'),
+    hint: text('顺着直觉探索，可能获得灵感', 'Follow your intuition. May gain insight.'),
     cost: 1,
     requires: (s) => s.facts.current && !s.facts.oersted,
     run(s) {
-      s.doubt += 1
+      // insight handled by handleAction
       s.feedback = text(
         '反例：先别急着分开它们。把磁针放到通电导线旁边，看看它会不会沉默。',
         'Counterexample: do not separate them too soon. Put a compass by the current-carrying wire and see if it stays silent.'
@@ -1049,14 +1056,14 @@ const ACTIONS = [
   },
   {
     id: 'wrong_light_separate',
-    type: 'misconception',
+    type: 'intuition',
     chapter: 8,
-    label: text('直觉：光和电磁现象应该没关系吧？', 'Intuition: Light and electromagnetism are unrelated?'),
-    hint: text('顺着直觉探索，可能增加困惑', 'Follow your intuition. May increase doubt.'),
+    label: text('直觉：也许光就是电磁波？', 'Intuition: Perhaps light IS an electromagnetic wave?'),
+    hint: text('顺着直觉探索，可能获得灵感', 'Follow your intuition. May gain insight.'),
     cost: 1,
     requires: (s) => s.facts.fields && !s.facts.lightSpeed,
     run(s) {
-      s.doubt += 1
+      // insight handled by handleAction
       s.feedback = text(
         '反例：把电磁场传播的速度算出来，它太像光速了。这个巧合不肯安静。',
         'Counterexample: calculate the speed of electromagnetic propagation. It looks far too much like the speed of light to stay quiet.'
@@ -1327,14 +1334,14 @@ const ACTIONS = [
   },
   {
     id: 'wrong_caloric',
-    type: 'misconception',
+    type: 'intuition',
     chapter: 11,
-    label: text('直觉：热应该是一种可以流动的“热质”？', 'Intuition: Heat is a fluid called caloric?'),
-    hint: text('顺着直觉探索，可能增加困惑', 'Follow your intuition. May increase doubt.'),
+    label: text('直觉：也许热是微观运动的宏观表现？', 'Intuition: Perhaps heat is microscopic motion at the macro scale?'),
+    hint: text('顺着直觉探索，可能获得灵感', 'Follow your intuition. May gain insight.'),
     cost: 1,
     requires: (s) => s.facts.steam && !s.facts.joule,
     run(s) {
-      s.doubt += 1
+      // insight handled by handleAction
       s.feedback = text(
         '反例：摩擦和搅拌也能不断生热。热不像一桶会倒空的液体，更像运动被打散后的账本。',
         'Counterexample: friction and stirring can keep making heat. Heat is less like a fluid that empties and more like a ledger of scattered motion.'
@@ -1720,14 +1727,14 @@ const ACTIONS = [
   },
   {
     id: 'wrong_ether',
-    type: 'misconception',
+    type: 'intuition',
     chapter: 15,
-    label: text('直觉：光应该需要某种介质才能传播吧？', 'Intuition: Light must need a medium to travel?'),
-    hint: text('顺着直觉探索，可能增加困惑', 'Follow your intuition. May increase doubt.'),
+    label: text('直觉：也许光不需要介质也能传播？', 'Intuition: Perhaps light needs no medium to travel?'),
+    hint: text('顺着直觉探索，可能获得灵感', 'Follow your intuition. May gain insight.'),
     cost: 1,
     requires: (s) => s.facts.lightPuzzle && !s.facts.michelsonMorley,
     run(s) {
-      s.doubt += 1
+      // insight handled by handleAction
       s.feedback = text(
         '反例：如果地球穿过以太，光速应该随方向略变。干涉仪会告诉你它有没有变。',
         'Counterexample: if Earth moves through ether, light speed should shift with direction. The interferometer will tell whether it does.'
@@ -1918,14 +1925,14 @@ const ACTIONS = [
   },
   {
     id: 'wrong_solid_atom',
-    type: 'misconception',
+    type: 'intuition',
     chapter: 17,
-    label: text('直觉：原子就是不可分割的实心小球？', 'Intuition: Atoms are indivisible solid spheres?'),
-    hint: text('顺着直觉探索，可能增加困惑', 'Follow your intuition. May increase doubt.'),
+    label: text('直觉：也许原子内部还有结构？', 'Intuition: Perhaps atoms have internal structure?'),
+    hint: text('顺着直觉探索，可能获得灵感', 'Follow your intuition. May gain insight.'),
     cost: 1,
     requires: (s) => s.facts.electron && !s.facts.nucleus,
     run(s) {
-      s.doubt += 1
+      // insight handled by handleAction
       s.feedback = text(
         '反例：如果原子是均匀实心球，少数粒子不该被金箔大角度弹回。',
         'Counterexample: if atoms are uniform solid balls, a few particles should not bounce back from gold foil at large angles.'
@@ -2097,14 +2104,14 @@ const ACTIONS = [
   },
   {
     id: 'wrong_planet_electron',
-    type: 'misconception',
+    type: 'intuition',
     chapter: 19,
-    label: text('直觉：电子像小行星一样绕着原子核转？', 'Intuition: Electrons orbit the nucleus like tiny planets?'),
-    hint: text('顺着直觉探索，可能增加困惑', 'Follow your intuition. May increase doubt.'),
+    label: text('直觉：也许电子的运动方式完全不同？', 'Intuition: Perhaps electrons move in a completely different way?'),
+    hint: text('顺着直觉探索，可能获得灵感', 'Follow your intuition. May gain insight.'),
     cost: 1,
     requires: (s) => s.facts.spectralLines && !s.facts.matterWave,
     run(s) {
-      s.doubt += 1
+      // insight handled by handleAction
       s.feedback = text(
         '反例：绕圈的带电粒子按经典理论会辐射掉能量，掉进原子核。原子却稳定存在。',
         'Counterexample: a circling charged particle should radiate energy and fall into the nucleus. Atoms remain stable.'
@@ -2743,9 +2750,12 @@ Page({
     if (action.type === 'experiment' && s.doubt > 0) {
       s.doubt -= 1
     }
-    // Misconception increases doubt
+    // Misconception increases doubt, intuition increases insight
     if (action.type === 'misconception') {
       s.doubt += 1
+    }
+    if (action.type === 'intuition') {
+      s.insight += 1
     }
 
     this.log(message)
@@ -2847,7 +2857,7 @@ Page({
         }
       })
 
-    const enabledExperiments = chapterActions.filter((a) => a.enabled && a.type === 'experiment')
+    const enabledExperiments = chapterActions.filter((a) => a.enabled && (a.type === 'experiment' || a.type === 'intuition'))
     const enabledMisconceptions = chapterActions.filter((a) => a.enabled && a.type === 'misconception')
     const visible = []
 
@@ -2925,7 +2935,13 @@ Page({
         resetAll: pick(UI.resetAll, lang),
         lang: pick(UI.lang, lang),
         concepts: pick(UI.concepts, lang),
-        log: pick(UI.log, lang)
+        log: pick(UI.log, lang),
+        resourceDesc: {
+          energy: lang === 'zh' ? '精力：每回合消耗1点，理论消耗2点。休息可恢复。归零时只能休息。' : 'Energy: 1 per action, 2 per theory. Rest to recover. Must rest at 0.',
+          notes: lang === 'zh' ? '手稿：已发现的概念总数，代表你的探索进度。' : 'Notes: Total concepts discovered. Your exploration progress.',
+          insight: lang === 'zh' ? '灵感：正确直觉+1，解锁隐藏选项。灵感≥3且困惑≥5时触发灵光乍现。' : 'Insight: +1 from correct intuition. Unlocks hidden options. Spark at ≥3 with doubt≥5.',
+          doubt: lang === 'zh' ? '困惑：错误直觉+1。困惑≥5且灵感<2时选项被锁定。' : 'Doubt: +1 from wrong intuition. Options locked at ≥5 with insight<2.'
+        }
       },
       title: s.complete ? pick(UI.completeTitle, lang) : pick(chapter.title, lang),
       scene: s.complete ? pick(UI.completeScene, lang) : pick(chapter.scene, lang),
@@ -2996,12 +3012,14 @@ function escapeHtml(value) {
 function renderDOM(data) {
   document.body.dataset.lang = data.lang || 'zh';
   const statusBar = document.getElementById('status-bar');
-  statusBar.innerHTML = data.resources.map(item => `
-    <div class="resource">
+  statusBar.innerHTML = data.resources.map(item => {
+    const desc = data.ui.resourceDesc ? data.ui.resourceDesc[item.key] || '' : '';
+    return `
+    <div class="resource" title="${escapeHtml(desc)}">
       <span class="resource-label">${escapeHtml(item.label)}</span>
       <span class="resource-value">${escapeHtml(item.value)}${escapeHtml(item.maxText)}</span>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 
   document.getElementById('phaseLabel').textContent = data.phaseLabel || '';
   document.getElementById('langBtn').textContent = data.ui.lang;
