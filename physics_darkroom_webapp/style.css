@@ -79,7 +79,7 @@ button { font: inherit; }
 .reset { color: #a79d8b; }
 .language:hover, .reset:hover, .action:hover:not(:disabled), .modal-button:hover { filter: brightness(1.12); }
 
-.title {
+.title { display: none;
   margin: 12px 0 0;
   color: var(--title);
   font-size: clamp(26px, 5.5vw, 42px);
