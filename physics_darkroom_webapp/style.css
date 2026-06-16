@@ -138,82 +138,79 @@ button { font: inherit; }
   font-size: 16px;
   font-weight: 700;
 }
+
+/* Concept discovery cards */
 .worker-list, .log-scroll {
   max-height: 34vh;
   overflow: auto;
-  padding-right: 4px;
 }
-.worker {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3px;
-  padding: 10px 0;
-  border-top: 1px solid rgba(222,216,200,.09);
-}
-.worker span:first-child { color: #eadfcb; font-weight: 700; }
-.worker span:last-child { color: #9e927f; font-size: 13px; line-height: 1.42; }
-.log-line {
-  padding: 9px 0;
-  border-top: 1px solid rgba(222,216,200,.09);
-  color: #bdb29f;
-  font-size: 14px;
-  line-height: 1.52;
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  background: rgba(0,0,0,.62);
-  backdrop-filter: blur(4px);
-}
-.modal-box {
-  width: min(440px, 100%);
-  padding: 20px;
-  border: 1px solid rgba(222,216,200,.18);
-  border-radius: 14px;
-  background: #171512;
-  box-shadow: 0 24px 80px rgba(0,0,0,.45);
-}
-.modal-title { color: var(--title); font-size: 20px; font-weight: 700; }
-.modal-content { margin-top: 12px; color: #cfc6b4; line-height: 1.55; }
-.modal-actions { display: grid; gap: 10px; margin-top: 18px; }
-.modal-button {
-  min-height: 40px;
-  border: 1px solid rgba(222,216,200,.16);
-  border-radius: 9px;
-  background: #211f1b;
-  color: var(--text);
+.concept-card {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(222,216,200,.06);
   cursor: pointer;
+  transition: color .15s;
 }
-.modal-button.primary { border-color: rgba(214,127,64,.62); background: #332216; color: #fff3dd; }
+.concept-card:last-child { border-bottom: none; }
+.concept-card:hover .concept-name { color: #eadfcb; }
+.concept-card:active { opacity: .7; }
+.concept-name { color: #c8beaa; font-size: 14px; font-weight: 600; }
+.concept-task { color: #7a7060; font-size: 12px; flex-shrink: 0; }
 
-@media (max-width: 760px) {
-  .page { padding: 8px; }
-  .status-bar { gap: 4px; }
-  .resource { padding: 5px 4px; }
-  .resource-label { font-size: 10px; }
-  .resource-value { font-size: 12px; }
-  .room { padding: 10px; }
-  .scene { font-size: 12px; margin-top: 10px; }
-  .goal { font-size: 11px; margin-top: 8px; padding: 10px 12px; }
-  .info { grid-template-columns: 1fr; }
-  .info > .log-panel { order: 1; }
-  .info > .workers-panel { order: 2; display: flex; flex-direction: column; }
-  .panel { padding: 10px; }
-  .workers-panel .panel-title { position: sticky; top: 0; background: var(--panel); z-index: 1; font-size: 12px; margin-bottom: 3px; }
-  .workers-panel { max-height: 140px; overflow-y: auto; }
-  .worker span:first-child { font-size: 11px; }
-  .worker span:last-child { font-size: 9px; }
-  .worker { padding: 3px 0; gap: 1px; }
-  .worker-list { max-height: none; }
-  .log-scroll { max-height: 120px; }
-  .log-line { font-size: 12px; padding: 5px 0; }
-  .panel-title { font-size: 12px; margin-bottom: 6px; }
+/* Concept detail modal */
+#modal-root { position: fixed; inset: 0; z-index: 100; }
+.concept-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,9,8,.78);
+  display: flex; align-items: flex-end; justify-content: center;
 }
+.concept-modal {
+  width: 100%; max-width: 580px; max-height: 82vh;
+  background: #1c1a16;
+  border: 1px solid rgba(222,216,200,.12); border-bottom: none;
+  border-radius: 18px 18px 0 0;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.concept-modal-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(222,216,200,.08); flex-shrink: 0;
+}
+.concept-modal-close {
+  background: none; border: none; color: #a79d8b; cursor: pointer;
+  padding: 4px; display: flex; align-items: center;
+}
+.concept-modal-close:hover { color: #eadfcb; }
+.concept-modal-title { font-size: 17px; font-weight: 700; color: #eadfcb; }
+.concept-modal-body { padding: 20px 18px 28px; overflow-y: auto; flex: 1; }
+
+/* Discovery steps timeline */
+.concept-steps { display: flex; flex-direction: column; gap: 0; }
+.concept-step { display: flex; gap: 14px; padding-bottom: 16px; }
+.step-marker {
+  flex-shrink: 0; width: 26px; height: 26px;
+  border-radius: 50%; border: 1px solid rgba(222,216,200,.3);
+  color: #a79d8b; font-size: 12px;
+  display: flex; align-items: center; justify-content: center; margin-top: 1px;
+}
+.step-marker--conclusion {
+  background: rgba(214,127,64,.2); border-color: rgba(214,127,64,.5); color: #d67f40;
+}
+.step-content { flex: 1; }
+.step-label { color: #eadfcb; font-size: 14px; font-weight: 600; line-height: 1.4; }
+.step-narrative { color: #9e927f; font-size: 13px; margin-top: 4px; line-height: 1.5; }
+.concept-step--conclusion .step-label { color: #d67f40; }
+.concept-step--conclusion .step-narrative { color: #a79d8b; }
+
+/* Single narrative + history note */
+.concept-single-narrative { margin-bottom: 20px; }
+.narrative-text { color: #c8beaa; font-size: 15px; line-height: 1.6; }
+.concept-history { margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(222,216,200,.08); }
+.history-divider { color: #6a6050; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+.history-text { color: #7a7060; font-size: 13px; line-height: 1.65; }
 
 @media (max-width: 420px) {
   .room-top { align-items: flex-start; }
@@ -221,4 +218,15 @@ button { font: inherit; }
   .language, .reset { min-height: 30px; padding: 0 8px; font-size: 11px; }
   .title { font-size: 27px; }
   .action-main { align-items: flex-start; }
+  .concept-card { padding: 5px 0; }
+  .concept-name { font-size: 13px; }
+  .concept-task { font-size: 11px; }
+  .concept-modal { max-height: 88vh; border-radius: 14px 14px 0 0; }
+  .step-label { font-size: 13px; }
+  .step-narrative { font-size: 12px; }
+  .worker-list { max-height: none; }
+  .log-scroll { max-height: 120px; }
+  .log-line { font-size: 12px; padding: 5px 0; }
+  .panel-title { font-size: 12px; margin-bottom: 6px; }
 }
+

@@ -2390,42 +2390,42 @@ const ACTIONS = [
 ]
 
 const LAW_LIST = [
-  { key: 'inertia', name: text('第一定律', 'First Law of Motion'), task: text('惯性', 'Inertia') },
-  { key: 'second', name: text('第二定律', 'Second Law of Motion'), task: text('F = ma', 'F = ma') },
-  { key: 'third', name: text('第三定律', 'Third Law of Motion'), task: text('相互作用', 'Interaction') },
-  { key: 'gravity', name: text('万有引力', 'Universal Gravitation'), task: text('地月同律', 'Earth and Moon') },
-  { key: 'principia', name: text('《原理》', 'Principia'), task: text('经典力学', 'Classical mechanics') },
-  { key: 'charge', name: text('电荷', 'Charge'), task: text('吸引与排斥', 'Attraction and repulsion') },
-  { key: 'currentMagnetism', name: text('电流磁效应', 'Magnetic Effect of Current'), task: text('电生磁', 'Current produces magnetism') },
-  { key: 'induction', name: text('电磁感应', 'Electromagnetic Induction'), task: text('变化生电', 'Change produces current') },
-  { key: 'maxwell', name: text('麦克斯韦方程', 'Maxwell’s Equations'), task: text('光是电磁波', 'Light is an EM wave') },
-  { key: 'electricPower', name: text('电力系统', 'Electric Power'), task: text('电机与灯', 'Motors and lamps') },
-  { key: 'radio', name: text('无线电', 'Radio'), task: text('远距离通信', 'Long-distance signals') },
-  { key: 'energy', name: text('能量守恒', 'Conservation of Energy'), task: text('功热互换', 'Work and heat') },
-  { key: 'entropy', name: text('熵增方向', 'Entropy'), task: text('时间箭头', 'Arrow of time') },
-  { key: 'sound', name: text('声波', 'Sound Waves'), task: text('空气振动', 'Air vibration') },
-  { key: 'optics', name: text('波动光学', 'Wave Optics'), task: text('干涉成像', 'Interference and imaging') },
-  { key: 'specialRelativity', name: text('狭义相对论', 'Special Relativity'), task: text('光速不变', 'Invariant light speed') },
-  { key: 'generalRelativity', name: text('广义相对论', 'General Relativity'), task: text('弯曲时空', 'Curved spacetime') },
-  { key: 'atom', name: text('原子结构', 'Atomic Structure'), task: text('电子与原子核', 'Electron and nucleus') },
-  { key: 'quanta', name: text('光量子', 'Light Quanta'), task: text('能量分份', 'Discrete energy packets') },
-  { key: 'quantum', name: text('量子力学', 'Quantum Mechanics'), task: text('概率与不确定性', 'Probability and uncertainty') },
-  { key: 'nuclearAge', name: text('核时代', 'Nuclear Age'), task: text('裂变与责任', 'Fission and responsibility') }
+  { key: 'inertia', historyNote: text('伽利略通过斜面实验发现：斜面越光滑，物体滚得越远，趋于无限时便永远运动下去。牛顿将其总结为第一定律。', 'Galileo discovered through inclined planes: smoother surfaces let objects travel farther—approaching perpetual motion. Newton formalized this as the First Law.'), name: text('第一定律', 'First Law of Motion'), task: text('惯性', 'Inertia') },
+  { key: 'second', historyNote: text('牛顿第二定律 F=ma 将力、质量、加速度三者联系起来：给物体施加力，它会按比例加速，质量越大加速越慢。', 'Newton\'s Second Law F=ma connects force, mass, and acceleration.'), name: text('第二定律', 'Second Law of Motion'), task: text('F = ma', 'F = ma') },
+  { key: 'third', historyNote: text('牛顿第三定律：力的作用是相互的。你推墙，墙也推你。大小相等，方向相反。', 'Newton\'s Third Law: forces are mutual—equal in magnitude, opposite in direction.'), name: text('第三定律', 'Third Law of Motion'), task: text('相互作用', 'Interaction') },
+  { key: 'gravity', historyNote: text('牛顿提出：任何两个有质量的物体之间都存在引力，大小与质量乘积成正比，与距离平方成反比。月球和苹果遵循同一规律。', 'Newton proposed universal gravitation: any two masses attract, proportional to their product and inversely proportional to distance squared.'), name: text('万有引力', 'Universal Gravitation'), task: text('地月同律', 'Earth and Moon') },
+  { key: 'principia', historyNote: text('1687年牛顿发表《自然哲学的数学原理》，用严格的数学语言建立了经典力学体系。', 'In 1687 Newton published the Principia Mathematica, establishing classical mechanics in rigorous mathematical form.'), name: text('《原理》', 'Principia'), task: text('经典力学', 'Classical mechanics') },
+  { key: 'charge', historyNote: text('从琥珀到橡胶，人类发现摩擦过的物体会吸引轻小物体——同种电荷相斥，异种电荷相吸。', 'From amber to rubber: rubbed objects attract small things—charge is discovered. Like charges repel; unlike charges attract.'), name: text('电荷', 'Charge'), task: text('吸引与排斥', 'Attraction and repulsion') },
+  { key: 'currentMagnetism', historyNote: text('1820年奥斯特在课堂演示电流时意外发现：导线旁的磁针发生了偏转——电可以产生磁。', 'In 1820 Oersted accidentally discovered: compass needles deflected near a current-carrying wire—electricity creates magnetism.'), name: text('电流磁效应', 'Magnetic Effect of Current'), task: text('电生磁', 'Current produces magnetism') },
+  { key: 'induction', historyNote: text('法拉第历经十年，终于发现：磁铁在线圈中运动时会产生电流——变化的磁通量是感应电流的来源。', 'After a decade, Faraday discovered: moving a magnet in a coil generates current—changing magnetic flux induces current.'), name: text('电磁感应', 'Electromagnetic Induction'), task: text('变化生电', 'Change produces current') },
+  { key: 'maxwell', historyNote: text('麦克斯韦将电与磁的统一描述写成四个方程组，并由此预言：光就是一种电磁波。', 'Maxwell unified electricity and magnetism in four equations and predicted: light is an electromagnetic wave.'), name: text('麦克斯韦方程', 'Maxwell’s Equations'), task: text('光是电磁波', 'Light is an EM wave') },
+  { key: 'electricPower', historyNote: text('法拉第的感应原理被用来制造发电机，电动机将电能转回机械能，人类进入电气时代。', 'Faraday\'s induction powered generators; motors converted electricity back to motion—the electrical age began.'), name: text('电力系统', 'Electric Power'), task: text('电机与灯', 'Motors and lamps') },
+  { key: 'radio', historyNote: text('赫兹实验证实电磁波存在，马可尼将其应用于无线电报，实现跨越大西洋的通信。', 'Hertz confirmed electromagnetic waves; Marconi applied them to wireless telegraphy, achieving transatlantic communication.'), name: text('无线电', 'Radio'), task: text('远距离通信', 'Long-distance signals') },
+  { key: 'energy', historyNote: text('焦耳证明：热是能量的一种形式。能量可以从一种形式转化为另一种，但总量不变。', 'Joule proved heat is a form of energy. Energy transforms between forms but the total remains constant.'), name: text('能量守恒', 'Conservation of Energy'), task: text('功热互换', 'Work and heat') },
+  { key: 'entropy', historyNote: text('克劳修斯发现：自发过程总是朝着混乱度增加的方向进行——熵增原理给时间定义了箭头。', 'Clausius discovered: spontaneous processes always proceed toward greater disorder—entropy gives time its arrow.'), name: text('熵增方向', 'Entropy'), task: text('时间箭头', 'Arrow of time') },
+  { key: 'sound', historyNote: text('声波是空气的压缩与稀疏在传播。牛顿用微积分给出了第一个声速公式。', 'Sound waves are compressions and rarefactions of air propagating. Newton derived the first formula for the speed of sound.'), name: text('声波', 'Sound Waves'), task: text('空气振动', 'Air vibration') },
+  { key: 'optics', historyNote: text('托马斯·杨通过双缝实验证明光是一种波。菲涅尔进一步用波动理论完美解释了衍射和干涉。', 'Thomas Young proved light is a wave through double-slit experiments. Fresnel further explained diffraction and interference.'), name: text('波动光学', 'Wave Optics'), task: text('干涉成像', 'Interference and imaging') },
+  { key: 'specialRelativity', historyNote: text('爱因斯坦的两个基本假设：物理定律在所有惯性系中相同 + 光速始终为c。由此导出时间膨胀和长度收缩。', 'Einstein\'s postulates: physics laws identical in all inertial frames + invariant light speed c. Time dilation and length contraction follow.'), name: text('狭义相对论', 'Special Relativity'), task: text('光速不变', 'Invariant light speed') },
+  { key: 'generalRelativity', historyNote: text('等效原理：加速参考系中的引力与均匀引力场无法区分。质量使周围时空弯曲，物体沿测地线运动。', 'Equivalence principle: acceleration is indistinguishable from gravity. Mass curves space-time; objects follow geodesics.'), name: text('广义相对论', 'General Relativity'), task: text('弯曲时空', 'Curved spacetime') },
+  { key: 'atom', historyNote: text('从道尔顿到汤姆孙再到卢瑟福，人类对原子内部结构的认识花了整整一个世纪。', 'From Dalton to Thomson to Rutherford: understanding atomic structure took an entire century.'), name: text('原子结构', 'Atomic Structure'), task: text('电子与原子核', 'Electron and nucleus') },
+  { key: 'quanta', historyNote: text('普朗克发现热辐射能量是不连续的——必须以"量子"为单位辐射。黑体辐射的难题由此解开。', 'Planck discovered thermal radiation energy is discrete. The black-body radiation puzzle was solved.'), name: text('光量子', 'Light Quanta'), task: text('能量分份', 'Discrete energy packets') },
+  { key: 'quantum', historyNote: text('海森堡发现：你无法同时精确知道粒子的位置和动量。波恩提出波函数的概率诠释。', 'Heisenberg discovered: you cannot simultaneously know position and momentum precisely. Born proposed the probability interpretation.'), name: text('量子力学', 'Quantum Mechanics'), task: text('概率与不确定性', 'Probability and uncertainty') },
+  { key: 'nuclearAge', historyNote: text('核裂变的发现开启了一个时代：核能可以发电点亮城市，也可以制造武器毁灭文明。', 'Nuclear fission opened an era: nuclear energy lights cities or destroys civilizations. Physics cannot decide how humanity uses it.'), name: text('核时代', 'Nuclear Age'), task: text('裂变与责任', 'Fission and responsibility') }
 ]
 
 const FACT_CONCEPTS = [
-  { key: 'calculus', name: text('微积分', 'Calculus'), task: text('计算瞬时变化', 'Instant change') },
-  { key: 'fields', name: text('场', 'Field'), task: text('空间有结构', 'Structured space') },
-  { key: 'motor', name: text('电动机', 'Motor'), task: text('电转成运动', 'Electricity to motion') },
-  { key: 'bulb', name: text('灯泡', 'Lamp'), task: text('电转成光', 'Electricity to light') },
-  { key: 'engine', name: text('热机', 'Heat Engine'), task: text('热推动机器', 'Heat drives machines') },
-  { key: 'resonance', name: text('共振', 'Resonance'), task: text('频率选择', 'Frequency selection') },
-  { key: 'spectrum', name: text('光谱', 'Spectrum'), task: text('颜色在光中', 'Colors in light') },
-  { key: 'curvedSpacetime', name: text('时空弯曲', 'Curved Spacetime'), task: text('光路偏折', 'Bent light paths') },
-  { key: 'electron', name: text('电子', 'Electron'), task: text('原子可分', 'Atoms have parts') },
-  { key: 'nucleus', name: text('原子核', 'Nucleus'), task: text('小而重的中心', 'Small heavy center') },
-  { key: 'matterWave', name: text('物质波', 'Matter Wave'), task: text('电子也有波', 'Electrons have wave behavior') },
-  { key: 'fission', name: text('裂变', 'Fission'), task: text('质量变能量', 'Mass-energy conversion') }
+  { key: 'calculus', historyNote: text('牛顿与莱布尼茨各自独立发明了微积分，用来描述瞬时变化率——这是处理运动的关键工具。', 'Newton and Leibniz independently invented calculus to describe instantaneous rates of change.'), name: text('微积分', 'Calculus'), task: text('计算瞬时变化', 'Instant change') },
+  { key: 'fields', historyNote: text('法拉第提出"场"的概念：电荷周围的空间本身具有物理性质，可以传递力。', 'Faraday proposed the field: space around a charge has physical properties that transmit force.'), name: text('场', 'Field'), task: text('空间有结构', 'Structured space') },
+  { key: 'motor', historyNote: text('奥斯特发现电流能产生磁场，法拉第由此想到反向利用：磁力能否推动物体？', 'Oersted found current creates magnetism; Faraday wondered if this could be reversed to create motion.'), name: text('电动机', 'Motor'), task: text('电转成运动', 'Electricity to motion') },
+  { key: 'bulb', historyNote: text('爱迪生寻找一种材料，能让电流通过时发出稳定的光——经历了上千次失败。', 'Edison sought a material that glowed steadily when current passed through—over a thousand failures.'), name: text('灯泡', 'Lamp'), task: text('电转成光', 'Electricity to light') },
+  { key: 'engine', historyNote: text('纽可门蒸汽机证明热可以转化为机械运动，但效率很低。瓦特后来改进了气缸设计。', 'Newcomen steam engines showed heat could drive motion, but inefficiently. Watt later improved the cylinder.'), name: text('热机', 'Heat Engine'), task: text('热推动机器', 'Heat drives machines') },
+  { key: 'resonance', historyNote: text('每个物体都有固有频率。当外界振动频率与之匹配，能量积累到极致，甚至可以摧毁桥梁。', 'Every object has a natural frequency. When external vibration matches it, energy builds up—sometimes destroying bridges.'), name: text('共振', 'Resonance'), task: text('频率选择', 'Frequency selection') },
+  { key: 'spectrum', historyNote: text('牛顿让阳光穿过棱镜，发现白色光可以分解成彩虹七色。', 'Newton passed sunlight through a prism and found white light splits into the colors of the rainbow.'), name: text('光谱', 'Spectrum'), task: text('颜色在光中', 'Colors in light') },
+  { key: 'curvedSpacetime', historyNote: text('爱因斯坦提出：质量和能量弯曲周围的空间和时间，光线经过太阳时会偏折。', 'Einstein proposed that mass and energy curve space-time; light bends near the Sun.'), name: text('时空弯曲', 'Curved Spacetime'), task: text('光路偏折', 'Bent light paths') },
+  { key: 'electron', historyNote: text('汤姆孙通过阴极射线实验证明：原子内部有更小的带电粒子——电子。', 'J.J. Thomson proved atoms contain smaller charged particles—electrons.'), name: text('电子', 'Electron'), task: text('原子可分', 'Atoms have parts') },
+  { key: 'nucleus', historyNote: text('卢瑟福用α粒子轰击金箔，发现大部分粒子直穿而过，少数大幅偏转——说明原子内部大部分是空的，但中心有致密带正电的核。', 'Rutherford found most alpha particles passed through gold foil, a few deflected sharply—revealing a dense positive nucleus.'), name: text('原子核', 'Nucleus'), task: text('小而重的中心', 'Small heavy center') },
+  { key: 'matterWave', historyNote: text('德布罗意提出大胆假设：电子等粒子也有波动性，其波长与动量成反比。', 'de Broglie hypothesized: electrons and particles also have wave properties, wavelength inversely proportional to momentum.'), name: text('物质波', 'Matter Wave'), task: text('电子也有波', 'Electrons have wave behavior') },
+  { key: 'fission', historyNote: text('哈恩和迈特纳发现：重原子核（如铀）被中子击中时会分裂，释放出巨大能量。', 'Hahn and Meitner discovered: heavy nuclei like uranium split when struck by neutrons, releasing enormous energy.'), name: text('裂变', 'Fission'), task: text('质量变能量', 'Mass-energy conversion') }
 ]
 
 const CHAPTER_FACT_KEYS = [
@@ -2531,6 +2531,56 @@ function isInsightBlocked(state, action) {
   const result = canRun(state, action)
   state.insight = saved
   return !result
+}
+
+function getConceptDiscovery(factKey, lang) {
+  // Find the experiment action that sets this fact
+  const action = ACTIONS.find(a => a.type === 'experiment' && a.run && a.run.toString().includes(`facts.${factKey} = true`))
+  if (!action) return null
+  // Get the run text by calling it with a dummy state
+  const dummy = {}
+  let runText = null
+  try { runText = action.run(dummy) } catch(e) {}
+  return {
+    stepLabel: pick(action.label, lang),
+    stepNarrative: runText ? pick(runText, lang) : ''
+  }
+}
+
+function getLawDiscovery(lawKey, lang, state) {
+  const law = LAW_LIST.find(l => l.key === lawKey)
+  const theory = ACTIONS.find(a => a.type === 'theory' && a.run && a.run.toString().includes(`laws.${lawKey} = true`))
+  if (!theory || !law) return null
+
+  // Find all experiment actions that set facts required by this theory
+  const requiresText = theory.requires ? theory.requires.toString() : ''
+  const requiredFacts = []
+  const factPattern = /s\.facts\.([a-zA-Z0-9_]+)/g
+  let match
+  while ((match = factPattern.exec(requiresText)) !== null) {
+    requiredFacts.push(match[1])
+  }
+
+  // Get discovery steps for each required fact
+  const steps = requiredFacts.map(fk => {
+    const factDef = FACT_CONCEPTS.find(f => f.key === fk)
+    const disc = getConceptDiscovery(fk, lang)
+    return {
+      stepLabel: factDef ? pick(factDef.name, lang) : fk,
+      stepNarrative: disc ? disc.stepNarrative : ''
+    }
+  }).filter(s => s.stepNarrative)
+
+  // Get theory conclusion text
+  let conclusionText = ''
+  try { conclusionText = pick(theory.run({}), lang) } catch(e) {}
+
+  return {
+    steps,
+    conclusionLabel: pick(law.name, lang),
+    conclusionNarrative: conclusionText,
+    historyNote: law.historyNote ? pick(law.historyNote, lang) : ''
+  }
 }
 
 function canRun(state, action) {
@@ -2771,6 +2821,8 @@ Page({
     this.state.complete = false
     this.state.energy = this.state.maxEnergy
     this.state.feedback = null
+    this.state._restOption = null
+    this.state._restOptions = null
     this.log(text(
       '你把本章的纸页翻回开头。前面的定律还在，眼前的问题重新变暗。',
       'You turn this chapter back to its first page. Earlier laws remain; the question before you grows dark again.'
@@ -2866,6 +2918,7 @@ Page({
   newDay() {
     const s = this.state
     s.day += 1
+    if (s.doubt > 0) s.insight += 1
 
     // Pick a random rest option and apply its effects
     const restOpt = s._restOption || REST_OPTIONS[Math.floor(Math.random() * REST_OPTIONS.length)]
@@ -3031,7 +3084,9 @@ Page({
         { key: 'insight', label: pick(UI.resources.insight, lang), value: s.insight, maxText: '' },
         { key: 'doubt', label: pick(UI.resources.doubt, lang), value: s.doubt, maxText: '' }
       ],
-      workers: this.getDiscoveries(),
+      workers: this.getDiscoveries().map((w, i) => ({ ...w, index: i })),
+      conceptDetail: s._conceptDetail || null,
+      conceptDetailSteps: s._conceptDetail ? (s._conceptDetail.steps || (s._conceptDetail.stepNarrative ? [{ stepLabel: s._conceptDetail.name, stepNarrative: s._conceptDetail.stepNarrative }] : [])) : [], 
       logs: s.logs.map((item, index) => ({
         key: `${item.time}-${index}`,
         time: item.time,
@@ -3044,17 +3099,44 @@ Page({
     const lang = this.state.lang || 'zh'
     const facts = FACT_CONCEPTS
       .filter((fact) => this.state.facts[fact.key])
-      .map((fact) => ({
-        name: pick(fact.name, lang),
-        task: pick(fact.task, lang)
-      }))
+      .map((fact) => {
+        const disc = getConceptDiscovery(fact.key, lang)
+        return {
+          kind: 'fact',
+          name: pick(fact.name, lang),
+          task: pick(fact.task, lang),
+          historyNote: fact.historyNote ? pick(fact.historyNote, lang) : '',
+          stepNarrative: disc ? disc.stepNarrative : ''
+        }
+      })
     const laws = LAW_LIST
       .filter((law) => this.state.laws[law.key])
-      .map((law) => ({
-        name: pick(law.name, lang),
-        task: pick(law.task, lang)
-      }))
+      .map((law) => {
+        const disc = getLawDiscovery(law.key, lang, this.state)
+        return {
+          kind: 'law',
+          name: pick(law.name, lang),
+          task: pick(law.task, lang),
+          historyNote: law.historyNote ? pick(law.historyNote, lang) : '',
+          steps: disc ? disc.steps : [],
+          conclusionNarrative: disc ? disc.conclusionNarrative : ''
+        }
+      })
     return facts.concat(laws)
+  },
+
+  showConceptDetail(index) {
+    const item = this.state.workers[index]
+    if (!item) return
+    this.state._conceptDetail = item
+    this.state._conceptDetailIndex = index
+    this.render()
+  },
+
+  closeConceptDetail() {
+    this.state._conceptDetail = null
+    this.state._conceptDetailIndex = -1
+    this.render()
   },
 
   log(message) {
@@ -3111,12 +3193,73 @@ function renderDOM(data) {
   const workersPanel = document.getElementById('workers-panel');
   const workers = document.getElementById('workers');
   workersPanel.hidden = !data.workers.length;
-  workers.innerHTML = data.workers.map(item => `
-    <div class="worker">
-      <span>${escapeHtml(item.name)}</span>
-      <span>${escapeHtml(item.task)}</span>
+  workers.innerHTML = data.workers.map((item, idx) => `
+    <div class="concept-card" data-index="${idx}">
+      <span class="concept-name">${escapeHtml(item.name)}</span>
+      <span class="concept-task">${escapeHtml(item.task)}</span>
     </div>
   `).join('');
+
+  // Concept detail modal
+  const modalRoot = document.getElementById('modal-root');
+  if (data.conceptDetail) {
+    const item = data.conceptDetail;
+    const steps = data.conceptDetailSteps || [];
+    const isLaw = item.kind === 'law';
+    modalRoot.innerHTML = `
+      <div class="concept-modal-overlay" id="conceptModalOverlay">
+        <div class="concept-modal">
+          <div class="concept-modal-header">
+            <button class="concept-modal-close" id="conceptModalClose">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            </button>
+            <span class="concept-modal-title">${escapeHtml(item.name)}</span>
+          </div>
+          <div class="concept-modal-body">
+            ${isLaw && steps.length > 0 ? `
+              <div class="concept-steps">
+                ${steps.map((step, si) => `
+                  <div class="concept-step">
+                    <div class="step-marker">${si + 1}</div>
+                    <div class="step-content">
+                      <div class="step-label">${escapeHtml(step.stepLabel)}</div>
+                      <div class="step-narrative">${escapeHtml(step.stepNarrative)}</div>
+                    </div>
+                  </div>
+                `).join('')}
+                <div class="concept-step concept-step--conclusion">
+                  <div class="step-marker step-marker--conclusion">&#10022;</div>
+                  <div class="step-content">
+                    <div class="step-label">${escapeHtml(item.conclusionNarrative ? item.conclusionNarrative.slice(0, 60) + '……' : pick(text('提出理论', 'Theory proposed'), data.lang || 'zh'))}</div>
+                  </div>
+                </div>
+              </div>
+            ` : `
+              <div class="concept-single-narrative">
+                ${item.stepNarrative ? `<p class="narrative-text">${escapeHtml(item.stepNarrative)}</p>` : ''}
+              </div>
+            `}
+            ${item.historyNote ? `
+              <div class="concept-history">
+                <div class="history-divider">${pick(text('历史注记', 'Historical Note'), data.lang || 'zh')}</div>
+                <p class="history-text">${escapeHtml(item.historyNote)}</p>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+    document.getElementById('conceptModalClose').addEventListener('click', () => {
+      modalRoot.innerHTML = '';
+    });
+    document.getElementById('conceptModalOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('conceptModalOverlay')) {
+        modalRoot.innerHTML = '';
+      }
+    });
+  } else {
+    modalRoot.innerHTML = '';
+  }
 
   const log = document.getElementById('log');
   log.innerHTML = data.logs.map(item => `<div class="log-line">${escapeHtml(item.text)}</div>`).join('');
@@ -3136,6 +3279,12 @@ function boot() {
     const button = event.target.closest('button[data-id]');
     if (!button || button.disabled) return;
     app.handleAction({ currentTarget: { dataset: { id: button.dataset.id } } });
+  });
+  document.getElementById('workers').addEventListener('click', (event) => {
+    const card = event.target.closest('.concept-card[data-index]');
+    if (!card) return;
+    const index = parseInt(card.dataset.index, 10);
+    if (!isNaN(index)) app.showConceptDetail(index);
   });
   window.addEventListener('beforeunload', () => app.onHide && app.onHide());
   app.onLoad();
