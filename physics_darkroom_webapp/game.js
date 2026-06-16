@@ -14,7 +14,7 @@ const webStorage = {
   }
 };
 
-function showOverlay({ title = '', content = '', buttons = [] }) {
+function showOverlay({ title = '', content = '', html = '', buttons = [] }) {
   const root = document.getElementById('modal-root');
   root.innerHTML = '';
   const overlay = document.createElement('div');
@@ -27,7 +27,12 @@ function showOverlay({ title = '', content = '', buttons = [] }) {
     h.textContent = title;
     box.appendChild(h);
   }
-  if (content) {
+  if (html) {
+    const div = document.createElement('div');
+    div.className = 'modal-content';
+    div.innerHTML = html;
+    box.appendChild(div);
+  } else if (content) {
     const p = document.createElement('div');
     p.className = 'modal-content';
     p.textContent = content;
@@ -153,6 +158,7 @@ const START_STATE = {
   predictions: 0,
   facts: {},
   laws: {},
+  actionOrder: [],
   complete: false,
   feedback: null,
   logs: [
@@ -2414,18 +2420,18 @@ const LAW_LIST = [
 ]
 
 const FACT_CONCEPTS = [
-  { key: 'calculus', name: text('微积分', 'Calculus'), task: text('计算瞬时变化', 'Instant change') },
-  { key: 'fields', name: text('场', 'Field'), task: text('空间有结构', 'Structured space') },
-  { key: 'motor', name: text('电动机', 'Motor'), task: text('电转成运动', 'Electricity to motion') },
-  { key: 'bulb', name: text('灯泡', 'Lamp'), task: text('电转成光', 'Electricity to light') },
-  { key: 'engine', name: text('热机', 'Heat Engine'), task: text('热推动机器', 'Heat drives machines') },
-  { key: 'resonance', name: text('共振', 'Resonance'), task: text('频率选择', 'Frequency selection') },
-  { key: 'spectrum', name: text('光谱', 'Spectrum'), task: text('颜色在光中', 'Colors in light') },
-  { key: 'curvedSpacetime', name: text('时空弯曲', 'Curved Spacetime'), task: text('光路偏折', 'Bent light paths') },
-  { key: 'electron', name: text('电子', 'Electron'), task: text('原子可分', 'Atoms have parts') },
-  { key: 'nucleus', name: text('原子核', 'Nucleus'), task: text('小而重的中心', 'Small heavy center') },
-  { key: 'matterWave', name: text('物质波', 'Matter Wave'), task: text('电子也有波', 'Electrons have wave behavior') },
-  { key: 'fission', name: text('裂变', 'Fission'), task: text('质量变能量', 'Mass-energy conversion') }
+  { key: 'calculus', name: text('微积分', 'Calculus'), task: text('计算瞬时变化', 'Instant change'), chain: ['invent_calculus'] },
+  { key: 'fields', name: text('场', 'Field'), task: text('空间有结构', 'Structured space'), chain: ['draw_fields'] },
+  { key: 'motor', name: text('电动机', 'Motor'), task: text('电转成运动', 'Electricity to motion'), chain: ['spin_motor'] },
+  { key: 'bulb', name: text('灯泡', 'Lamp'), task: text('电转成光', 'Electricity to light'), chain: ['light_filament'] },
+  { key: 'engine', name: text('热机', 'Heat Engine'), task: text('热推动机器', 'Heat drives machines'), chain: ['build_heat_engine'] },
+  { key: 'resonance', name: text('共振', 'Resonance'), task: text('频率选择', 'Frequency selection'), chain: ['map_resonance'] },
+  { key: 'spectrum', name: text('光谱', 'Spectrum'), task: text('颜色在光中', 'Colors in light'), chain: ['pass_prism'] },
+  { key: 'curvedSpacetime', name: text('时空弯曲', 'Curved Spacetime'), task: text('光路偏折', 'Bent light paths'), chain: ['predict_light_bending'] },
+  { key: 'electron', name: text('电子', 'Electron'), task: text('原子可分', 'Atoms have parts'), chain: ['cathode_ray'] },
+  { key: 'nucleus', name: text('原子核', 'Nucleus'), task: text('小而重的中心', 'Small heavy center'), chain: ['gold_foil'] },
+  { key: 'matterWave', name: text('物质波', 'Matter Wave'), task: text('电子也有波', 'Electrons have wave behavior'), chain: ['matter_wave'] },
+  { key: 'fission', name: text('裂变', 'Fission'), task: text('质量变能量', 'Mass-energy conversion'), chain: ['split_uranium'] }
 ]
 
 const CHAPTER_FACT_KEYS = [
@@ -2771,6 +2777,14 @@ Page({
     this.state.complete = false
     this.state.energy = this.state.maxEnergy
     this.state.feedback = null
+    // Clean up actionOrder: remove actions from cleared chapters
+    if (this.state.actionOrder) {
+      const clearedKeys = []
+      for (let i = chapter; i < CHAPTERS.length; i++) {
+        clearedKeys.push(...(CHAPTER_FACT_KEYS[i] || []), ...(CHAPTER_LAW_KEYS[i] || []))
+      }
+      this.state.actionOrder = this.state.actionOrder.filter((id) => !clearedKeys.includes(id))
+    }
     this.log(text(
       '你把本章的纸页翻回开头。前面的定律还在，眼前的问题重新变暗。',
       'You turn this chapter back to its first page. Earlier laws remain; the question before you grows dark again.'
@@ -2830,6 +2844,9 @@ Page({
       s.facts[action.id] = true
       if (action.type === 'experiment') s.feedback = null
     }
+    // Track action order for discovery timeline
+    if (!s.actionOrder) s.actionOrder = []
+    if (!s.actionOrder.includes(id)) s.actionOrder.push(id)
 
     // Successful experiment may reduce doubt
     if (action.type === 'experiment' && s.doubt > 0) {
@@ -2848,6 +2865,10 @@ Page({
     const cost = THEORY_ENERGY_COST
     this.state.energy -= cost
     const message = action.run(this.state)
+    // Track theory in action order
+    const s = this.state
+    if (!s.actionOrder) s.actionOrder = []
+    if (!s.actionOrder.includes(action.id)) s.actionOrder.push(action.id)
     this.log(message)
     this.showTheoryToast(action)
   },
@@ -3042,17 +3063,24 @@ Page({
 
   getDiscoveries() {
     const lang = this.state.lang || 'zh'
+    const s = this.state
     const facts = FACT_CONCEPTS
-      .filter((fact) => this.state.facts[fact.key])
+      .filter((fact) => s.facts[fact.key])
       .map((fact) => ({
+        key: fact.key,
         name: pick(fact.name, lang),
-        task: pick(fact.task, lang)
+        task: pick(fact.task, lang),
+        chain: fact.chain || [],
+        discovered: true
       }))
     const laws = LAW_LIST
-      .filter((law) => this.state.laws[law.key])
+      .filter((law) => s.laws[law.key])
       .map((law) => ({
+        key: law.key,
         name: pick(law.name, lang),
-        task: pick(law.task, lang)
+        task: pick(law.task, lang),
+        chain: law.chain || [],
+        discovered: true
       }))
     return facts.concat(laws)
   },
@@ -3111,15 +3139,73 @@ function renderDOM(data) {
   const workersPanel = document.getElementById('workers-panel');
   const workers = document.getElementById('workers');
   workersPanel.hidden = !data.workers.length;
-  workers.innerHTML = data.workers.map(item => `
-    <div class="worker">
-      <span>${escapeHtml(item.name)}</span>
-      <span>${escapeHtml(item.task)}</span>
+  workers.innerHTML = data.workers.map((item, idx) => `
+    <div class="worker" data-worker-idx="${idx}">
+      <span class="worker-name">${escapeHtml(item.name)}</span>
+      <span class="worker-task">${escapeHtml(item.task)}</span>
     </div>
   `).join('');
 
   const log = document.getElementById('log');
   log.innerHTML = data.logs.map(item => `<div class="log-line">${escapeHtml(item.text)}</div>`).join('');
+}
+
+
+function showDiscoveryTimeline(item, state, lang) {
+  const chain = item.chain || []
+  const actionOrder = state.actionOrder || []
+  const facts = state.facts || {}
+  const laws = state.laws || {}
+
+  // Build timeline steps
+  const steps = chain.map((actionId) => {
+    const action = ACTIONS.find((a) => a.id === actionId)
+    const label = action ? pick(action.label, lang) : actionId
+    const isTheory = action && action.type === 'theory'
+    // Check if step is completed
+    let completed = false
+    if (isTheory) {
+      // Map action ID to law key: law_inertia -> inertia, law_principia -> principia
+      const lawKey = actionId.startsWith('law_') ? actionId.slice(4) : actionId
+      completed = !!laws[lawKey]
+    } else {
+      completed = !!facts[actionId]
+    }
+    // Determine order in player's actual sequence
+    const orderIdx = actionOrder.indexOf(actionId)
+    return { label, isTheory, completed, orderIdx }
+  })
+
+  // Build HTML
+  let html = '<div class="timeline">'
+  steps.forEach((step, i) => {
+    const isLast = i === steps.length - 1
+    const dotClass = step.completed ? 'tl-dot-done' : 'tl-dot-pending'
+    const labelClass = step.completed
+      ? (step.isTheory ? 'tl-label-theory' : 'tl-label-done')
+      : 'tl-label-pending'
+    const orderText = step.completed && step.orderIdx >= 0
+      ? `<span class="tl-order">#${step.orderIdx + 1}</span>`
+      : ''
+
+    html += `<div class="tl-step">
+      <div class="tl-line-col">
+        <span class="tl-dot ${dotClass}"></span>
+        ${isLast ? '' : '<span class="tl-line"></span>'}
+      </div>
+      <div class="tl-body">
+        <span class="${labelClass}">${escapeHtml(step.label)}</span>
+        ${orderText}
+      </div>
+    </div>`
+  })
+  html += '</div>'
+
+  showOverlay({
+    title: item.name,
+    html,
+    buttons: [{ text: lang === 'zh' ? '关闭' : 'Close', primary: true }]
+  })
 }
 
 function boot() {
@@ -3136,6 +3222,14 @@ function boot() {
     const button = event.target.closest('button[data-id]');
     if (!button || button.disabled) return;
     app.handleAction({ currentTarget: { dataset: { id: button.dataset.id } } });
+  });
+  document.getElementById('workers').addEventListener('click', (event) => {
+    const worker = event.target.closest('.worker');
+    if (!worker) return;
+    const idx = parseInt(worker.dataset.workerIdx, 10);
+    const item = app.data.workers[idx];
+    if (!item) return;
+    showDiscoveryTimeline(item, app.state, app.data.lang);
   });
   window.addEventListener('beforeunload', () => app.onHide && app.onHide());
   app.onLoad();

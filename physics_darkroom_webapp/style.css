@@ -149,9 +149,45 @@ button { font: inherit; }
   gap: 3px;
   padding: 10px 0;
   border-top: 1px solid rgba(222,216,200,.09);
+  cursor: pointer;
+  transition: background .15s;
 }
+.worker:hover { background: rgba(214,127,64,.08); }
 .worker span:first-child { color: #eadfcb; font-weight: 700; }
 .worker span:last-child { color: #9e927f; font-size: 13px; line-height: 1.42; }
+
+/* Timeline in modal */
+.timeline { margin: 0; }
+.tl-step { display: flex; gap: 12px; }
+.tl-step + .tl-step { margin-top: 4px; }
+.tl-line-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20px;
+  flex-shrink: 0;
+}
+.tl-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.tl-dot-done { background: #5a9e6f; }
+.tl-dot-pending { background: transparent; border: 2px solid rgba(222,216,200,.25); }
+.tl-line {
+  width: 2px;
+  flex: 1;
+  min-height: 18px;
+  background: rgba(222,216,200,.14);
+  margin: 3px 0;
+}
+.tl-body { padding: 2px 0; flex: 1; }
+.tl-label-done { color: #cfc6b4; font-size: 14px; }
+.tl-label-theory { color: #e8c77a; font-size: 14px; font-weight: 700; }
+.tl-label-pending { color: #6b6455; font-size: 14px; }
+.tl-order { display: inline-block; margin-left: 8px; padding: 1px 6px; border-radius: 4px; background: rgba(214,127,64,.18); color: #d47f40; font-size: 11px; }
+
 .log-line {
   padding: 9px 0;
   border-top: 1px solid rgba(222,216,200,.09);
