@@ -927,7 +927,7 @@ const ACTIONS = [
     }
   },
   {
-    id: 'law_current_magnetism',
+    id: 'law_currentMagnetism',
     type: 'theory',
     chapter: 6,
     label: text('提出规律：电流周围会产生磁场，使磁针偏转', 'Propose a law: Current produces a magnetic field'),
@@ -1186,7 +1186,7 @@ const ACTIONS = [
     }
   },
   {
-    id: 'law_electric_power',
+    id: 'law_electricPower',
     type: 'theory',
     chapter: 9,
     label: text('提出规律：发电、输电、用电可以组成完整的电力系统', 'Propose a law: Generation + Transmission = Power System'),
@@ -1581,7 +1581,7 @@ const ACTIONS = [
     }
   },
   {
-    id: 'law_sound_wave',
+    id: 'law_sound',
     type: 'theory',
     chapter: 13,
     label: text('提出规律：声音是介质中的机械波，有频率、波长和振幅', 'Propose a law: Sound is a mechanical wave'),
@@ -1777,7 +1777,7 @@ const ACTIONS = [
     }
   },
   {
-    id: 'law_special_relativity',
+    id: 'law_specialRelativity',
     type: 'theory',
     chapter: 15,
     label: text('提出规律：光速不变，空间和时间是相对的，E=mc²', 'Propose a law: Light speed constant; relativity; E=mc²'),
@@ -1877,7 +1877,7 @@ const ACTIONS = [
     }
   },
   {
-    id: 'law_general_relativity',
+    id: 'law_generalRelativity',
     type: 'theory',
     chapter: 16,
     label: text('提出规律：物质弯曲时空，弯曲的时空决定物质的运动——引力就是几何', 'Propose a law: Mass curves spacetime; gravity is geometry'),
@@ -1975,7 +1975,7 @@ const ACTIONS = [
     }
   },
   {
-    id: 'law_atomic_structure',
+    id: 'law_atom',
     type: 'theory',
     chapter: 17,
     label: text('提出规律：原子有核，电子在外，电荷有最小单位', 'Propose a law: Nucleus + electrons; discrete charge'),
@@ -2155,7 +2155,7 @@ const ACTIONS = [
     }
   },
   {
-    id: 'law_quantum_mechanics',
+    id: 'law_quantum',
     type: 'theory',
     chapter: 19,
     label: text('提出规律：粒子状态由波函数描述，只能计算概率，不能确定轨道', 'Propose a law: Wavefunctions give probabilities, not orbits'),
@@ -2254,7 +2254,7 @@ const ACTIONS = [
     }
   },
   {
-    id: 'law_nuclear_age',
+    id: 'law_nuclearAge',
     type: 'theory',
     chapter: 20,
     label: text('提出规律：核能可以发电也可以造武器——物理学走到了人类选择的十字路口', 'Propose a law: Nuclear energy; physics at a crossroads'),
@@ -2278,27 +2278,27 @@ const ACTIONS = [
 ]
 
 const LAW_LIST = [
-  { key: 'inertia', name: text('第一定律', 'First Law of Motion'), task: text('惯性', 'Inertia') },
-  { key: 'second', name: text('第二定律', 'Second Law of Motion'), task: text('F = ma', 'F = ma') },
-  { key: 'third', name: text('第三定律', 'Third Law of Motion'), task: text('相互作用', 'Interaction') },
-  { key: 'gravity', name: text('万有引力', 'Universal Gravitation'), task: text('地月同律', 'Earth and Moon') },
-  { key: 'principia', name: text('《原理》', 'Principia'), task: text('经典力学', 'Classical mechanics') },
-  { key: 'charge', name: text('电荷', 'Charge'), task: text('吸引与排斥', 'Attraction and repulsion') },
-  { key: 'currentMagnetism', name: text('电流磁效应', 'Magnetic Effect of Current'), task: text('电生磁', 'Current produces magnetism') },
-  { key: 'induction', name: text('电磁感应', 'Electromagnetic Induction'), task: text('变化生电', 'Change produces current') },
-  { key: 'maxwell', name: text('麦克斯韦方程', 'Maxwell’s Equations'), task: text('光是电磁波', 'Light is an EM wave') },
-  { key: 'electricPower', name: text('电力系统', 'Electric Power'), task: text('电机与灯', 'Motors and lamps') },
-  { key: 'radio', name: text('无线电', 'Radio'), task: text('远距离通信', 'Long-distance signals') },
-  { key: 'energy', name: text('能量守恒', 'Conservation of Energy'), task: text('功热互换', 'Work and heat') },
-  { key: 'entropy', name: text('熵增方向', 'Entropy'), task: text('时间箭头', 'Arrow of time') },
-  { key: 'sound', name: text('声波', 'Sound Waves'), task: text('空气振动', 'Air vibration') },
-  { key: 'optics', name: text('波动光学', 'Wave Optics'), task: text('干涉成像', 'Interference and imaging') },
-  { key: 'specialRelativity', name: text('狭义相对论', 'Special Relativity'), task: text('光速不变', 'Invariant light speed') },
-  { key: 'generalRelativity', name: text('广义相对论', 'General Relativity'), task: text('弯曲时空', 'Curved spacetime') },
-  { key: 'atom', name: text('原子结构', 'Atomic Structure'), task: text('电子与原子核', 'Electron and nucleus') },
-  { key: 'quanta', name: text('光量子', 'Light Quanta'), task: text('能量分份', 'Discrete energy packets') },
-  { key: 'quantum', name: text('量子力学', 'Quantum Mechanics'), task: text('概率与不确定性', 'Probability and uncertainty') },
-  { key: 'nuclearAge', name: text('核时代', 'Nuclear Age'), task: text('裂变与责任', 'Fission and responsibility') }
+  { key: 'inertia', name: text('第一定律', 'First Law of Motion'), task: text('惯性', 'Inertia'), chain: ['build_slope', 'watch_apple', 'compare_objects', 'law_inertia'] },
+  { key: 'second', name: text('第二定律', 'Second Law of Motion'), task: text('F = ma', 'F = ma'), chain: ['push_cart', 'vary_force', 'add_mass', 'invent_calculus', 'law_second'] },
+  { key: 'third', name: text('第三定律', 'Third Law of Motion'), task: text('相互作用', 'Interaction'), chain: ['collide_carts', 'pull_rope', 'measure_pair_force', 'law_third'] },
+  { key: 'gravity', name: text('万有引力', 'Universal Gravitation'), task: text('地月同律', 'Earth and Moon'), chain: ['read_moon', 'estimate_curve', 'compare_earth_sky', 'law_gravity'] },
+  { key: 'principia', name: text('《原理》', 'Principia'), task: text('经典力学', 'Classical mechanics'), chain: ['law_inertia', 'law_second', 'law_third', 'law_gravity', 'write_principia'] },
+  { key: 'charge', name: text('电荷', 'Charge'), task: text('吸引与排斥', 'Attraction and repulsion'), chain: ['rub_amber', 'compare_charges', 'law_charge'] },
+  { key: 'currentMagnetism', name: text('电流磁效应', 'Magnetic Effect of Current'), task: text('电生磁', 'Current produces magnetism'), chain: ['close_circuit', 'compass_near_wire', 'law_currentMagnetism'] },
+  { key: 'induction', name: text('电磁感应', 'Electromagnetic Induction'), task: text('变化生电', 'Change produces current'), chain: ['move_magnet_coil', 'reverse_motion', 'law_induction'] },
+  { key: 'maxwell', name: text('麦克斯韦方程', 'Maxwell\u2019s Equations'), task: text('光是电磁波', 'Light is an EM wave'), chain: ['draw_fields', 'measure_wave_speed', 'law_maxwell'] },
+  { key: 'electricPower', name: text('电力系统', 'Electric Power'), task: text('电机与灯', 'Motors and lamps'), chain: ['spin_motor', 'turn_generator', 'light_filament', 'law_electricPower'] },
+  { key: 'radio', name: text('无线电', 'Radio'), task: text('远距离通信', 'Long-distance signals'), chain: ['spark_gap', 'build_antenna', 'tune_receiver', 'law_radio'] },
+  { key: 'energy', name: text('能量守恒', 'Conservation of Energy'), task: text('功热互换', 'Work and heat'), chain: ['heat_water', 'turn_paddle', 'build_heat_engine', 'law_energy'] },
+  { key: 'entropy', name: text('熵增方向', 'Entropy'), task: text('时间箭头', 'Arrow of time'), chain: ['watch_waste_heat', 'trace_carnot_cycle', 'count_microstates', 'law_entropy'] },
+  { key: 'sound', name: text('声波', 'Sound Waves'), task: text('空气振动', 'Air vibration'), chain: ['strike_tuning_fork', 'bell_jar', 'map_resonance', 'law_sound'] },
+  { key: 'optics', name: text('波动光学', 'Wave Optics'), task: text('干涉成像', 'Interference and imaging'), chain: ['pass_prism', 'focus_lens', 'make_interference', 'law_optics'] },
+  { key: 'specialRelativity', name: text('狭义相对论', 'Special Relativity'), task: text('光速不变', 'Invariant light speed'), chain: ['chase_light', 'michelson_morley', 'sync_clocks', 'law_specialRelativity'] },
+  { key: 'generalRelativity', name: text('广义相对论', 'General Relativity'), task: text('弯曲时空', 'Curved spacetime'), chain: ['falling_elevator', 'predict_light_bending', 'observe_eclipse', 'law_generalRelativity'] },
+  { key: 'atom', name: text('原子结构', 'Atomic Structure'), task: text('电子与原子核', 'Electron and nucleus'), chain: ['cathode_ray', 'gold_foil', 'oil_drop', 'law_atom'] },
+  { key: 'quanta', name: text('光量子', 'Light Quanta'), task: text('能量分份', 'Discrete energy packets'), chain: ['blackbody', 'photoelectric', 'law_quanta'] },
+  { key: 'quantum', name: text('量子力学', 'Quantum Mechanics'), task: text('概率与不确定性', 'Probability and uncertainty'), chain: ['spectral_lines', 'matter_wave', 'uncertainty', 'law_quantum'] },
+  { key: 'nuclearAge', name: text('核时代', 'Nuclear Age'), task: text('裂变与责任', 'Fission and responsibility'), chain: ['cloud_chamber', 'split_uranium', 'chain_reaction', 'law_nuclearAge'] }
 ]
 
 const FACT_CONCEPTS = [
@@ -2540,21 +2540,21 @@ const THEORY_DEFS = {
   law_gravity: text('任何两个物体之间都存在引力，与质量乘积成正比', 'Every mass attracts every other mass with a force proportional to their product'),
   write_principia: text('将力学三大定律和万有引力系统化为经典力学体系', 'Systematize the laws of motion and gravity into classical mechanics'),
   law_charge: text('自然界存在正负两种电荷，同斥异吸', 'Nature has positive and negative charges; like repels, unlike attracts'),
-  law_current_magnetism: text('电流通过导线时会在周围产生磁场', 'An electric current flowing through a wire creates a magnetic field around it'),
+  law_currentMagnetism: text('电流通过导线时会在周围产生磁场', 'An electric current flowing through a wire creates a magnetic field around it'),
   law_induction: text('变化的磁场会在导体中产生感应电动势', 'A changing magnetic field induces an electromotive force in a conductor'),
   law_maxwell: text('电场和磁场相互激发，形成电磁波以光速传播', 'Electric and magnetic fields generate each other, forming electromagnetic waves traveling at light speed'),
-  law_electric_power: text('利用电磁感应原理将机械能转化为电能', 'Convert mechanical energy into electrical energy using electromagnetic induction'),
+  law_electricPower: text('利用电磁感应原理将机械能转化为电能', 'Convert mechanical energy into electrical energy using electromagnetic induction'),
   law_radio: text('利用电磁波在空间中传输信息', 'Use electromagnetic waves to transmit information through space'),
   law_energy: text('能量不会凭空产生或消失，只会从一种形式转化为另一种', 'Energy cannot be created or destroyed, only transformed from one form to another'),
   law_entropy: text('孤立系统的熵永不减少，自然过程有方向性', 'The entropy of an isolated system never decreases; natural processes have direction'),
-  law_sound_wave: text('声音是介质中传播的机械纵波', 'Sound is a mechanical longitudinal wave propagating through a medium'),
+  law_sound: text('声音是介质中传播的机械纵波', 'Sound is a mechanical longitudinal wave propagating through a medium'),
   law_optics: text('光是一种电磁波，可解释干涉、衍射等现象', 'Light is an electromagnetic wave, explaining interference and diffraction'),
-  law_special_relativity: text('物理定律在所有惯性系中相同，光速不变', 'The laws of physics are the same in all inertial frames; the speed of light is constant'),
-  law_general_relativity: text('引力是时空弯曲的表现，物质告诉时空如何弯曲', 'Gravity is the curvature of spacetime; matter tells spacetime how to curve'),
-  law_atomic_structure: text('原子由原子核和绕核运动的电子组成', 'Atoms consist of a nucleus surrounded by orbiting electrons'),
+  law_specialRelativity: text('物理定律在所有惯性系中相同，光速不变', 'The laws of physics are the same in all inertial frames; the speed of light is constant'),
+  law_generalRelativity: text('引力是时空弯曲的表现，物质告诉时空如何弯曲', 'Gravity is the curvature of spacetime; matter tells spacetime how to curve'),
+  law_atom: text('原子由原子核和绕核运动的电子组成', 'Atoms consist of a nucleus surrounded by orbiting electrons'),
   law_quanta: text('光以离散的能量包（光子）形式存在 E=hν', 'Light exists as discrete packets of energy (photons) E=hν'),
-  law_quantum_mechanics: text('微观粒子具有波粒二象性，由波函数描述', 'Microscopic particles exhibit wave-particle duality, described by wave functions'),
-  law_nuclear_age: text('原子核可以裂变或聚变，释放巨大能量', 'Atomic nuclei can undergo fission or fusion, releasing enormous energy')
+  law_quantum: text('微观粒子具有波粒二象性，由波函数描述', 'Microscopic particles exhibit wave-particle duality, described by wave functions'),
+  law_nuclearAge: text('原子核可以裂变或聚变，释放巨大能量', 'Atomic nuclei can undergo fission or fusion, releasing enormous energy')
 }
 
 const THEORY_TOASTS = {
@@ -2564,21 +2564,21 @@ const THEORY_TOASTS = {
   law_gravity: text('恭喜你，你已经提出了万有引力定律。', 'You have proposed the law of universal gravitation.'),
   write_principia: text('恭喜你，你已经写成《自然哲学的数学原理》。', 'You have written the Principia.'),
   law_charge: text('恭喜你，你已经定义了电荷概念。', 'You have defined electric charge.'),
-  law_current_magnetism: text('恭喜你，你已经发现了电流的磁效应。', 'You have discovered the magnetic effect of electric current.'),
+  law_currentMagnetism: text('恭喜你，你已经发现了电流的磁效应。', 'You have discovered the magnetic effect of electric current.'),
   law_induction: text('恭喜你，你已经发现了电磁感应：变化的磁通量会产生感应电动势。', 'You have discovered electromagnetic induction: a changing magnetic flux induces an emf.'),
   law_maxwell: text('恭喜你，你已经写下了麦克斯韦方程组。', 'You have written Maxwell’s equations.'),
-  law_electric_power: text('恭喜你，你已经搭建出电力系统的基本图景。', 'You have built the basic picture of an electric power system.'),
+  law_electricPower: text('恭喜你，你已经搭建出电力系统的基本图景。', 'You have built the basic picture of an electric power system.'),
   law_radio: text('恭喜你，你已经实现了无线通信。', 'You have established wireless communication.'),
   law_energy: text('恭喜你，你已经总结出能量守恒定律。', 'You have discovered the law of conservation of energy.'),
   law_entropy: text('恭喜你，你已经认识到熵增给出了自然过程的方向。', 'You have discovered the entropy principle: natural processes have a direction.'),
-  law_sound_wave: text('恭喜你，你已经理解：声音是一种机械波。', 'You now understand that sound is a mechanical wave.'),
+  law_sound: text('恭喜你，你已经理解：声音是一种机械波。', 'You now understand that sound is a mechanical wave.'),
   law_optics: text('恭喜你，你已经建立了光的波动图像。', 'You have established the wave model of light.'),
-  law_special_relativity: text('恭喜你，你已经建立了狭义相对论。', 'You have established special relativity.'),
-  law_general_relativity: text('恭喜你，你已经建立了广义相对论。', 'You have established general relativity.'),
-  law_atomic_structure: text('恭喜你，你已经发现了原子结构。', 'You have discovered atomic structure.'),
+  law_specialRelativity: text('恭喜你，你已经建立了狭义相对论。', 'You have established special relativity.'),
+  law_generalRelativity: text('恭喜你，你已经建立了广义相对论。', 'You have established general relativity.'),
+  law_atom: text('恭喜你，你已经发现了原子结构。', 'You have discovered atomic structure.'),
   law_quanta: text('恭喜你，你已经提出了光量子。', 'You have discovered light quanta.'),
-  law_quantum_mechanics: text('恭喜你，你已经建立了量子力学。', 'You have established quantum mechanics.'),
-  law_nuclear_age: text('恭喜你，你已经进入了核时代。', 'You have entered the nuclear age.')
+  law_quantum: text('恭喜你，你已经建立了量子力学。', 'You have established quantum mechanics.'),
+  law_nuclearAge: text('恭喜你，你已经进入了核时代。', 'You have entered the nuclear age.')
 }
 
 function theoryToastText(action, lang) {
