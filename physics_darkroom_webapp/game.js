@@ -78,9 +78,18 @@ function Page(config) {
   miniProgramPage = config;
 }
 
-const STORAGE_KEY = 'physics_darkroom_newton_game_v2'
+const STORAGE_KEY = 'physics_darkroom_v4'
 
-const MAX_FOCUS = 4
+// --- 资源系统常量 ---
+const BASE_MAX_ENERGY = 10
+const ENERGY_PER_CHAPTER = 2
+const REST_ENERGY_MIN = 4
+const REST_ENERGY_MAX = 9
+const ACTION_ENERGY_COST = 1
+const THEORY_ENERGY_COST = 2
+const DOUBT_LOCK = 5
+const INSIGHT_SPARK = 3
+const INSIGHT_REQUIRE = 2
 
 function text(zh, en) {
   return { zh, en }
@@ -91,13 +100,17 @@ function pick(value, lang) {
   return value[lang] || value.zh
 }
 
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 const UI = {
   reset: text('重新开始', 'Restart'),
   resetChapter: text('重开本章节', 'Restart Chapter'),
   resetAll: text('完全重新开始', 'Restart All'),
   lang: text('English', '中文'),
-  concepts: text('已建立的概念', 'Discovered Concepts'),
-  log: text('记录', 'Journal'),
+  concepts: text('已建立的概念', 'Concepts'),
+  log: text('暗室手记', 'Dark Room Journal'),
   complete: text('完成', 'Complete'),
   day: text('', 'Round '),
   roundSuffix: text('轮', ''),
@@ -108,19 +121,22 @@ const UI = {
     rest: text('休整', 'Rest')
   },
   resources: {
-    focus: text('精力', 'Focus'),
-    records: text('记录', 'Notes'),
-    insight: text('思路', 'Insight'),
-    predictions: text('预言', 'Predictions'),
-    doubt: text('疑问', 'Doubt')
+    energy: text('精力', 'Energy'),
+    notes: text('手稿', 'Notes'),
+    insight: text('灵感', 'Insight'),
+    doubt: text('困惑', 'Doubt')
   },
+  lowEnergy: text('精力不足，需要休息恢复', 'Low energy. Rest to recover.'),
+  insightLocked: text('（需要灵感 ≥ 2）', '(Requires Insight ≥ 2)'),
+  doubtConfused: text('困惑缠身，思路不清……休息一下或许有帮助。', 'Too confused to think clearly... Perhaps rest will help.'),
+  insightSpark: text('灵光乍现！你隐约看到了一条新的路径。', 'A spark of insight! You glimpse a new path forward.'),
   completeTitle: text('物理学的发展之路', 'The Path of Physics Development'),
   completeScene: text(
     '暗室不再只是暗室。桌上有小车、磁针、灯丝、热机、棱镜、原子核和一张写满概率的纸。',
     'The dark room is no longer merely dark. On the table lie carts, a compass, a filament, a heat engine, a prism, a nucleus, and a page covered in probability.'
   ),
   completeGoal: text(
-    '你走完了一条物理史主线：从苹果和月亮，到电机、无线电、热、声、光、时空、量子和核能。最后的问题不再是“能不能做到”，而是“该怎样使用”。',
+    '你走完了一条物理史主线：从苹果和月亮，到电机、无线电、热、声、光、时空、量子和核能。最后的问题不再是"能不能做到"，而是"该怎样使用"。',
     'You have followed one central path through physics: from the apple and the Moon to motors, radio, heat, sound, light, spacetime, quanta, and nuclear energy. The final question is no longer whether it can be done, but how it should be used.'
   )
 }
@@ -128,7 +144,8 @@ const UI = {
 const START_STATE = {
   lang: 'zh',
   chapter: 0,
-  focus: MAX_FOCUS,
+  maxEnergy: BASE_MAX_ENERGY,
+  energy: BASE_MAX_ENERGY,
   day: 1,
   records: 0,
   insight: 0,
@@ -148,7 +165,6 @@ const START_STATE = {
     }
   ]
 }
-
 const CHAPTERS = [
   {
     title: text('落体与惯性', 'Falling Bodies and Inertia'),
@@ -158,8 +174,8 @@ const CHAPTERS = [
       'An apple falls. The question is not simply that it falls. The real question is whether motion changes on its own.'
     ),
     scene: text(
-      '苹果落得太快了，什么都看不清。你得想办法让运动慢下来，仔细观察，再从中发现“物体倾向于保持原来的运动状态”这个规律。',
-      'The apple falls too fast to observe. Slow the motion down, observe carefully, and discover the rule: objects tend to keep their current state of motion.'
+      '窗外啪嗒一声，苹果落地。暗室的桌上摆着一颗石子、一块木片，还有一段可以搭成斜面的木板。你翻开空白的笔记本，写下第一个问题：为什么物体会往下落？',
+      'Outside, an apple drops. On the dark room table lie a stone, a wooden block, and a plank that can form a slope. You open a blank notebook and write the first question: why do things fall?'
     )
   },
   {
@@ -170,8 +186,8 @@ const CHAPTERS = [
       'If objects tend to keep their state of motion, what exactly does a force change? And why does mass matter?'
     ),
     scene: text(
-      '一辆小车在桌面上滑动。用不同的力推它，或者换一辆更重的小车，运动的改变方式都不一样。你需要找到力、质量和加速度之间的关系。',
-      'A cart slides across the table. Push it with different forces, or swap in a heavier cart — the motion changes in different ways. Find the relationship between force, mass, and acceleration.'
+      '一辆小车停在桌面上。旁边放着不同重量的砝码，还有一把可以计时的滴漏。上一次你发现了惯性，现在你要搞清楚：力到底改变了什么？',
+      'A cart sits on the table. Beside it are weights of different sizes and a water clock for timing. Last time you discovered inertia; now you must figure out: what exactly does force change?'
     )
   },
   {
@@ -182,8 +198,8 @@ const CHAPTERS = [
       'When one object pushes another, is the force only one-way?'
     ),
     scene: text(
-      '两辆小车面对面。让它们碰撞，或者用弹簧连在一起拉开。你会发现：力从来不是单方面的，一个物体施加力，必然同时受到另一个物体的反作用力。',
-      'Two carts face each other. Crash them together, or connect them with a spring and pull them apart. You will find: forces always come in pairs — when one object pushes, it is pushed back.'
+      '两辆小车面对面停在桌上，中间夹着一根弹簧。你推一辆车去撞另一辆——它们都动了。力是不是从来就不是单方面的？',
+      'Two carts face each other with a spring between them. You push one into the other — both move. Is force never one-sided?'
     )
   },
   {
@@ -194,8 +210,8 @@ const CHAPTERS = [
       'The apple falls toward Earth, and the Moon circles Earth. Could both be forms of falling?'
     ),
     scene: text(
-      '你已经在地面上找到了运动的规律。现在抬头看天——月亮一直在“掉”，却永远掉不到地上。用你已有的知识，去解释天上的运动。',
-      'You have found the laws of motion on the ground. Now look up: the Moon is always "falling" but never hits Earth. Use what you already know to explain motion in the heavens.'
+      '桌上摊开一张星图。你已经弄清了地面上的运动规律。现在抬头看天：月亮每晚的位置都在变，却从不掉下来。它也在“下落”吗？',
+      'A star chart is spread on the table. You have figured out the laws of motion on Earth. Now look up: the Moon changes position every night yet never falls. Is it also “falling”?'
     )
   },
   {
@@ -206,8 +222,8 @@ const CHAPTERS = [
       'Can motion on Earth and motion in the heavens be described by the same laws?'
     ),
     scene: text(
-      '你的暗室里已经积累了不少实验记录和想法。是时候把它们整理成一套完整的理论了——用几条简洁的定律，统一描述天上和地上的所有运动。',
-      'Your dark room now holds many experiments and ideas. Time to organize them into a complete theory — a few simple laws that describe all motion, on Earth and in the sky.'
+      '你的笔记本已经写满了实验记录。三条运动定律、万有引力——它们拼在一起，像一幅终于合拢的拼图。是时候把它们写成一套完整的理论了。',
+      'Your notebook is filled with experiments. Three laws of motion, universal gravitation — they fit together like a puzzle finally complete. Time to write them as one theory.'
     )
   },
   {
@@ -218,8 +234,8 @@ const CHAPTERS = [
       'After amber is rubbed, it attracts scraps of paper. Is this a force? If so, how can it act without contact?'
     ),
     scene: text(
-      '桌上出现了琥珀、毛皮和纸屑。你刚刚理解了引力和接触力，现在又遇到一种全新的力——不需要接触，隔着空气就能起作用。这是怎么回事？',
-      'Amber, fur, and paper scraps appear on the table. You just understood gravity and contact forces, and now a new kind of force appears — it works through the air without touching. What is going on?'
+      '力学的大厦刚刚落成，桌上就出现了新的东西：一块琥珀、一张毛皮、几片薄纸。摩擦之后，纸屑被吸了起来——不接触也能产生力。经典力学解释不了这个。',
+      'The edifice of mechanics is barely complete when new items appear: amber, fur, paper scraps. After rubbing, the paper rises — a force without contact. Classical mechanics cannot explain this.'
     )
   },
   {
@@ -230,8 +246,8 @@ const CHAPTERS = [
       'When current flows through a wire, a nearby compass needle turns. Are electricity and magnetism really separate?'
     ),
     scene: text(
-      '桌上有一节电池、一根导线和一枚指南针。把导线接通，看看旁边的磁针会不会动。如果动了，说明电和磁之间有某种联系。',
-      'A battery, a wire, and a compass needle sit on the table. Connect the wire to the battery and watch the compass — if the needle moves, electricity and magnetism are connected.'
+      '桌上多了一节电池、一根导线和一枚指南针。你把导线接通，磁针微微偏了一下。电和磁——两个看似无关的现象——在暗室里第一次打了招呼。',
+      'A battery, a wire, and a compass join the table. You connect the circuit, and the needle twitches. Electricity and magnetism — two seemingly unrelated phenomena — greet each other for the first time.'
     )
   },
   {
@@ -242,8 +258,8 @@ const CHAPTERS = [
       'A magnet can induce a current in a coil without touching it. Is the magnet itself enough, or is change the key?'
     ),
     scene: text(
-      '线圈安静地放在那里。把磁铁插进去、拔出来——电流表的指针跳动了。磁铁不动的时候什么也不发生，只有变化才能产生电。',
-      'A coil sits quietly. Push a magnet in, pull it out — the meter needle jumps. When the magnet stays still, nothing happens. Only change creates electricity.'
+      '线圈安静地躺在桌上。你把磁铁插进去——电流表的指针跳了一下。拔出来——又跳了一下。磁铁不动的时候，什么也不发生。变化才是关键。',
+      'A coil lies still on the table. You push a magnet in — the meter jumps. Pull it out — it jumps again. When the magnet stays still, nothing happens. Change is the key.'
     )
   },
   {
@@ -254,8 +270,8 @@ const CHAPTERS = [
       'If a changing electric field can produce a magnetic field, and a changing magnetic field can produce an electric field, can the two propagate outward together?'
     ),
     scene: text(
-      '你已经知道电生磁、磁生电。现在把这两条规律放在一起：变化的电场产生磁场，变化的磁场又产生电场……它们互相激发，会不会像波浪一样传播出去？',
-      'You already know electricity creates magnetism and magnetism creates electricity. Now put them together: a changing electric field makes a magnetic field, which makes an electric field... Could they ripple outward like a wave?'
+      '电生磁，磁生电。你把这两条规律放在一起，发现它们可以互相激发，像波浪一样向外传播。算一下这个波的速度——和光速一模一样。光，难道就是电磁波？',
+      'Electricity creates magnetism, magnetism creates electricity. Put them together and they can ripple outward like a wave. Calculate the speed — it matches the speed of light exactly. Could light be an electromagnetic wave?'
     )
   },
   {
@@ -266,8 +282,8 @@ const CHAPTERS = [
       'If electric currents can produce magnetic effects, and changing magnetic fields can induce currents, can we make them do useful work?'
     ),
     scene: text(
-      '你手上有线圈、铁芯和磁铁。把它们组合起来：让电流转动电机，或者让转动的磁铁发出电来。电磁学不只是理论，它可以驱动机器、点亮灯泡。',
-      'You have coils, iron cores, and magnets. Combine them: use current to spin a motor, or spin a magnet to generate electricity. Electromagnetism is not just theory — it can drive machines and light lamps.'
+      '理论已经完备。桌上多了线圈、铁芯和转轴。法拉第让线圈在磁场中转了起来，电能变成了机械运动。反过来转，机械运动又变成了电。电力时代的蓝图就在这张桌上。',
+      'Theory is complete. Coils, iron cores, and axles appear. Faraday makes a coil spin in a magnetic field — electricity becomes motion. Spin it the other way, and motion becomes electricity. The blueprint of the electric age lies on this table.'
     )
   },
   {
@@ -278,8 +294,8 @@ const CHAPTERS = [
       'Maxwell’s theory says electromagnetic waves can travel. Can they leave a wire and carry messages across distance?'
     ),
     scene: text(
-      '电磁波已经被预言存在了。现在你要用火花放电产生它，再用天线接收它。如果能成功，信息就可以不用电线，直接穿过空气传到远方。',
-      'Electromagnetic waves have been predicted. Now generate them with a spark, and detect them with an antenna. If it works, messages can travel through the air without wires.'
+      '火花在间隙里啪地跳过。赫兹证明了电磁波真的存在。现在马可尼想把信息压进这些波里，让它们飞过海面。信息第一次可以不用导线传递了。',
+      'A spark snaps across a gap. Hertz proved EM waves are real. Now Marconi wants to encode messages into these waves and send them across the sea. For the first time, information can travel without wires.'
     )
   },
   {
@@ -290,8 +306,8 @@ const CHAPTERS = [
       'Steam can push a piston. Is heat a substance, or is it another face of motion and energy?'
     ),
     scene: text(
-      '烧水产生蒸汽，蒸汽推动活塞——热变成了机械运动。但热到底是什么？是一种流动的“热质”，还是能量的一种形式？你需要用实验来回答。',
-      'Boil water to make steam, and steam pushes a piston — heat becomes mechanical motion. But what is heat? A fluid-like substance, or a form of energy? You need experiments to decide.'
+      '水壶里的蒸汽顶起壶盖，热变成了运动。但热到底是什么？是一种叫“热质”的流体，还是能量的一种形式？焦耳在旁边摇动桨叶，准备用实验来回答。',
+      'Steam lifts the kettle lid — heat becomes motion. But what is heat? A fluid called “caloric”, or a form of energy? Joule is nearby, turning a paddle, ready to answer with an experiment.'
     )
   },
   {
@@ -302,8 +318,8 @@ const CHAPTERS = [
       'If energy is conserved, why do heat engines still waste energy as heat? And why does time seem to have only one direction?'
     ),
     scene: text(
-      '能量不会凭空消失，但热机永远不能把热全部变成功。总有一部分热量散失到环境中。这背后有一个更深的规律——熵总是在增加，它决定了时间的方向。',
-      'Energy is never destroyed, but no engine can turn all heat into work. Some heat always escapes. Behind this is a deeper law: entropy always increases, and it gives time its direction.'
+      '能量不会消失，但热机永远不能把热全部变成功。总有一部分散失到环境中。卡诺画出了理想循环，克劳修斯写下了一个新词：熵。它决定了时间的方向。',
+      'Energy is never lost, but no engine can turn all heat into work. Some always escapes. Carnot draws the ideal cycle, and Clausius writes a new word: entropy. It gives time its direction.'
     )
   },
   {
@@ -314,8 +330,8 @@ const CHAPTERS = [
       'Could sound be a wave too? If so, what is actually vibrating?'
     ),
     scene: text(
-      '敲一下音叉，听到声音。但声音是怎么传到耳朵里的？用实验证明声音是空气的振动——它需要介质，有频率和波长，和水波、电磁波一样遵循波的规律。',
-      'Strike a tuning fork and hear the sound. But how does it reach your ear? Prove with experiments that sound is vibration traveling through air — it needs a medium, has frequency and wavelength, and follows wave laws.'
+      '音叉在手里振动，声音传到耳朵。但声音是怎么过来的？敲一下音叉，撒着细沙的金属板上出现了花纹——声音有形状。空气不再是空的，它是声音的路。',
+      'A tuning fork vibrates, and sound reaches your ear. But how? Strike the fork, and sand on a metal plate forms patterns — sound has shape. Air is no longer empty; it is the road sound travels.'
     )
   },
   {
@@ -326,8 +342,8 @@ const CHAPTERS = [
       'Light refracts, forms images, disperses into colors, and interferes. Is it made of particles, waves, or something stranger?'
     ),
     scene: text(
-      '用棱镜把白光分成彩虹，用透镜把远景拉到眼前，再用双缝实验看光的干涉条纹。光的行为有时候像粒子，有时候像波——你得把两种证据都收集起来。',
-      'Split white light into a rainbow with a prism, bring distant scenes close with a lens, and see interference fringes with a double slit. Light sometimes acts like particles, sometimes like waves — collect evidence for both.'
+      '棱镜把白光拆成彩虹，透镜把远景拉到眼前，杨氏双缝在墙上留下明暗条纹。光的行为有时候像粒子，有时候像波——你得把两种证据都收集起来。',
+      'A prism splits white light into a rainbow, a lens brings distant scenes close, and Young’s double slit leaves bright and dark bands on the wall. Light acts like particles sometimes, like waves other times — gather evidence for both.'
     )
   },
   {
@@ -338,8 +354,8 @@ const CHAPTERS = [
       'If you chase a beam of light, could you ever see it frozen in place?'
     ),
     scene: text(
-      '按照常识，你跑得够快就能追上任何东西。但实验发现光速永远不变，不管你怎么追。这意味着时间和空间不是绝对的——爱因斯坦从这里开始重新思考一切。',
-      'Common sense says if you run fast enough, you can catch anything. But experiments show the speed of light never changes, no matter how you chase it. This means time and space are not absolute — Einstein starts rethinking everything from here.'
+      '按照常识，跑得够快就能追上任何东西。但迈克耳孙和莫雷转动干涉仪，光速纹丝不动。不管你朝哪个方向、跑得多快，光速永远不变。这意味着时间和空间不是绝对的。',
+      'Common sense says run fast enough and you can catch anything. But Michelson and Morley rotate their interferometer, and the speed of light refuses to budge. No matter your direction or speed, light speed is constant. This means time and space are not absolute.'
     )
   },
   {
@@ -350,8 +366,8 @@ const CHAPTERS = [
       'What if gravity is not an invisible hand, but the curvature of spacetime itself?'
     ),
     scene: text(
-      '想象你在一个自由下落的电梯里，感觉不到自己的重量。爱因斯坦说：引力不是一种力，而是时空被质量弯曲后的几何效应。太阳的质量让周围的时空弯曲，行星只是沿着弯曲的路径走。',
-      'Imagine falling freely in an elevator — you feel weightless. Einstein says gravity is not a force, but the curvature of spacetime caused by mass. The Sun bends spacetime around it, and planets simply follow curved paths.'
+      '想象你在一部自由下落的电梯里，感觉不到自己的重量。爱因斯坦说：引力不是力，而是时空被质量弯曲后的几何效应。太阳弯曲了周围的时空，行星只是沿着弯曲的路径走。',
+      'Imagine falling freely in an elevator — you feel weightless. Einstein says gravity is not a force, but the curvature of spacetime caused by mass. The Sun bends spacetime around it; planets simply follow curved paths.'
     )
   },
   {
@@ -362,8 +378,8 @@ const CHAPTERS = [
       'Is the atom truly an indivisible hard sphere? If not, what is hidden inside?'
     ),
     scene: text(
-      '用阴极射线轰击原子，用α粒子去撞金箔。实验结果显示原子内部几乎是空的，中间有一个极小的核，电子在周围。原子不是不可分的——它有结构。',
-      'Bombard atoms with cathode rays, shoot alpha particles at gold foil. The results show atoms are mostly empty space, with a tiny dense nucleus at the center and electrons around it. Atoms have structure.'
+      '阴极射线在玻璃管里发光。汤姆孙发现了一种比原子还轻一千多倍的粒子——电子。原子不是最小的。用α粒子轰击金箔，大部分穿了过去，少数被猛地弹回——原子内部几乎是空的，中心有一个极小的核。',
+      'Cathode rays glow in a glass tube. Thomson discovers a particle over a thousand times lighter than an atom — the electron. Atoms are not the smallest. Bombard gold foil with alpha particles: most pass through, a few bounce back violently — atoms are mostly empty, with a tiny dense nucleus.'
     )
   },
   {
@@ -374,8 +390,8 @@ const CHAPTERS = [
       'Thermal radiation and the photoelectric effect refuse to obey classical physics. Could energy come in discrete packets?'
     ),
     scene: text(
-      '烧红的铁块发出特定颜色的光，紫外光照在金属上会打出电子。经典物理无法解释这些现象。普朗克和爱因斯坦提出一个大胆的想法：能量不是连续的，而是一份一份的“量子”。',
-      'A hot iron glows with specific colors, and ultraviolet light knocks electrons off metal. Classical physics cannot explain this. Planck and Einstein propose a bold idea: energy is not continuous, but comes in discrete packets — "quanta".'
+      '烧红的铁块发出特定颜色的光，经典公式在高频端完全失效。用很亮的红光照金属，打不出电子；用微弱的紫光照，电子却飞了出来。普朗克和爱因斯坦提出：能量不是连续的，而是一份一份的量子。',
+      'A hot iron glows with specific colors, and the classical formula fails at high frequencies. Bright red light cannot knock electrons off metal; faint violet light can. Planck and Einstein propose: energy is not continuous, but comes in discrete quanta.'
     )
   },
   {
@@ -386,8 +402,8 @@ const CHAPTERS = [
       'Where exactly is the electron? Is it a tiny planet orbiting the nucleus, or a wave described by probability?'
     ),
     scene: text(
-      '电子不像行星那样有确定的轨道。你只能算出它在某个位置出现的概率。物质同时具有粒子和波的性质，原子世界由概率和不确定性支配——这彻底改变了我们对“实在”的理解。',
-      'Electrons do not have definite orbits like planets. You can only calculate the probability of finding one at a given position. Matter has both particle and wave nature, and the atomic world is ruled by probability and uncertainty — this changes our understanding of reality itself.'
+      '氢原子只发出特定颜色的光，像原子的指纹。德布罗意说电子也有波长，薛定谔写下了波函数方程，海森堡发现你越想精确测量位置，动量就越不确定。原子世界由概率和不确定性支配。',
+      'Hydrogen emits only specific colors — atomic fingerprints. de Broglie says electrons have wavelengths, Schrödinger writes the wave equation, and Heisenberg finds that the more precisely you measure position, the less you know about momentum. The atomic world is ruled by probability and uncertainty.'
     )
   },
   {
@@ -398,12 +414,11 @@ const CHAPTERS = [
       'If atomic nuclei can change too, where will the energy they release take the world?'
     ),
     scene: text(
-      '原子核里蕴藏着巨大的能量。用中子轰击铀核，它会分裂并释放更多中子，引发链式反应。这能量可以点亮城市，也可以毁灭城市——物理学走到了一个需要人类做出选择的十字路口。',
-      'Enormous energy is locked inside atomic nuclei. Bombard uranium with neutrons, and it splits, releasing more neutrons in a chain reaction. This energy can light up cities or destroy them — physics arrives at a crossroads where humanity must choose.'
+      '云室里细线划过——那是放射性粒子留下的轨迹。用中子轰击铀核，它裂成两块，释放出更多中子。链式反应像火一样蔓延。同一条方程，可以点亮城市，也可以毁灭城市。物理学走到了人类选择的十字路口。',
+      'Thin tracks cross a cloud chamber — traces of radioactive particles. Bombard uranium with neutrons, and it splits, releasing more neutrons. A chain reaction spreads like fire. The same equation can light cities or destroy them. Physics arrives at a crossroads of human choice.'
     )
   }
 ]
-
 const ACTIONS = [
   {
     id: 'watch_apple',
@@ -2489,7 +2504,7 @@ function canRun(state, action) {
   if (state.complete) return false
   if (action.chapter !== state.chapter) return false
   if (action.once && state.facts[action.id]) return false
-  if (action.cost && state.focus < action.cost) return false
+  if (state.energy <= 0) return false
   return !action.requires || action.requires(state)
 }
 
@@ -2501,32 +2516,102 @@ function actionKind(action, lang) {
 }
 
 const REST_OPTIONS = [
-  { label: text('在苹果树下静坐', 'Sit under an apple tree'), hint: text('像牛顿一样，在树下沉思自然的奥秘', 'Like Newton, ponder nature under a tree') },
-  { label: text('研磨三棱镜', 'Polish a prism'), hint: text('牛顿曾亲手磨制棱镜研究光的色散', 'Newton polished prisms to study light') },
-  { label: text('弹奏鲁特琴', 'Play the lute'), hint: text('伽利略的父亲是鲁特琴师，他也擅长弹奏', 'Galileo was a skilled lute player') },
-  { label: text('品一杯红酒', 'Sip some wine'), hint: text('伽利略最爱托斯卡纳的红酒，边饮边观星', 'Galileo loved Tuscan wine while stargazing') },
-  { label: text('拉一曲小提琴', 'Play the violin'), hint: text('爱因斯坦的小提琴是他思考时的最佳伴侣', 'Einstein found clarity in his violin') },
-  { label: text('泛舟湖上', 'Go sailing'), hint: text('爱因斯坦和玻尔都爱在湖上泛舟，任思绪漂流', 'Einstein and Bohr both loved sailing') },
-  { label: text('与爱犬嬉戏', 'Play with the dog'), hint: text('麦克斯韦常带着他的狗在苏格兰乡间漫步', 'Maxwell walked the Scottish hills with his dog') },
-  { label: text('朗诵一首诗', 'Recite a poem'), hint: text('麦克斯韦热爱诗歌，自己也写了不少', 'Maxwell loved poetry and wrote his own') },
-  { label: text('骑自行车郊游', 'Go cycling'), hint: text('居里夫妇周末最爱骑车去巴黎郊外', 'The Curies cycled through the French countryside') },
-  { label: text('弹一首钢琴曲', 'Play the piano'), hint: text('普朗克是出色的钢琴家，常与爱因斯坦合奏', 'Planck was a gifted pianist') },
-  { label: text('在山间徒步', 'Hike in the mountains'), hint: text('普朗克一生热爱登山，从阿尔卑斯山获得灵感', 'Planck found inspiration in the Alps') },
-  { label: text('装订一本旧书', 'Bind an old book'), hint: text('法拉第少年时是装订匠，在书中发现了科学', 'Faraday discovered science through bookbinding') },
-  { label: text('在花园里种一株花', 'Plant a flower'), hint: text('库仑晚年最爱在自家花园里侍弄花草', 'Coulomb loved tending his garden') },
-  { label: text('写一封家书', 'Write a letter home'), hint: text('伽利略常给修道院的女儿写信，倾诉心事', 'Galileo wrote heartfelt letters to his daughter') },
-  { label: text('煮一壶热茶', 'Brew a pot of tea'), hint: text('麦克斯韦每天下午都要喝一杯苏格兰红茶', 'Maxwell never missed his afternoon tea') },
-  { label: text('仰望星空', 'Gaze at the stars'), hint: text('开普勒说：仰望星空时，我们离真理最近', 'Kepler said stargazing brings us closest to truth') },
-  { label: text('做炼金术实验', 'Try an alchemy experiment'), hint: text('牛顿一生痴迷炼金术，写下了百万字笔记', 'Newton wrote a million words on alchemy') },
-  { label: text('翻阅百科全书', 'Browse an encyclopedia'), hint: text('安培少年时靠自学百科全书建立了知识体系', 'Ampère taught himself through encyclopedias') },
-  { label: text('吹奏长笛', 'Play the flute'), hint: text('赫兹在实验室累了就吹一曲长笛放松', 'Hertz relaxed with his flute between experiments') },
-  { label: text('做木工活', 'Do some woodworking'), hint: text('赫兹喜欢亲手制作实验装置，手艺精湛', 'Hertz was a skilled craftsman') }
+  { id: 'rest_orchard', text: text('在苹果树下静坐，看果子一颗颗落下', 'Sit under the apple tree, watching fruit fall'), effects: [
+    { p: 0.4, desc: text('微风拂过，你感到精力充沛。', 'A breeze passes. You feel refreshed.'), energy: 7, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('一颗苹果砸在脚边。你忽然想到：为什么它总是直直往下落？', 'An apple drops beside your foot. You wonder: why does it always fall straight down?'), energy: 5, insight: 1, doubt: 1 },
+    { p: 0.3, desc: text('你在树下睡着了，梦到月亮也在往下掉。醒来后精力恢复了不少。', 'You doze off and dream the Moon is falling too. You wake refreshed.'), energy: 8, insight: 0, doubt: 0 }
+  ]},
+  { id: 'rest_walk', text: text('在花园小径散步，观察花草的生长', 'Walk the garden path, observing plants grow'), effects: [
+    { p: 0.5, desc: text('散步让思绪清晰起来。', 'The walk clears your mind.'), energy: 6, insight: 0, doubt: -1 },
+    { p: 0.3, desc: text('你注意到藤蔓总是绕着支架生长——一种看不见的规律在起作用。', 'You notice vines always spiral around their supports — an invisible rule at work.'), energy: 5, insight: 1, doubt: 0 },
+    { p: 0.2, desc: text('一只蝴蝶落在肩上。你忽然觉得，自然界的秩序比想象中更美。', 'A butterfly lands on your shoulder. Nature’s order is more beautiful than you imagined.'), energy: 7, insight: 1, doubt: -1 }
+  ]},
+  { id: 'rest_tea', text: text('泡一壶茶，和路过的老友聊聊天', 'Brew tea and chat with an old friend'), effects: [
+    { p: 0.4, desc: text('老友讲了一个关于磁石的故事，很有趣，但和你的研究无关。', 'Your friend tells a story about lodestones — interesting, but unrelated to your work.'), energy: 6, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('老友问你在研究什么。你试着解释，说着说着自己也有了新的想法。', 'Your friend asks about your research. Explaining it gives you a new idea.'), energy: 5, insight: 1, doubt: 0 },
+    { p: 0.3, desc: text('茶很香，朋友的笑话让你彻底放松下来。', 'The tea is fragrant, and your friend’s jokes let you fully relax.'), energy: 9, insight: 0, doubt: -1 }
+  ]},
+  { id: 'rest_stargaze', text: text('夜里登上屋顶，用望远镜看星星', 'Climb to the roof at night, gaze at stars through a telescope'), effects: [
+    { p: 0.4, desc: text('星空很美，但今晚没有特别的发现。', 'The stars are beautiful, but tonight brings no special discovery.'), energy: 5, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('你注意到木星旁边有几颗小星排成一条线。伽利略也曾看过它们。', 'You notice small stars lined up beside Jupiter. Galileo saw them too.'), energy: 4, insight: 1, doubt: 1 },
+    { p: 0.3, desc: text('一颗流星划过。你许了个愿，然后想到：流星的轨迹也是物理。', 'A shooting star crosses the sky. You make a wish, then realize: its path is physics too.'), energy: 6, insight: 1, doubt: 0 }
+  ]},
+  { id: 'rest_music', text: text('拿起鲁特琴，弹一首伽利略父亲作的曲子', 'Pick up the lute, play a piece by Galileo’s father'), effects: [
+    { p: 0.5, desc: text('音乐让心情平静下来。', 'The music calms your mind.'), energy: 6, insight: 0, doubt: -1 },
+    { p: 0.3, desc: text('弹到一半，你注意到琴弦的振动——声音和振动之间有什么关系？', 'Midway, you notice the string’s vibration — what is the link between sound and vibration?'), energy: 5, insight: 1, doubt: 1 },
+    { p: 0.2, desc: text('你即兴弹了一段从未听过的旋律。创造力似乎被唤醒了。', 'You improvise a melody you have never heard. Creativity seems awakened.'), energy: 7, insight: 2, doubt: 0 }
+  ]},
+  { id: 'rest_sketch', text: text('拿出炭笔，画下桌上的实验装置', 'Take out charcoal and sketch the apparatus'), effects: [
+    { p: 0.4, desc: text('画得很仔细，但只是重复了已知的东西。', 'You draw carefully, but only reproduce what you already know.'), energy: 5, insight: 0, doubt: 0 },
+    { p: 0.4, desc: text('画着画着，你发现之前忽略了一个细节——装置的角度可能很重要。', 'While drawing, you notice a detail you missed — the angle of the apparatus might matter.'), energy: 4, insight: 1, doubt: 0 },
+    { p: 0.2, desc: text('画完后你退后一步看，整张图忽然有了新的意义。', 'Stepping back, the whole drawing suddenly takes on new meaning.'), energy: 5, insight: 2, doubt: -1 }
+  ]},
+  { id: 'rest_read', text: text('翻阅前人的手稿和信件', 'Read through old manuscripts and letters'), effects: [
+    { p: 0.4, desc: text('手稿很厚，但大部分内容你已经知道了。', 'The manuscripts are thick, but you already know most of it.'), energy: 5, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('在一封旧信里，你发现了一个被遗忘的实验思路。', 'In an old letter, you find a forgotten experimental approach.'), energy: 4, insight: 1, doubt: 0 },
+    { p: 0.3, desc: text('前人的困惑和你的困惑如此相似。你不再觉得孤单。', 'Their confusion mirrors yours. You no longer feel alone.'), energy: 6, insight: 1, doubt: -1 }
+  ]},
+  { id: 'rest_experiment', text: text('做一些无关的小实验，纯粹为了好玩', 'Do some unrelated small experiments, just for fun'), effects: [
+    { p: 0.3, desc: text('小实验失败了，但你笑得很开心。', 'The small experiment fails, but you laugh heartily.'), energy: 6, insight: 0, doubt: 0 },
+    { p: 0.4, desc: text('一个意外的现象引起了你的注意——虽然和当前研究无关，但值得记下来。', 'An unexpected phenomenon catches your eye — unrelated but worth noting.'), energy: 5, insight: 1, doubt: 1 },
+    { p: 0.3, desc: text('玩着玩着，你忽然想到了一种新的测量方法。', 'Playing around, you suddenly think of a new measurement method.'), energy: 4, insight: 2, doubt: 0 }
+  ]},
+  { id: 'rest_nap', text: text('趴在桌上小睡一会儿', 'Nap at the desk for a while'), effects: [
+    { p: 0.5, desc: text('睡了半小时，醒来精神好多了。', 'You sleep for half an hour and wake feeling much better.'), energy: 8, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('半梦半醒之间，一个模糊的想法飘过脑海。你赶紧记下来。', 'Between sleep and waking, a vague idea drifts through your mind. You quickly write it down.'), energy: 6, insight: 1, doubt: 0 },
+    { p: 0.2, desc: text('你做了一个奇怪的梦，梦里所有的物理定律都是反的。醒来后你觉得这很有意思。', 'You dream all physical laws are reversed. You wake up finding it intriguing.'), energy: 7, insight: 1, doubt: 1 }
+  ]},
+  { id: 'rest_organize', text: text('整理散乱的笔记和草稿', 'Organize scattered notes and drafts'), effects: [
+    { p: 0.4, desc: text('桌面整洁了不少，但没发现什么新东西。', 'The desk is tidier, but nothing new emerges.'), energy: 5, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('整理时发现两张草稿纸上画着相似的东西——你之前怎么没注意到？', 'While organizing, you find two drafts with similar drawings — how did you miss this?'), energy: 4, insight: 1, doubt: 0 },
+    { p: 0.3, desc: text('把笔记按时间排列后，思路的演变清晰可见。你看到了自己的进步。', 'Arranging notes chronologically, the evolution of your thinking becomes clear. You see your own progress.'), energy: 6, insight: 1, doubt: -1 }
+  ]},
+  { id: 'rest_water', text: text('去河边散步，往水里扔石子看涟漪', 'Walk by the river, skip stones and watch ripples'), effects: [
+    { p: 0.4, desc: text('涟漪一圈圈散开，很放松。', 'Ripples spread in circles. Relaxing.'), energy: 7, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('你盯着涟漪看了很久。波从中心向外传播——光和声音是不是也这样？', 'You stare at the ripples. Waves spread from the center — do light and sound do the same?'), energy: 5, insight: 1, doubt: 1 },
+    { p: 0.3, desc: text('两块石子同时落水，两圈涟漪交叉穿过。你看到了干涉。', 'Two stones hit the water together, their ripples crossing. You see interference.'), energy: 5, insight: 2, doubt: 0 }
+  ]},
+  { id: 'rest_chess', text: text('和邻居下一盘国际象棋', 'Play a game of chess with a neighbor'), effects: [
+    { p: 0.5, desc: text('棋局激烈，你暂时忘记了研究的事。', 'The game is intense, and you forget about research for a while.'), energy: 6, insight: 0, doubt: -1 },
+    { p: 0.3, desc: text('对手走了一步妙棋。你忽然想到：自然界是不是也在走一步妙棋？', 'Your opponent makes a brilliant move. You wonder: is nature also making brilliant moves?'), energy: 5, insight: 1, doubt: 0 },
+    { p: 0.2, desc: text('你赢了。胜利的感觉让你信心倍增。', 'You win. The feeling of victory boosts your confidence.'), energy: 8, insight: 1, doubt: -1 }
+  ]},
+  { id: 'rest_garden', text: text('在花园里给植物浇水，修剪枝叶', 'Water plants and trim branches in the garden'), effects: [
+    { p: 0.5, desc: text('体力劳动让大脑得到了休息。', 'Physical labor gives your brain a rest.'), energy: 7, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('修剪枝叶时，你注意到植物的生长遵循某种数学规律。', 'While trimming, you notice plant growth follows a mathematical pattern.'), energy: 5, insight: 1, doubt: 0 },
+    { p: 0.2, desc: text('一株你从未注意过的花开了。新的事物总在最不经意的时候出现。', 'A flower you never noticed has bloomed. New things appear when least expected.'), energy: 6, insight: 2, doubt: 0 }
+  ]},
+  { id: 'rest_candle', text: text('在烛光下写日记，记录今天的思考', 'Write in your journal by candlelight'), effects: [
+    { p: 0.4, desc: text('写了很多，但都是已知的东西。', 'You write a lot, but it is all known.'), energy: 5, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('写着写着，一个模糊的想法变得清晰起来。', 'As you write, a vague idea becomes clear.'), energy: 4, insight: 1, doubt: -1 },
+    { p: 0.3, desc: text('烛火在纸上投下跳动的影子。你盯着火焰看了很久——热和光，它们是什么关系？', 'The candle flame casts dancing shadows. You stare at the fire — heat and light, how are they related?'), energy: 5, insight: 1, doubt: 1 }
+  ]},
+  { id: 'rest_pet', text: text('逗弄实验室里养的小狗麦克斯', 'Play with Max, the lab dog'), effects: [
+    { p: 0.5, desc: text('麦克斯摇着尾巴，你笑了。简单的快乐也是研究的一部分。', 'Max wags his tail, and you smile. Simple joy is part of research too.'), energy: 7, insight: 0, doubt: -1 },
+    { p: 0.3, desc: text('麦克斯追着自己的尾巴转圈。你忽然想到：圆周运动也需要力。', 'Max chases his own tail in circles. You realize: circular motion also requires force.'), energy: 5, insight: 1, doubt: 0 },
+    { p: 0.2, desc: text('麦克斯叼来一个球。你扔出去，它总能接住——动物对抛物线的直觉比人类还好。', 'Max fetches a ball. You throw it, and he always catches it — animals have better intuition for parabolas than humans.'), energy: 6, insight: 1, doubt: 0 }
+  ]},
+  { id: 'rest_bake', text: text('烤一个苹果派，让甜味充满房间', 'Bake an apple pie, filling the room with sweetness'), effects: [
+    { p: 0.5, desc: text('苹果派出炉了，香气让整个暗室温暖起来。', 'The pie is done, its aroma warming the dark room.'), energy: 8, insight: 0, doubt: -1 },
+    { p: 0.3, desc: text('切派的时候你注意到：热从烤箱传到派上，派又慢慢冷却——热总是从热的地方流向冷的地方。', 'Cutting the pie, you notice: heat flows from oven to pie, and the pie slowly cools — heat always flows from hot to cold.'), energy: 6, insight: 1, doubt: 0 },
+    { p: 0.2, desc: text('太好吃了。你决定以后多做几次。灵感往往在满足的胃里发芽。', 'Delicious. You decide to do this more often. Inspiration often sprouts from a satisfied stomach.'), energy: 9, insight: 1, doubt: 0 }
+  ]},
+  { id: 'rest_meditate', text: text('闭目静思，让思绪自由漂浮', 'Close your eyes and let thoughts drift freely'), effects: [
+    { p: 0.4, desc: text('静坐片刻，内心平静下来。', 'A moment of stillness, and your mind settles.'), energy: 6, insight: 0, doubt: -1 },
+    { p: 0.3, desc: text('在安静中，一个被忽略的问题浮出水面。', 'In the quiet, a neglected question surfaces.'), energy: 5, insight: 1, doubt: 1 },
+    { p: 0.3, desc: text('你进入了很深的专注状态。睁开眼睛时，世界似乎变得更清晰了。', 'You enter a deep state of focus. When you open your eyes, the world seems sharper.'), energy: 7, insight: 2, doubt: -1 }
+  ]},
+  { id: 'rest_puzzle', text: text('玩一个机械拼图，锻炼手指和大脑', 'Play with a mechanical puzzle, exercising fingers and mind'), effects: [
+    { p: 0.4, desc: text('拼图很难，但你乐在其中。', 'The puzzle is hard, but you enjoy it.'), energy: 5, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('解开拼图的那一刻，你忽然理解了：复杂的系统可能由简单的规则组成。', 'The moment the puzzle clicks, you understand: complex systems can arise from simple rules.'), energy: 4, insight: 1, doubt: 0 },
+    { p: 0.3, desc: text('你发明了一种新的解法。创造力在玩耍时最活跃。', 'You invent a new solution. Creativity is most active during play.'), energy: 6, insight: 2, doubt: 0 }
+  ]},
+  { id: 'rest_balcony', text: text('站在阳台上，看远处的山和云', 'Stand on the balcony, watching distant mountains and clouds'), effects: [
+    { p: 0.5, desc: text('远眺让眼睛和大脑都得到了休息。', 'The distant view rests both your eyes and mind.'), energy: 7, insight: 0, doubt: 0 },
+    { p: 0.3, desc: text('云在移动，但它们的形状一直在变。你想到：有些东西在变，有些规律不变。', 'Clouds move, their shapes ever-changing. You think: some things change, but some rules stay constant.'), energy: 5, insight: 1, doubt: 0 },
+    { p: 0.2, desc: text('远处的闪电划过天空，几秒后雷声才到。光和声音的速度不一样。', 'Distant lightning flashes, thunder follows seconds later. Light and sound travel at different speeds.'), energy: 6, insight: 2, doubt: 1 }
+  ]},
 ]
-
-function pickRestOption() {
-  return REST_OPTIONS[Math.floor(Math.random() * REST_OPTIONS.length)]
-}
-
 const THEORY_DEFS = {
   law_inertia: text('物体在不受外力时保持静止或匀速直线运动', 'An object remains at rest or in uniform motion unless acted upon by a force'),
   law_second: text('力等于质量乘以加速度 F=ma', 'Force equals mass times acceleration F=ma'),
@@ -2619,6 +2704,10 @@ Page({
     const saved = wx.getStorageSync(STORAGE_KEY)
     this.state = saved ? migrateSavedState({ ...cloneState(START_STATE), ...saved }) : cloneState(START_STATE)
     if (!this.state.lang) this.state.lang = 'zh'
+    if (!this.state.maxEnergy) this.state.maxEnergy = BASE_MAX_ENERGY
+    if (this.state.energy === undefined) this.state.energy = this.state.maxEnergy
+    if (this.state.insight === undefined) this.state.insight = 0
+    if (this.state.doubt === undefined) this.state.doubt = 1
     this.render()
   },
 
@@ -2647,7 +2736,7 @@ Page({
     clearProgressFromChapter(this.state, chapter)
     this.state.chapter = chapter
     this.state.complete = false
-    this.state.focus = MAX_FOCUS
+    this.state.energy = this.state.maxEnergy
     this.state.feedback = null
     this.log(text(
       '你把本章的纸页翻回开头。前面的定律还在，眼前的问题重新变暗。',
@@ -2666,37 +2755,54 @@ Page({
 
   handleAction(event) {
     const id = event.currentTarget.dataset.id
+    const s = this.state
+
     if (id === 'propose_theory') {
-      const theory = findReadyTheory(this.state)
+      const theory = findReadyTheory(s)
       if (theory) {
         this.discoverTheory(theory)
       }
       this.afterChange()
       return
     }
+
     if (id === 'new_day') {
-      this.state._restOption = null
-      this.state._restOptions = null
+      s._restOption = null
+      s._restOptions = null
       this.newDay()
       this.afterChange()
       return
     }
 
     const action = ACTIONS.find((item) => item.id === id)
-    if (!action || !canRun(this.state, action)) return
+    if (!action || !canRun(s, action)) return
 
-    if (action.cost) this.state.focus -= action.cost
-    const message = action.run(this.state)
+    // Energy cost
+    const cost = action.type === 'theory' ? THEORY_ENERGY_COST : ACTION_ENERGY_COST
+    s.energy -= cost
+
+    const message = action.run(s)
     if (action.once) {
-      this.state.facts[action.id] = true
-      if (action.type === 'experiment') this.state.feedback = null
+      s.facts[action.id] = true
+      if (action.type === 'experiment') s.feedback = null
     }
+
+    // Successful experiment may reduce doubt
+    if (action.type === 'experiment' && s.doubt > 0) {
+      s.doubt -= 1
+    }
+    // Misconception increases doubt
+    if (action.type === 'misconception') {
+      s.doubt += 1
+    }
+
     this.log(message)
     this.afterChange()
   },
 
   discoverTheory(action) {
-    if (action.cost) this.state.focus -= action.cost
+    const cost = THEORY_ENERGY_COST
+    this.state.energy -= cost
     const message = action.run(this.state)
     this.log(message)
     this.showTheoryToast(action)
@@ -2714,16 +2820,41 @@ Page({
   },
 
   newDay() {
-    this.state.day += 1
-    this.state.focus = MAX_FOCUS
-    if (this.state.doubt > 0) this.state.insight += 1
-    this.log(text(
-      '你吹灭蜡烛又重新点亮。疑问还在，但纸上的线索变得更像路了。',
-      'You blow out the candle and light it again. The doubts remain, but the marks on paper look more like a road.'
-    ))
+    const s = this.state
+    s.day += 1
+
+    // Pick a random rest option and apply its effects
+    const restOpt = s._restOption || REST_OPTIONS[Math.floor(Math.random() * REST_OPTIONS.length)]
+    const effects = restOpt.effects || [{ p: 1, desc: text('你休息了一会儿。', 'You rest for a while.'), energy: 5, insight: 0, doubt: 0 }]
+
+    // Weighted random selection
+    const roll = Math.random()
+    let cumulative = 0
+    let chosen = effects[effects.length - 1]
+    for (const eff of effects) {
+      cumulative += eff.p
+      if (roll <= cumulative) { chosen = eff; break }
+    }
+
+    // Apply effects
+    const energyGain = chosen.energy || 5
+    s.energy = Math.min(s.maxEnergy, s.energy + energyGain)
+    if (chosen.insight) s.insight = Math.max(0, s.insight + chosen.insight)
+    if (chosen.doubt) s.doubt = Math.max(0, s.doubt + chosen.doubt)
+
+    this.log(chosen.desc)
   },
 
   afterChange() {
+    const s = this.state
+    // Check for doubt confusion
+    if (s.doubt >= DOUBT_LOCK && s.insight < INSIGHT_REQUIRE) {
+      s.feedback = UI.doubtConfused
+    } else if (s.doubt >= DOUBT_LOCK && s.insight >= INSIGHT_SPARK) {
+      s.feedback = UI.insightSpark
+    } else {
+      s.feedback = null
+    }
     this.render()
     this.save()
   },
@@ -2732,7 +2863,9 @@ Page({
     const s = this.state
     const lang = s.lang || 'zh'
     if (s.complete) return []
+
     const readyTheory = findReadyTheory(s)
+    const confused = s.doubt >= DOUBT_LOCK && s.insight < INSIGHT_REQUIRE
 
     const chapterActions = ACTIONS
       .filter((action) => action.chapter === s.chapter)
@@ -2746,21 +2879,22 @@ Page({
         kind: actionKind(action, lang),
         primary: action.type === 'theory',
         type: action.type,
-        enabled: Boolean(canRun(s, action))
+        enabled: !confused && Boolean(canRun(s, action)),
+        locked: confused ? pick(UI.doubtConfused, lang) : ''
       }))
 
-    const enabledExperiments = chapterActions.filter((action) => action.enabled && action.type === 'experiment')
-    const enabledMisconceptions = chapterActions.filter((action) => action.enabled && action.type === 'misconception')
+    const enabledExperiments = chapterActions.filter((a) => a.enabled && a.type === 'experiment')
+    const enabledMisconceptions = chapterActions.filter((a) => a.enabled && a.type === 'misconception')
     const visible = []
 
     if (enabledExperiments[0]) visible.push(enabledExperiments[0])
     if (enabledMisconceptions[0]) visible.push(enabledMisconceptions[0])
     if (enabledExperiments[1]) visible.push(enabledExperiments[1])
 
-    if (readyTheory || s.focus === 0 || visible.length < 3) {
-      if (readyTheory || s.focus === 0) {
+    // Fill remaining slots
+    if (readyTheory || s.energy <= 0 || visible.length < 3) {
+      if (readyTheory || s.energy <= 0) {
         if (readyTheory) {
-          const theoryLabel = pick(readyTheory.label, lang)
           const theoryDef = THEORY_DEFS[readyTheory.id] || { zh: '', en: '' }
           visible.push({
             id: 'propose_theory',
@@ -2771,11 +2905,11 @@ Page({
             enabled: true
           })
         } else {
-          if (!s._restOption) s._restOption = pickRestOption()
+          if (!s._restOption) s._restOption = REST_OPTIONS[Math.floor(Math.random() * REST_OPTIONS.length)]
           visible.push({
             id: 'new_day',
-            label: pick(s._restOption.label, lang),
-            hint: pick(s._restOption.hint, lang),
+            label: pick(s._restOption.text, lang),
+            hint: pick(text('休息恢复精力', 'Rest to recover energy'), lang),
             kind: pick(UI.kinds.rest, lang),
             primary: false,
             enabled: true
@@ -2789,8 +2923,8 @@ Page({
         s._restOptions.forEach((opt) => {
           visible.push({
             id: 'new_day',
-            label: pick(opt.label, lang),
-            hint: pick(opt.hint, lang),
+            label: pick(opt.text, lang),
+            hint: pick(text('休息恢复精力', 'Rest to recover energy'), lang),
             kind: pick(UI.kinds.rest, lang),
             primary: false,
             enabled: true
@@ -2823,15 +2957,14 @@ Page({
       phaseLabel: s.complete
         ? pick(UI.complete, lang)
         : lang === 'zh'
-          ? `${pick(chapter.label, lang)} · ${s.day}${pick(UI.roundSuffix, lang)}`
+          ? `${pick(chapter.label, lang)} · 第${s.day}${pick(UI.roundSuffix, lang)}`
           : `${pick(chapter.label, lang)} · ${pick(UI.day, lang)}${s.day}`,
       actions: this.getActions(),
       feedback: s.feedback ? pick(s.feedback, lang) : '',
       resources: [
-        { key: 'focus', label: pick(UI.resources.focus, lang), value: s.focus, maxText: `/${MAX_FOCUS}` },
-        { key: 'records', label: pick(UI.resources.records, lang), value: s.records, maxText: '' },
+        { key: 'energy', label: pick(UI.resources.energy, lang), value: s.energy, maxText: `/${s.maxEnergy}` },
+        { key: 'notes', label: pick(UI.resources.notes, lang), value: s.records, maxText: '' },
         { key: 'insight', label: pick(UI.resources.insight, lang), value: s.insight, maxText: '' },
-        { key: 'predictions', label: pick(UI.resources.predictions, lang), value: s.predictions, maxText: '' },
         { key: 'doubt', label: pick(UI.resources.doubt, lang), value: s.doubt, maxText: '' }
       ],
       workers: this.getDiscoveries(),
@@ -2872,7 +3005,6 @@ Page({
     wx.setStorageSync(STORAGE_KEY, this.state)
   }
 })
-
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
