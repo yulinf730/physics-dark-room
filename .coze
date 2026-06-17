@@ -8,13 +8,13 @@ project_type = "web"
 preview_enable = "enabled"
 
 [dev]
-build = ["bash", "projects 3/physics_darkroom_webapp/scripts/coze-preview-build.sh"]
-run = ["bash", "projects 3/physics_darkroom_webapp/scripts/coze-preview-run.sh"]
+build = ["bash", "projects3_temp/physics_darkroom_webapp/scripts/coze-preview-build.sh"]
+run = ["bash", "projects3_temp/physics_darkroom_webapp/scripts/coze-preview-run.sh"]
 
 [deploy]
 profile = { kind = "service", flavor = "web" }
-build = ["bash", "projects 3/physics_darkroom_webapp/scripts/coze-deploy-build.sh"]
-run = ["bash", "projects 3/physics_darkroom_webapp/scripts/coze-deploy-run.sh"]
+build = ["bash", "projects3_temp/physics_darkroom_webapp/scripts/coze-deploy-build.sh"]
+run = ["bash", "projects3_temp/physics_darkroom_webapp/scripts/coze-deploy-run.sh"]
 
 [subprojects]
-path = ["projects 3/physics_darkroom_webapp"]
+path = ["projects3_temp/physics_darkroom_webapp"]

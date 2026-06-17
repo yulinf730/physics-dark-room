@@ -10,7 +10,7 @@
 ```
 /workspace/projects/                          # 工作区根目录
 ├── .coze                                      # 根 .coze（平台唯一读取入口）
-└── projects 3/
+└── projects3_temp/
     └── physics_darkroom_webapp/               # 技术项目根目录
         ├── index.html                          # 网页结构入口
         ├── style.css                           # 网页样式
@@ -26,9 +26,9 @@
 
 ## 项目结构说明
 - **工作区根目录**：`/workspace/projects`
-- **技术项目根目录**：`/workspace/projects/projects 3/physics_darkroom_webapp`
+- **技术项目根目录**：`/workspace/projects/projects3_temp/physics_darkroom_webapp`
 - **根 `.coze`**：位于 `/workspace/projects/.coze`，是平台实际读取的入口
-- **子项目 `.coze`**：位于 `projects 3/physics_darkroom_webapp/.coze`，仅用于记录子项目元信息
+- **子项目 `.coze`**：位于 `projects3_temp/physics_darkroom_webapp/.coze`，仅用于记录子项目元信息
 
 ## 关键入口 / 核心模块
 - **入口文件**：`index.html`
