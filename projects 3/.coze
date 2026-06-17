@@ -1,0 +1,18 @@
+[project]
+requires = []
+project_type = "web"
+
+[preview]
+preview_enable = "enabled"
+
+[dev]
+build = ["bash", "physics_darkroom_webapp/scripts/coze-preview-build.sh"]
+run = ["bash", "physics_darkroom_webapp/scripts/coze-preview-run.sh"]
+
+[deploy]
+profile = { kind = "service", flavor = "web" }
+build = ["bash", "physics_darkroom_webapp/scripts/coze-deploy-build.sh"]
+run = ["bash", "physics_darkroom_webapp/scripts/coze-deploy-run.sh"]
+
+[subprojects]
+path = ["physics_darkroom_webapp"]
