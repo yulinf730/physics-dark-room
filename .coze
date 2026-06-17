@@ -1,0 +1,20 @@
+[project]
+sub_id = "80f54e32"
+name = "projects3-root"
+requires = []
+project_type = "web"
+
+[preview]
+preview_enable = "enabled"
+
+[dev]
+build = ["bash", "projects 3/physics_darkroom_webapp/scripts/coze-preview-build.sh"]
+run = ["bash", "projects 3/physics_darkroom_webapp/scripts/coze-preview-run.sh"]
+
+[deploy]
+profile = { kind = "service", flavor = "web" }
+build = ["bash", "projects 3/physics_darkroom_webapp/scripts/coze-deploy-build.sh"]
+run = ["bash", "projects 3/physics_darkroom_webapp/scripts/coze-deploy-run.sh"]
+
+[subprojects]
+path = ["projects 3/physics_darkroom_webapp"]
