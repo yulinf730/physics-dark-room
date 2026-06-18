@@ -354,3 +354,88 @@ button { font: inherit; }
   .title { font-size: 27px; }
   .action-main { align-items: flex-start; }
 }
+
+/* ── Action result popup ──────────────────────────────────────────────────── */
+.result-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8,7,5,.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px 16px;
+  animation: result-fade .14s ease-out both;
+}
+@keyframes result-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.result-box {
+  background: #1f1d1a;
+  border: 1px solid rgba(222,216,200,.14);
+  border-top: 2px solid rgba(214,127,64,.55);
+  border-radius: 14px;
+  padding: 22px 24px 18px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 16px 56px rgba(0,0,0,.65);
+  animation: result-box-in .18s ease-out both;
+}
+@keyframes result-box-in {
+  from { opacity: 0; transform: translateY(10px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+}
+.result-kind {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #a07548;
+  background: rgba(214,127,64,.1);
+  border: 1px solid rgba(214,127,64,.22);
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-bottom: 13px;
+}
+.result-body {
+  color: #ddd5be;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0 0 14px;
+}
+.result-deltas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.result-delta {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.delta-good { background: rgba(80,200,110,.12); color: #7dd898; border: 1px solid rgba(80,200,110,.2); }
+.delta-bad  { background: rgba(220,80,60,.12);  color: #ff9080; border: 1px solid rgba(220,80,60,.2); }
+.result-btn {
+  display: block;
+  width: 100%;
+  padding: 11px 0;
+  background: rgba(214,127,64,.14);
+  border: 1px solid rgba(214,127,64,.38);
+  border-radius: 9px;
+  color: #f0c896;
+  font: 600 14px/1 inherit;
+  cursor: pointer;
+  transition: background .15s;
+}
+.result-btn:hover, .result-btn:focus {
+  background: rgba(214,127,64,.26);
+  outline: none;
+}
+@media (max-width: 480px) {
+  .result-box  { padding: 18px 16px 14px; }
+  .result-body { font-size: 14px; }
+}
