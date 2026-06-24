@@ -2644,101 +2644,181 @@ const CHAPTER_ANALYSIS = [
   // Ch0 — 惯性/摩擦力外推
   { mid:      text('比较不同摩擦程度下的运动距离', 'Compare sliding distances across surfaces of varying friction'),
     midKind:  text('比较', 'Compare'),
+    midResult: text(
+      '你把数据摆在一起：木板越光滑，小车滑得越远。把这条趋势推到极致——如果完全没有摩擦，小车根本没有理由停下来。',
+      'The data lines up: smoother surface, longer slide. Push the trend to its limit — with zero friction, there is no reason for the cart to stop at all.'
+    ),
     final:    text('将摩擦力外推为零，写下惯性定律', 'Extrapolate friction to zero and write the law of inertia'),
     finalKind: text('推导', 'Deduce') },
   // Ch1 — F = ma
   { mid:      text('计算砝码与小车的加速度关系', 'Calculate the acceleration-force relationship'),
     midKind:  text('计算', 'Calculate'),
+    midResult: text(
+      '砝码越多，加速度越大；小车越重，加速度越小。两件事可以写进同一个式子：力等于质量乘以加速度。',
+      'More weight, more acceleration; heavier cart, less acceleration. Both facts fit one equation: force equals mass times acceleration.'
+    ),
     final:    text('向导师展示你的力学推导', 'Present your force derivation to your mentor'),
     finalKind: text('汇报', 'Report') },
   // Ch2 — 作用力与反作用力
   { mid:      text('对比碰撞前后两辆小车的速度变化', 'Compare cart velocities before and after collision'),
     midKind:  text('对比', 'Compare'),
+    midResult: text(
+      '每一次碰撞，两辆小车的速度变化大小总是相等、方向总是相反。换一种碰撞方式，规律还在。力从来不是单向的。',
+      'In every collision, both carts change speed by equal amounts in opposite directions. Change the collision — the pattern holds. Force is never one-sided.'
+    ),
     final:    text('写下力总是成对出现的结论', 'Write your conclusion that forces always come in pairs'),
     finalKind: text('结论', 'Conclude') },
   // Ch3 — 万有引力
   { mid:      text('推导月球轨道是否符合落体引力规律', "Deduce whether the Moon's orbit follows the same gravitational law"),
     midKind:  text('推导', 'Deduce'),
+    midResult: text(
+      '月球绕地球运行的向心加速度，和地面落体的加速度，都符合同一个距离平方反比关系。苹果和月亮受的是同一种力。',
+      "The Moon's centripetal acceleration and a falling apple's acceleration both follow the same inverse-square distance rule. Apple and Moon obey the same force."
+    ),
     final:    text('写信向皇家学会汇报引力发现', 'Write to the Royal Society about your gravity findings'),
     finalKind: text('投稿', 'Submit') },
   // Ch4 — 经典力学体系
   { mid:      text('整理三大运动定律的数学形式', 'Organize the mathematical form of the three laws of motion'),
     midKind:  text('整理', 'Organize'),
+    midResult: text(
+      '三条运动定律和万有引力并排写在一起，每一条都有严格的数学形式。地上的碰撞和天上的轨道，终于说同一种语言。',
+      'The three laws and gravity sit side by side, each in precise mathematical form. Collisions on Earth and orbits in the sky finally speak the same language.'
+    ),
     final:    text('完成力学原理的草稿', 'Complete the draft of your mechanics principles'),
     finalKind: text('写稿', 'Draft') },
   // Ch5 — 电荷
   { mid:      text('分析各类物体的带电行为规律', 'Analyze the charging behavior of different materials'),
     midKind:  text('分析', 'Analyze'),
+    midResult: text(
+      '同种材料摩擦后相互排斥，异种材料相互吸引。换一批材料，规律不变。电性有两种，相互作用只由种类决定。',
+      'Like materials repel after rubbing; unlike attract. Swap the materials — the rule holds. Electric character has two kinds, and their interaction depends only on which kinds meet.'
+    ),
     final:    text('记录电荷的吸引与排斥规律', 'Record the rules of electric attraction and repulsion'),
     finalKind: text('记录', 'Record') },
   // Ch6 — 电流与磁
   { mid:      text('比较不同电流强度下磁针偏转的角度', 'Compare needle deflection at different current strengths'),
     midKind:  text('测量', 'Measure'),
+    midResult: text(
+      '电流越强，磁针偏转越大；断开电路，磁针立刻归零。偏转角度和电流之间有稳定的数量关系——电和磁是相连的。',
+      'Stronger current, larger deflection. Cut the circuit, the needle returns to zero instantly. A stable numerical relation links current to deflection — electricity and magnetism are connected.'
+    ),
     final:    text('向学会报告电流与磁的联系', 'Report to the Society on the link between current and magnetism'),
     finalKind: text('报告', 'Report') },
   // Ch7 — 电磁感应
   { mid:      text('推算感应电流与磁通量变化的关系', 'Derive the relationship between induction current and flux change'),
     midKind:  text('推算', 'Derive'),
+    midResult: text(
+      '磁铁移动越快，感应电流越强；停止运动，电流立刻消失。真正起作用的不是磁铁的存在，而是磁通量的变化速率。',
+      'Faster magnet motion, stronger induced current; stop moving, current vanishes instantly. What matters is not the magnet itself, but the rate at which the magnetic flux changes.'
+    ),
     final:    text('整理电磁感应的实验报告', 'Write up your electromagnetic induction report'),
     finalKind: text('报告', 'Report') },
   // Ch8 — 麦克斯韦方程
   { mid:      text('推导电场与磁场相互激发的对称方程', 'Derive the symmetric equations of mutually-generating fields'),
     midKind:  text('推导', 'Derive'),
+    midResult: text(
+      '变化的磁场产生电场，变化的电场产生磁场——两条方程形式完全对称。联立之后，可以推导出一种在真空中传播的波，速度恰好等于光速。',
+      'A changing magnetic field generates an electric field; a changing electric field generates a magnetic field. The equations are perfectly symmetric. Combined, they predict a wave in vacuum whose speed equals the speed of light.'
+    ),
     final:    text('写下电磁场方程组的草稿', 'Write a draft of your electromagnetic field equations'),
     finalKind: text('建模', 'Model') },
   // Ch9 — 电力系统
   { mid:      text('计算电机在不同条件下的转换效率', 'Calculate motor conversion efficiency under different conditions'),
     midKind:  text('计算', 'Calculate'),
+    midResult: text(
+      '不同负载下测得的效率数据遵循固定规律，损耗可以被量化。机械能和电能之间的转换是可以设计、可以优化的。',
+      'Efficiency data at different loads follows clear rules, and losses can be quantified. The conversion between mechanical and electrical energy is designable and optimizable.'
+    ),
     final:    text('绘制电力系统的原理图', 'Draw the schematic of an electric power system'),
     finalKind: text('设计', 'Design') },
   // Ch10 — 无线电
   { mid:      text('测量电磁波在空间中的传播特性', 'Measure electromagnetic wave propagation through space'),
     midKind:  text('测量', 'Measure'),
+    midResult: text(
+      '调整天线长度和发射频率，接收端信号强弱变化有规律可循。电磁波可以在空气中传播，距离和频率都能被测量和控制。',
+      'Tuning antenna length and frequency, the received signal strength changes in a predictable pattern. Electromagnetic waves travel through air, and both distance and frequency are measurable and controllable.'
+    ),
     final:    text('发出第一条有意义的无线电信号', 'Send the first meaningful radio signal'),
     finalKind: text('实测', 'Transmit') },
   // Ch11 — 能量守恒
   { mid:      text('计算各类转化过程中的能量总量', 'Calculate total energy across various transformation processes'),
     midKind:  text('计算', 'Calculate'),
+    midResult: text(
+      '热变功、功变电、电变热——无论经历几次转化，把所有数值加起来，总量始终不变。能量不会消失，只会换形式。',
+      'Heat to work, work to electricity, electricity to heat — however many conversions, the total never changes. Energy does not disappear; it only changes form.'
+    ),
     final:    text('写出能量守恒的普遍表达式', 'Write the general expression of energy conservation'),
     finalKind: text('总结', 'Summarize') },
   // Ch12 — 热力学/熵
   { mid:      text('分析热机的理想效率极限', 'Analyze the theoretical efficiency limit of a heat engine'),
     midKind:  text('分析', 'Analyze'),
+    midResult: text(
+      '卡诺循环的最大效率只取决于高温和低温的比值，与用什么工质无关。无论如何改进设计，热机都无法突破这个极限。',
+      'The maximum efficiency of the Carnot cycle depends only on the ratio of the two temperatures, regardless of working substance. No engineering improvement can exceed this limit.'
+    ),
     final:    text('写下关于热过程方向性的核心结论', 'Write the core conclusion on the directionality of thermal processes'),
     finalKind: text('结论', 'Conclude') },
   // Ch13 — 声学/机械波
   { mid:      text('测量声音在不同介质中的传播速度', 'Measure the speed of sound in different media'),
     midKind:  text('测量', 'Measure'),
+    midResult: text(
+      '声音在较密介质中传播更快，在真空中完全消失。振动频率决定音调，振幅决定响度。声音是机械振动在介质中向外扩散的过程。',
+      'Sound travels faster in denser media and vanishes entirely in vacuum. Frequency determines pitch, amplitude determines volume. Sound is mechanical vibration propagating outward through a medium.'
+    ),
     final:    text('整理机械波传播的普遍规律', 'Summarize the universal rules of mechanical wave propagation'),
     finalKind: text('整理', 'Summarize') },
   // Ch14 — 波动光学
   { mid:      text('分析双缝实验中明暗条纹的间距规律', 'Analyze fringe spacing patterns in the double-slit experiment'),
     midKind:  text('分析', 'Analyze'),
+    midResult: text(
+      '双缝实验的明暗条纹间距，与波长和缝距之间有精确的数学关系。这种叠加、抵消的图样，只有波才能产生。',
+      'Fringe spacing in the double-slit experiment relates precisely to wavelength and slit separation. Only waves can produce this pattern of reinforcement and cancellation.'
+    ),
     final:    text('写下光具有波动性的有力证据', 'Document compelling evidence for the wave nature of light'),
     finalKind: text('立论', 'Argue') },
   // Ch15 — 狭义相对论
   { mid:      text('推导光速不变引发的时间膨胀效应', 'Derive time dilation from the constancy of light speed'),
     midKind:  text('推导', 'Derive'),
+    midResult: text(
+      '如果光速对所有观测者都相同，运动中的时钟会走慢，运动中的尺子会缩短。时间和空间不再是两件独立的事——它们是同一种结构的两面。',
+      'If light speed is the same for all observers, moving clocks run slow and moving rulers shrink. Time and space are no longer independent — they are two sides of one structure.'
+    ),
     final:    text('写下狭义相对论的两条基本假设', 'Write down the two postulates of special relativity'),
     finalKind: text('立论', 'Postulate') },
   // Ch16 — 广义相对论
   { mid:      text('计算引力对光线弯曲的理论预测值', 'Calculate the predicted deflection of light by gravity'),
     midKind:  text('计算', 'Calculate'),
+    midResult: text(
+      '广义相对论预测的光线偏折角，是牛顿引力理论预测值的整整两倍。质量弯曲时空，光沿弯曲的路径传播——引力不是力，而是几何。',
+      "General relativity predicts light deflection at exactly twice Newton's value. Mass curves spacetime; light follows the curved path — gravity is geometry, not a force."
+    ),
     final:    text('提交广义相对论的数学框架', 'Submit the mathematical framework of general relativity'),
     finalKind: text('提交', 'Submit') },
   // Ch17 — 原子结构
   { mid:      text('分析氢原子光谱谱线的规律', 'Analyze the spectral line pattern of hydrogen'),
     midKind:  text('分析', 'Analyze'),
+    midResult: text(
+      '氢原子光谱的谱线间距，满足一个简单的整数平方倒数规律。这意味着电子只能停在特定的能级上，能量不是连续的。',
+      'The spacing of hydrogen spectral lines follows a simple inverse-integer-square pattern. This means electrons can only occupy specific energy levels — energy is not continuous.'
+    ),
     final:    text('描述原子的行星式结构模型', 'Describe the planetary model of atomic structure'),
     finalKind: text('建模', 'Model') },
   // Ch18 — 光量子/光电效应
   { mid:      text('计算光电效应中最大动能与频率的关系', 'Calculate the kinetic energy-frequency relationship in the photoelectric effect'),
     midKind:  text('计算', 'Calculate'),
+    midResult: text(
+      '光电效应的最大动能只和光的频率有关，与光的强弱无关。每个光子携带的能量 E = hν，普朗克常数 h 是自然界的基本单位。',
+      'Maximum kinetic energy in the photoelectric effect depends only on frequency, not intensity. Each photon carries energy E = hν — Planck\'s constant h is a fundamental unit of nature.'
+    ),
     final:    text('写下光量子假设的基本方程', 'Write the fundamental equation of the light quantum hypothesis'),
     finalKind: text('假设', 'Hypothesize') },
   // Ch19 — 量子力学/核能
   { mid:      text('推导核裂变链式反应的临界条件', 'Derive the critical conditions for a nuclear fission chain reaction'),
     midKind:  text('推导', 'Derive'),
+    midResult: text(
+      '链式反应能否持续，取决于铀的质量和几何形状。每次裂变释放的中子数量超过一，反应就能自我维持。能量的释放和失控，只差一步。',
+      'Whether a chain reaction sustains depends on the mass and geometry of the uranium. Each fission releasing more than one neutron is self-sustaining. Power and catastrophe are one step apart.'
+    ),
     final:    text('整理量子与核能时代的物理全景', 'Compile the complete physics panorama of the quantum-nuclear age'),
     finalKind: text('集大成', 'Synthesize') },
 ]
@@ -3011,12 +3091,15 @@ Page({
       s.energy -= 1
       s.insight += 1
       s.facts['analysis_mid_' + s.chapter] = true
-      const zhMsgs = ['你仔细审视已有的证据，脑中的线索开始连成一条线。', '推导的过程让混沌的数据有了意义，灵感随之涌现。', '你在草稿纸上写满了推算，一个清晰的方向出现了。']
-      const enMsgs = ['You examine the evidence carefully — the clues start to connect.', 'The deduction gives meaning to scattered data; insight follows.', 'Your scratch paper fills with calculations, and a direction emerges.']
-      const msg = text(zhMsgs[Math.floor(Math.random() * zhMsgs.length)], enMsgs[Math.floor(Math.random() * enMsgs.length)])
+      const analysisData = CHAPTER_ANALYSIS[s.chapter] || CHAPTER_ANALYSIS[0]
+      const msg = analysisData.midResult || text(
+        '你仔细审视已有的证据，脑中的线索开始连成一条线。',
+        'You examine the evidence carefully — the clues start to connect.'
+      )
       this.log(msg)
       const after = snapshotResources(s)
-      showResultPopup({ kind: lang === 'zh' ? '推导' : 'Deduction', body: pick(msg, lang), deltaHtml: buildDeltaHtml(before, after, lang), lang, onClose: () => this.afterChange() })
+      const kind = pick(analysisData.midKind, lang)
+      showResultPopup({ kind, body: pick(msg, lang), deltaHtml: buildDeltaHtml(before, after, lang), lang, onClose: () => this.afterChange() })
       return
     }
 
