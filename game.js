@@ -2822,6 +2822,15 @@ const CHAPTER_ANALYSIS = [
     ),
     final:    text('整理量子与核能时代的物理全景', 'Compile the complete physics panorama of the quantum-nuclear age'),
     finalKind: text('集大成', 'Synthesize') },
+  // Ch20 — 核能：知识走到选择的路口
+  { mid:      text('观察云室中粒子留下的径迹', 'Observe particle trails in the cloud chamber'),
+    midKind:  text('观察', 'Observe'),
+    midResult: text(
+      '云室中，看不见的粒子留下了清晰的径迹——有的直，有的弯，有的分叉。原子不是不可分割的，它内部还有更小的东西在运动。',
+      'In the cloud chamber, invisible particles leave clear trails — some straight, some curved, some forked. The atom is not indivisible; something smaller moves inside.'
+    ),
+    final:    text('在知识走到选择的路口，写下你的总结', 'At the crossroads where knowledge meets choice, write your summary'),
+    finalKind: text('总结', 'Summarize') }
 ]
 
 const THEORY_TOASTS = {
