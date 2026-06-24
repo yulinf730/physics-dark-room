@@ -540,17 +540,18 @@ const ACTIONS = [
     type: 'experiment',
     chapter: 1,
     label: text('我把运动分成很短的时间，观察每一刻的变化。', 'I break the motion into tiny time intervals and observe each change.'),
-    hint: text('需要 2 点精力。完成后得到 1 点灵感和 1 次预测。', 'Spend 2 energy. You gain 1 insight and 1 prediction.'),
+    hint: text('需要 2 点精力。完成后得到 1 条记录、1 点灵感和 1 次预测。', 'Spend 2 energy. You gain 1 note, 1 insight, and 1 prediction.'),
     cost: 2,
     requires: (s) => s.facts.forceChange && s.facts.mass,
     once: true,
     run(s) {
+      s.records += 1
       s.insight += 1
       s.predictions += 1
       s.facts.calculus = true
       return text(
-        '你把运动分成很短的时间间隔，开始研究每一瞬间速度怎样变化。',
-        'You divide motion into very small time intervals and study how speed changes at each instant.'
+        '你把运动分成很短的时间间隔，开始研究每一瞬间速度怎样变化。这种方法让你记录下运动的精确形状。',
+        'You divide motion into very small time intervals and study how speed changes at each instant. This approach lets you record the exact shape of motion.'
       )
     }
   },
