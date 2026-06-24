@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>物理暗室 / Physics Dark Room</title>
+  <meta name="description" content="A bilingual interactive physics history text game." />
+  <link rel="stylesheet" href="style.css?v=10" />
+</head>
+<body>
+  <div class="page">
+    <main class="main">
+      <section id="status-bar" class="status-bar" aria-label="Resources"></section>
+
+      <section class="room" aria-label="Game scene">
+        <header class="scene-head">
+          <div class="room-top">
+            <div id="phaseLabel" class="kicker"></div>
+            <div class="top-actions">
+              <button id="langBtn" class="language" type="button">English</button>
+              <button id="chapterBtn" class="chapter-select" type="button">章节</button>
+              <button id="resetBtn" class="reset" type="button">重新开始</button>
+            </div>
+          </div>
+          <h1 id="title" class="title"></h1>
+        </header>
+
+        <p id="scene" class="scene"></p>
+        <p id="goal" class="goal"></p>
+        <p id="feedback" class="feedback" hidden></p>
+
+        <div class="actions-shell">
+          <div id="actions" class="actions"></div>
+        </div>
+      </section>
+
+      <section class="info" aria-label="Game information">
+        <aside class="panel log-panel">
+          <h2 id="logTitle" class="panel-title"></h2>
+          <div id="log" class="log-scroll"></div>
+        </aside>
+
+        <aside id="workers-panel" class="panel workers-panel" hidden>
+          <h2 id="conceptTitle" class="panel-title"></h2>
+          <div id="workers" class="worker-list"></div>
+        </aside>
+      </section>
+    </main>
+  </div>
+  <div id="modal-root"></div>
+  <div id="toast-container" class="toast-container"></div>
+  <script src="game.js?v=11"></script>
+</body>
+</html>

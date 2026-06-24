@@ -1,4 +1,6 @@
 [project]
+sub_id = "05091961"
+name = "physics_darkroom_webapp"
 requires = []
 project_type = "web"
 
@@ -13,6 +15,3 @@ run = ["bash", "scripts/coze-preview-run.sh"]
 profile = { kind = "service", flavor = "web" }
 build = ["bash", "scripts/coze-deploy-build.sh"]
 run = ["bash", "scripts/coze-deploy-run.sh"]
-
-[subprojects]
-path = ["."]
