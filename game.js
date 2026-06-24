@@ -3741,7 +3741,7 @@ Page({
       id: 'new_day',
       label: forcedRest
         ? pick(s._restOption.text, lang)
-        : pick(text('暂时休息，整理思路', 'Take a break and clear your head'), lang),
+        : pick(text('暂时休息，恢复精力', 'Take a break and recover energy'), lang),
       hint: forcedRest
         ? pick(text('精力耗尽，必须休息', 'Energy depleted — must rest'), lang)
         : pick(text('休息恢复精力，随机带来灵感或疑问', 'Recover energy — may bring insight or doubt'), lang),
