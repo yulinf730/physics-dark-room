@@ -172,6 +172,7 @@ const TUTORIAL = {
 const START_STATE = {
   lang: 'zh',
   chapter: 0,
+  maxChapterReached: 0,
   maxEnergy: BASE_MAX_ENERGY,
   energy: BASE_MAX_ENERGY,
   day: 1,
@@ -811,11 +812,11 @@ const ACTIONS = [
     type: 'theory',
     chapter: 4,
     label: text('我把三条运动定律和万有引力整理成一套体系。', 'I put the three laws of motion and gravity into one system.'),
-    hint: text('需要 1 点精力。条件：完成三条运动定律和万有引力，拥有 2 条记录。', 'Spend 1 energy. Needs the three laws, gravity, and 2 notes'),
+    hint: text('需要 1 点精力。条件：完成三条运动定律和万有引力。', 'Spend 1 energy. Needs the three laws and gravity.'),
     cost: 1,
-    requires: (s) => s.laws.inertia && s.laws.second && s.laws.third && s.laws.gravity && s.records >= 2,
+    requires: (s) => s.laws.inertia && s.laws.second && s.laws.third && s.laws.gravity,
     run(s) {
-      s.records -= 2
+      s.records = Math.max(0, s.records - 2)
       s.laws.principia = true
       s.chapter = 5
       s.maxEnergy += ENERGY_PER_CHAPTER; s.energy = s.maxEnergy
@@ -2493,12 +2494,12 @@ function isInsightBlocked(state, action) {
   if (action.type === 'theory') return false
   if (!action.requires) return false
   if (canRun(state, action)) return false
-  // 尝试不带灵感要求检查
+  // 临时提高灵感，若此时能执行，说明灵感不足是真正的原因
   const saved = state.insight
   state.insight = INSIGHT_REQUIRE + 1
   const result = canRun(state, action)
   state.insight = saved
-  return !result
+  return result
 }
 
 function canRun(state, action) {
@@ -2869,6 +2870,8 @@ Page({
   openChapterSelect() {
     const lang = this.state.lang || 'zh'
     const currentChapter = this.state.chapter
+    // Use maxChapterReached so jumping back doesn't hide later unlocked chapters
+    const maxChapterReached = Math.max(this.state.maxChapterReached || 0, currentChapter)
 
     const root = document.getElementById('modal-root')
     root.innerHTML = ''
@@ -2886,15 +2889,15 @@ Page({
     const hint = document.createElement('div')
     hint.style.cssText = 'font-size:13px;color:#9a917f;margin:8px 0 12px'
     hint.textContent = lang === 'zh'
-      ? (currentChapter === 0 ? '完成更多章节后，可在此处回到任意已解锁的章节。' : '可回到任意已解锁的章节重新探索。')
-      : (currentChapter === 0 ? 'Complete more chapters to unlock chapter select.' : 'Return to any chapter you have already reached.')
+      ? (maxChapterReached === 0 ? '完成更多章节后，可在此处回到任意已解锁的章节。' : '可回到任意已解锁的章节重新探索。')
+      : (maxChapterReached === 0 ? 'Complete more chapters to unlock chapter select.' : 'Return to any chapter you have already reached.')
     box.appendChild(hint)
 
     const list = document.createElement('div')
     list.style.cssText = 'display:grid;gap:6px;max-height:55vh;overflow-y:auto;padding-right:4px'
 
     CHAPTERS.forEach((ch, idx) => {
-      if (idx > currentChapter) return  // only show unlocked chapters
+      if (idx > maxChapterReached) return  // only show unlocked chapters
       const btn = document.createElement('button')
       const isCurrent = idx === currentChapter
       btn.style.cssText = `width:100%;padding:9px 12px;border-radius:9px;text-align:left;cursor:pointer;font:inherit;
@@ -2926,6 +2929,8 @@ Page({
 
   jumpToChapter(targetChapter) {
     const lang = this.state.lang || 'zh'
+    // Remember the highest chapter ever reached so it survives the state reset
+    const prevMaxChapter = Math.max(this.state.maxChapterReached || 0, this.state.chapter)
     const newState = cloneState(START_STATE)
     newState.lang = lang
 
@@ -2935,6 +2940,7 @@ Page({
     }
 
     newState.chapter = targetChapter
+    newState.maxChapterReached = Math.max(prevMaxChapter, targetChapter)
     newState.maxEnergy = BASE_MAX_ENERGY + targetChapter * ENERGY_PER_CHAPTER
     newState.energy = newState.maxEnergy
     newState.logs = [{
@@ -3447,6 +3453,9 @@ Page({
 
   afterChange() {
     const s = this.state
+    // Keep track of the highest chapter ever reached so the chapter selector
+    // never shrinks when the player jumps back to an earlier chapter
+    s.maxChapterReached = Math.max(s.maxChapterReached || 0, s.chapter)
     // Check for doubt confusion
     if (s.doubt >= DOUBT_LOCK && s.insight < INSIGHT_REQUIRE) {
       s.feedback = UI.doubtConfused
@@ -3469,6 +3478,19 @@ Page({
     const confused = s.doubt >= DOUBT_LOCK && s.insight < INSIGHT_REQUIRE
     const sparking = s.doubt >= DOUBT_LOCK && s.insight >= INSIGHT_SPARK
 
+    // 检测某个动作是否已被当前 facts 永久锁死
+    // 用 Proxy 把 facts 中所有访问都返回 true，若此时 requires 仍为 false
+    // 说明它依赖某个 "!fact" 条件，而该 fact 现在已为 true，无法再撤回
+    function isPermanentlyBlocked(action) {
+      if (!action.requires) return false
+      const allTrueFacts = new Proxy({}, { get: () => true })
+      const testState = Object.assign({}, s, {
+        energy: 999, insight: 999, records: 999, predictions: 999,
+        facts: allTrueFacts
+      })
+      return !action.requires(testState)
+    }
+
     const chapterActions = ACTIONS
       .filter((action) => action.chapter === s.chapter)
       .filter((action) => action.type !== 'theory')
@@ -3476,6 +3498,8 @@ Page({
       .filter((action) => !action.once || !s.facts[action.id])
       .map((action) => {
         const blocked = confused || isInsightBlocked(s, action)
+        const runnable = Boolean(canRun(s, action))
+        const prereqMissing = !runnable && s.energy > 0 && !blocked
         return {
           id: action.id,
           label: pick(action.label, lang),
@@ -3483,31 +3507,40 @@ Page({
           kind: actionKind(action, lang),
           primary: action.type === 'theory',
           type: action.type,
-          enabled: !blocked && Boolean(canRun(s, action)),
+          enabled: !blocked && runnable,
           locked: blocked
             ? confused
               ? pick(UI.doubtConfused, lang)
               : pick(text('灵感不足，需要更多思考', 'Not enough insight. Think more.'), lang)
-            : ''
+            : prereqMissing
+              ? pick(text('需要先完成前置步骤', 'Prerequisites not yet met'), lang)
+              : ''
         }
       })
 
     const enabledExperiments = chapterActions.filter((a) => a.enabled && (a.type === 'experiment' || a.type === 'intuition'))
-    const disabledExperiments = chapterActions.filter((a) => !a.enabled && (a.type === 'experiment' || a.type === 'intuition'))
+    // 只将"将来仍可能解锁"的禁用行动作为预览展示，过滤掉已因 !fact 条件永久失效的
+    const disabledExperiments = chapterActions.filter((a) => {
+      if (a.enabled) return false
+      if (a.type !== 'experiment' && a.type !== 'intuition') return false
+      const originalAction = ACTIONS.find(ac => ac.id === a.id)
+      if (!originalAction) return true
+      return !isPermanentlyBlocked(originalAction)
+    })
     const enabledMisconceptions = chapterActions.filter((a) => a.enabled && a.type === 'misconception')
-    const disabledMisconceptions = chapterActions.filter((a) => !a.enabled && a.type === 'misconception')
     const visible = []
 
     // Show available experiments / intuitions (up to 2 enabled)
     enabledExperiments.slice(0, 2).forEach((a) => visible.push(a))
 
-    // If fewer than 2 enabled, fill with disabled ones so the player always sees what's coming
+    // If fewer than 2 enabled, fill with temporarily-disabled ones as a "coming soon" preview
+    // (permanently-expired ones whose !fact window has closed are already excluded above)
     if (enabledExperiments.length < 2) {
       disabledExperiments.slice(0, 2 - enabledExperiments.length).forEach((a) => visible.push(a))
     }
 
-    // Show 1 misconception (prefer enabled; fall back to a disabled one as a preview)
-    const shownMisconception = enabledMisconceptions[0] || disabledMisconceptions[0]
+    // Only show a misconception when it is actually available (skip expired ones whose window has passed)
+    const shownMisconception = enabledMisconceptions[0]
     if (shownMisconception) visible.push(shownMisconception)
 
     // 灵光乍现：困惑高但灵感足够时出现特殊选项
@@ -3529,8 +3562,15 @@ Page({
     const midKey = 'analysis_mid_' + s.chapter
     const midDone = !!s.facts[midKey]
 
-    // Step 1 — Intermediate analysis: appears once player has ≥ 2 records and not yet done
-    if (s.records >= 2 && !midDone) {
+    // Synthesis/closure chapters (like Ch4) have no experiments, so records can't grow.
+    // For those chapters, allow analysis_mid to appear immediately (no records gate).
+    const chapterHasExperiments = ACTIONS.some(a =>
+      a.chapter === s.chapter && (a.type === 'experiment' || a.type === 'intuition')
+    )
+    const midRecordsThreshold = chapterHasExperiments ? 2 : 0
+
+    // Step 1 — Intermediate analysis: appears once player has enough records and not yet done
+    if (s.records >= midRecordsThreshold && !midDone) {
       const canAnalyze = s.energy >= 1 && !confused
       visible.push({
         id: 'analysis_mid',
