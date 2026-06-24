@@ -6,13 +6,13 @@ project_type = "web"
 preview_enable = "enabled"
 
 [dev]
-build = ["bash", "physics_darkroom_webapp/scripts/coze-preview-build.sh"]
-run = ["bash", "physics_darkroom_webapp/scripts/coze-preview-run.sh"]
+build = ["bash", "scripts/coze-preview-build.sh"]
+run = ["bash", "scripts/coze-preview-run.sh"]
 
 [deploy]
 profile = { kind = "service", flavor = "web" }
-build = ["bash", "physics_darkroom_webapp/scripts/coze-deploy-build.sh"]
-run = ["bash", "physics_darkroom_webapp/scripts/coze-deploy-run.sh"]
+build = ["bash", "scripts/coze-deploy-build.sh"]
+run = ["bash", "scripts/coze-deploy-run.sh"]
 
 [subprojects]
-path = ["physics_darkroom_webapp"]
+path = ["."]
