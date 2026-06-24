@@ -1,4 +1,6 @@
 [project]
+sub_id = "05091961"
+name = "physics_darkroom_webapp"
 requires = []
 project_type = "web"
 
